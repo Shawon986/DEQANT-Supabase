@@ -56,7 +56,7 @@ export function Header() {
       <button className="icon-button menu-close" onClick={() => setOpen(false)} aria-label="Close menu"><X /></button>
       <Logo />
       <nav>
-        {[["/shop", "All perfumes"], ["/decants", "Decants"], ["/intact", "Intact bottles"], ["/best-sellers", "Best sellers"], ["/offers", "Special offers"], ["/track", "Track an order"], ["/about", "Our story"], ["/contact", "Contact"], [profile ? accountPath : "/login", profile ? "Your account" : "Sign in"]].map(([to, label], index) => <NavLink key={to} to={to}><span>0{index + 1}</span>{label}<ArrowRight /></NavLink>)}
+        {[["/shop", "All perfumes"], ["/decants", "Decants"], ["/intact", "Intact bottles"], ["/best-sellers", "Best sellers"], ["/offers", "Special offers"], ["/track", "Track an order"], ["/about", "Our story"], ["/contact", "Contact"], [accountPath, profile?.role === "admin" ? "Admin workspace" : profile ? "My orders" : "Sign in"]].map(([to, label], index) => <NavLink key={to} to={to}><span>0{index + 1}</span>{label}<ArrowRight /></NavLink>)}
       </nav>
       <p>Fragrance, chosen with intention.<br />Delivered across Bangladesh.</p>
     </div>}
@@ -69,7 +69,7 @@ export function Footer() {
     <div className="footer-main">
       <div><Logo /><p>{settings?.footerText ?? "Independent fragrance, thoughtfully decanted and delivered across Bangladesh."}</p></div>
       <div><h3>Collections</h3><Link to="/decants">Perfume decants</Link><Link to="/intact">Intact bottles</Link><Link to="/best-sellers">Best sellers</Link><Link to="/offers">Special offers</Link></div>
-      <div><h3>Client care</h3><Link to="/track">Track your order</Link><Link to="/delivery-policy">Delivery & returns</Link><Link to="/privacy">Privacy</Link><Link to="/terms">Terms</Link></div>
+      <div><h3>Client care</h3><Link to="/orders">My orders</Link><Link to="/track">Track your order</Link><Link to="/delivery-policy">Delivery & returns</Link><Link to="/privacy">Privacy</Link><Link to="/terms">Terms</Link></div>
       <div><h3>Concierge</h3><a href={`mailto:${settings?.contactEmail ?? "concierge@deqant.com"}`}>{settings?.contactEmail ?? "concierge@deqant.com"}</a><a href={`tel:${settings?.contactPhone ?? "+8801700000000"}`}>{settings?.contactPhone ?? "+880 1700 000000"}</a><Link to="/contact">Send an enquiry</Link></div>
     </div>
     <div className="footer-bottom"><span>© {new Date().getFullYear()} DEQANT FRAGRANCE</span><span>DHAKA · BANGLADESH</span><Link to="/login">Your account / Owner portal</Link></div>
