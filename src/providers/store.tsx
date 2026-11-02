@@ -11,7 +11,7 @@ export const storeApi:any={
  store:{
   catalog:query("catalog",(i)=>db.catalog(i)),product:query("product",(i)=>db.productBySlug(i.slug)),settings:query("settings",()=>db.settings()),zones:query("zones",()=>db.zones()),cart:query("cart",(i)=>db.getCart(i?.token??null)),
   addToCart:mutation((i)=>db.addCart(i.token,i.variantId,i.quantity),["cart"]),updateCartItem:mutation((i)=>db.updateCart(i.token,i.itemId,i.quantity),["cart"]),removeCartItem:mutation((i)=>db.removeCart(i.token,i.itemId),["cart"]),
-  checkout:mutation(db.checkout,["cart"]),orderSuccess:query("order-success",async(i)=>{const d=await db.orderByPhone(i);return{order:{...d.order,createdAt:new Date(d.order.created_at)},items:d.items};}),track:query("track",async(i)=>{const d=await db.trackOrder(i);return{...d,createdAt:new Date(d.created_at)};}),cancelOrder:mutation(db.cancelOrder,["track"]),contact:mutation(db.sendContact)
+  checkout:mutation(db.checkout,["cart"]),orderSuccess:query("order-success",async(i)=>{const d=await db.orderByPhone(i);return{order:{...d.order,createdAt:new Date(d.order.created_at)},items:d.items};}),track:query("track",async(i)=>{const d=await db.trackOrder(i);return{...d,createdAt:new Date(d.created_at)};}),cancelOrder:mutation(db.cancelOrder,["track","my-orders"]),contact:mutation(db.sendContact)
  }
 };
 export function SupabaseProvider({children}:{children:ReactNode}){return <QueryClientProvider client={client}>{children}</QueryClientProvider>;}
