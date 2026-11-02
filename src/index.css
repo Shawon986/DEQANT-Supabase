@@ -219,3 +219,58 @@ h1,h2,h3,p{margin-top:0}h1,h2,h3{font-family:var(--serif);font-weight:300;line-h
  .reveal{opacity:1;transform:none}
  .product-card:hover,.hero-note:hover,.icon-button:hover,.site-footer a:hover{transform:none}
 }
+
+
+/* Scroll-linked fragrance object: each bottle component follows scroll progress */
+.bottle-scroll-story{--bottle-progress:0;--cap-y:0px;--atomizer-y:0px;--collar-y:0px;--glass-y:0px;--juice-y:0px;--label-y:0px;position:relative;height:245vh;overflow:clip;background:radial-gradient(ellipse at 75% 48%,rgba(120,54,73,.2),transparent 42%),linear-gradient(125deg,#160b12 0%,#260f1b 48%,#120a10 100%);color:#f5eadf}
+.bottle-scroll-story:before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.18;background-image:linear-gradient(rgba(231,205,180,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(231,205,180,.07) 1px,transparent 1px);background-size:72px 72px;mask-image:linear-gradient(90deg,transparent,#000 45%,#000)}
+.bottle-scroll-sticky{position:sticky;top:0;min-height:100svh;height:100svh;display:grid;grid-template-columns:minmax(280px,.85fr) minmax(0,1.15fr);align-items:center;gap:clamp(30px,7vw,110px);max-width:1440px;margin:0 auto;padding:clamp(30px,6vw,90px) clamp(22px,8vw,130px)}
+.bottle-story-copy{position:relative;z-index:2;max-width:460px}
+.bottle-story-copy .eyebrow{color:#d4b293;font-size:10px;letter-spacing:.22em}
+.bottle-story-copy h2{margin:25px 0;font-family:var(--serif);font-size:clamp(54px,7vw,100px);font-weight:400;line-height:.92;letter-spacing:-.055em}
+.bottle-story-copy h2 em{color:#d7b394;font-weight:400}
+.bottle-story-description{max-width:350px;color:rgba(245,234,223,.68);font-size:13px;line-height:1.9}
+.bottle-scroll-instruction{display:grid;grid-template-columns:10px 1fr;align-items:center;gap:10px;margin-top:52px;color:#e4c5a7;font-size:9px;letter-spacing:.18em}
+.bottle-scroll-instruction small{grid-column:2;color:rgba(245,234,223,.48);font-size:10px;letter-spacing:.02em}
+.scroll-pulse{width:7px;height:7px;border-radius:50%;background:#e4c5a7;box-shadow:0 0 0 5px rgba(228,197,167,.12),0 0 18px rgba(228,197,167,.8);animation:bottle-pulse 1.8s ease-in-out infinite}
+.bottle-progress-track{width:min(100%,310px);height:1px;margin-top:25px;background:rgba(255,255,255,.17)}
+.bottle-progress-track span{display:block;width:100%;height:100%;background:#d7b394;transform:scaleX(var(--explode-progress,0));transform-origin:left}
+.bottle-exploded-stage{position:relative;isolation:isolate;display:grid;place-items:center;min-width:0;height:min(82svh,760px)}
+.bottle-exploded-stage:before{content:"";position:absolute;width:min(76%,460px);aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,rgba(185,120,106,.22),rgba(112,46,69,.07) 42%,transparent 70%);filter:blur(5px);transform:scale(var(--halo-scale,1));opacity:var(--halo-opacity,.34)}
+.bottle-stage-orbit{position:absolute;left:50%;top:50%;border:1px solid rgba(223,190,161,.16);border-radius:50%;transform:translate(-50%,-50%) rotate(-22deg);pointer-events:none}
+.orbit-one{width:min(82%,510px);aspect-ratio:1}.orbit-two{width:min(96%,600px);aspect-ratio:1;border-style:dashed;opacity:.45;transform:translate(-50%,-50%) rotate(35deg)}
+.exploded-perfume{position:relative;z-index:1;width:min(100%,440px);height:min(74svh,650px);overflow:visible;filter:drop-shadow(0 35px 28px rgba(0,0,0,.36))}
+.bottle-part{transform-box:fill-box;transform-origin:center;will-change:transform}
+.bottle-cap{transform:translateY(var(--cap-y,0px))}
+.bottle-atomizer{transform:translateY(var(--atomizer-y,0px))}
+.bottle-collar{transform:translateY(var(--collar-y,0px))}
+.bottle-glass{transform:translateY(var(--glass-y,0px))}
+.bottle-juice{transform:translateY(var(--juice-y,0px))}
+.bottle-label{transform:translateY(var(--label-y,0px))}
+.bottle-stage-caption,.bottle-stage-footer{position:absolute;z-index:2;left:0;right:0;display:flex;justify-content:space-between;color:rgba(240,221,203,.5);font-size:8px;letter-spacing:.19em}
+.bottle-stage-caption{top:4%}.bottle-stage-footer{bottom:4%;padding:0 2%}
+.bottle-stage-number{position:absolute;right:2%;bottom:13%;font-family:var(--serif);font-size:22px;color:#f3e2d0}.bottle-stage-number span{padding:0 4px;color:#bd927d;font-size:12px}
+@keyframes bottle-pulse{50%{opacity:.45;box-shadow:0 0 0 9px rgba(228,197,167,.04),0 0 8px rgba(228,197,167,.3)}}
+@media(max-width:760px){
+ .bottle-scroll-story{height:220vh}
+ .bottle-scroll-sticky{grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr);gap:0;align-content:center;padding:34px 22px 24px}
+ .bottle-story-copy{max-width:620px}
+ .bottle-story-copy h2{margin:13px 0;font-size:clamp(43px,11vw,68px)}
+ .bottle-story-description{max-width:440px;margin:0;font-size:11px;line-height:1.65}
+ .bottle-scroll-instruction{margin-top:16px;gap:7px;font-size:8px}
+ .bottle-scroll-instruction small{font-size:9px}
+ .bottle-progress-track{margin-top:12px;max-width:220px}
+ .bottle-exploded-stage{height:100%;min-height:0;margin-top:-4px}
+ .exploded-perfume{width:min(76vw,330px);height:min(47svh,420px)}
+ .bottle-stage-caption{top:1%;font-size:7px}
+ .bottle-stage-footer{bottom:1%;font-size:7px}
+ .bottle-stage-number{bottom:8%;right:1%;font-size:17px}
+ .orbit-one{width:min(78vw,330px)}.orbit-two{width:min(90vw,390px)}
+}
+@media(max-width:390px){.bottle-scroll-sticky{padding-left:16px;padding-right:16px}.bottle-story-copy h2{font-size:43px}.bottle-exploded-stage{margin-top:0}.exploded-perfume{height:min(43svh,350px)}}
+@media(prefers-reduced-motion:reduce){
+ .bottle-scroll-story{height:auto;min-height:0}
+ .bottle-scroll-sticky{position:relative;top:auto;min-height:0;height:auto;padding-top:60px;padding-bottom:60px}
+ .scroll-pulse{animation:none}.bottle-part{transform:none!important;will-change:auto}
+ .bottle-exploded-stage:before{transform:none}
+}
