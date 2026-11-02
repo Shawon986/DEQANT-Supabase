@@ -172,7 +172,7 @@ export default function Home() {
           <img
             className="hero-bottle"
             src="/products/rouge-amber.svg"
-            alt="Rouge Amber perfume bottle in burgundy light. Drag left or right to rotate the bottle."
+            alt="Rouge Amber perfume bottle in burgundy light. Gently drag to explore the bottle."
             width="900"
             height="1100"
             fetchPriority="high"
@@ -187,7 +187,7 @@ export default function Home() {
             onPointerMove={(event) => {
               const drag = bottleDrag.current;
               if (!drag || drag.pointerId !== event.pointerId) return;
-              const rotation = Math.max(-180, Math.min(180, drag.startRotation + (event.clientX - drag.startX) * 1.1));
+              const rotation = Math.max(-48, Math.min(48, drag.startRotation + (event.clientX - drag.startX) * 0.7));
               event.currentTarget.style.setProperty("--hero-spin", `${rotation}deg`);
             }}
             onPointerUp={(event) => {
@@ -202,7 +202,7 @@ export default function Home() {
             }}
           />
           <div className="hero-bottle-reflection" />
-          <div className="hero-rotate-hint" aria-hidden="true"><span>↔</span> DRAG / SWIPE TO SPIN</div>
+          <div className="hero-rotate-hint" aria-hidden="true"><span>↔</span> DRAG TO EXPLORE</div>
           <div className="hero-pedestal"><span>DEQANT</span><small>OBJECT Nº 001</small></div>
         </div>
         <div className="hero-note glass hero-note-primary"><span><i /> THE OPENING</span><strong>Saffron / Almond</strong><small>Bright. Textural. Unexpected.</small></div>
