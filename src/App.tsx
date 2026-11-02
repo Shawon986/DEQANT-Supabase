@@ -10,6 +10,7 @@ import Track from "./pages/Track";
 import { About, Contact, PolicyPage } from "./pages/Info";
 import Admin from "./pages/Admin";
 import Login from "./pages/Login";
+import Account from "./pages/Account";
 import NotFound from "./pages/NotFound";
 
 function Experience() {
@@ -52,6 +53,7 @@ function Experience() {
       <Route path="/delivery-policy" element={<PolicyPage type="delivery" />} />
       <Route path="/admin" element={<Admin />} />
       <Route path="/login" element={<Login />} />
+      <Route path="/account" element={<Account />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
     <Toaster position="bottom-center" toastOptions={{ className: "deqant-toast" }} />
