@@ -3,6 +3,7 @@ import { Link } from "react-router";
 import { ArrowDown, ArrowRight, PackageCheck, ShieldCheck, Sparkles } from "lucide-react";
 import { PageShell, ProductCard, Reveal, LoadingState } from "@/components/Storefront";
 import { storeApi } from "@/providers/store";
+import type { CatalogEntry } from "@/lib/supabase";
 
 const moods = [
   { name: "Warm", terms: "amber vanilla" }, { name: "Fresh", terms: "citrus bergamot" },
@@ -29,7 +30,7 @@ function ScentFinder() {
 export default function Home() {
   const { data: settings } = storeApi.store.settings.useQuery();
   const { data: catalogue, isLoading } = storeApi.store.catalog.useQuery({ sort: "featured" });
-  const featured = useMemo(() => catalogue?.filter((entry) => entry.product.featured).slice(0, 4) ?? [], [catalogue]);
+  const featured = useMemo(() => catalogue?.filter((entry: CatalogEntry) => entry.product.featured).slice(0, 4) ?? [], [catalogue]);
   const [typed, setTyped] = useState("");
   useEffect(() => {
     const line = "EAU DE PARFUM · DHAKA · 2026";
@@ -42,7 +43,7 @@ export default function Home() {
     <section className="hero">
       <div className="hero-copy">
         <p className="hero-kicker">{typed}<span className="typing-caret" /></p>
-        <h1>{(settings?.heroTitle ?? "YOUR SCENT. YOUR SIGNATURE.").split(". ").map((part, index) => <span key={part}>{part}{index === 0 ? "." : ""}</span>)}</h1>
+        <h1>{(settings?.heroTitle ?? "YOUR SCENT. YOUR SIGNATURE.").split(". ").map((part: string, index: number) => <span key={part}>{part}{index === 0 ? "." : ""}</span>)}</h1>
         <p className="hero-description">{settings?.heroText ?? "Discover the art of fragrance. Find the scent that defines you."}</p>
         <div className="hero-actions"><Link className="button button-ivory" to="/shop">Explore collection <ArrowRight /></Link><Link className="text-link light" to="/about">Discover DEQANT <ArrowRight /></Link></div>
       </div>
@@ -59,7 +60,7 @@ export default function Home() {
 
     <section className="home-collection" id="collection">
       <Reveal><div className="section-intro"><p>THE DEQANT EDIT</p><h2>Signatures in<br /><em>the making.</em></h2><Link className="text-link" to="/shop">View the complete collection <ArrowRight /></Link></div></Reveal>
-      {isLoading ? <LoadingState /> : <div className="editorial-grid">{featured.map((entry, index) => <Reveal key={entry.product.id}><ProductCard entry={entry} index={index} /></Reveal>)}</div>}
+      {isLoading ? <LoadingState /> : <div className="editorial-grid">{featured.map((entry: CatalogEntry, index: number) => <Reveal key={entry.product.id}><ProductCard entry={entry} index={index} /></Reveal>)}</div>}
     </section>
 
     <ScentFinder />
