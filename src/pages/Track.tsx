@@ -6,7 +6,7 @@ import { storeApi } from "@/providers/store";
 const statuses = ["pending", "confirmed", "processing", "shipped", "delivered"];
 
 export default function Track() {
-  const [orderNumber, setOrderNumber] = useState("");
+  const [orderNumber, setOrderNumber] = useState(() => typeof window !== "undefined" ? localStorage.getItem("deqant.lastOrderNumber") ?? "" : "");
   const [phone, setPhone] = useState("");
   const [search, setSearch] = useState<{ orderNumber: string; phone: string } | null>(null);
   const query = storeApi.store.track.useQuery(search!, { enabled: Boolean(search), retry: false });

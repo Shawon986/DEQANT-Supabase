@@ -20,7 +20,7 @@ export default function Checkout() {
   const navigate = useNavigate();
   const utils = storeApi.useUtils();
   const checkout = storeApi.store.checkout.useMutation({
-    onSuccess: async (result: CheckoutResult) => { await utils.store.cart.invalidate(); navigate(`/order/${result.orderNumber}`, { state: { phone: form.phone, total: result.total } }); },
+    onSuccess: async (result: CheckoutResult) => { localStorage.setItem("deqant.lastOrderNumber", result.orderNumber); await utils.store.cart.invalidate(); navigate(`/order/${result.orderNumber}`, { state: { phone: form.phone, total: result.total } }); },
   });
   const zone = zones?.find((item: DeliveryZone) => item.id === zoneId);
   const total = (cart?.subtotal ?? 0) + (zone?.fee ?? 0);
