@@ -666,3 +666,5 @@ h1,h2,h3,p{margin-top:0}h1,h2,h3{font-family:var(--serif);font-weight:300;line-h
   .hero-bottle { animation: none !important; }
   .hero-visual-cinematic:hover .hero-bottle { scale: 1; }
 }
+
+/* Build trigger: refined DEQANT hero motion release */
