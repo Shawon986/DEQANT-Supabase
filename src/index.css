@@ -775,3 +775,92 @@ h1,h2,h3,p{margin-top:0}h1,h2,h3{font-family:var(--serif);font-weight:300;line-h
   .hero-perfume-spray .spray-cloud,.hero-perfume-spray i,.hero-spark-lights i { animation:none!important; }
   .hero-perfume-spray .spray-cloud { opacity:.45; }
 }
+
+
+/* DEQANT refinement — faster bottle motion, atmospheric scent discovery, clean dashboard states */
+.hero-bottle {
+  animation-duration: 5.2s !important;
+  will-change: transform;
+}
+.hero-perfume-spray .spray-cloud { animation-duration: 2.65s; }
+.hero-perfume-spray i { animation-duration: 1.7s; }
+.hero-spark-lights i { animation-duration: 2.7s; }
+.bottle-part { will-change: transform; }
+.bottle-scroll-sticky { contain: layout paint; }
+@media (max-width:760px) {
+  .hero-bottle { animation-duration: 5.6s !important; }
+  .hero-perfume-spray { width:108px; height:82px; }
+  .hero-spark-lights { inset:8% 3% 10%; }
+}
+@media (prefers-reduced-motion:reduce) {
+  .hero-bottle { animation:none !important; will-change:auto; }
+  .bottle-part { will-change:auto; }
+}
+
+/* "What moves you today?" — layered moving light field and orbital atmosphere */
+.scent-finder {
+  position:relative;
+  isolation:isolate;
+  background:
+    radial-gradient(ellipse at 50% 48%,rgba(115,35,66,.48),transparent 48%),
+    linear-gradient(135deg,#26000f 0%,#4d0220 42%,#21000d 100%);
+}
+.scent-finder::before,
+.scent-finder::after {
+  content:"";
+  position:absolute;
+  inset:-22%;
+  z-index:0;
+  pointer-events:none;
+}
+.scent-finder::before {
+  opacity:.8;
+  background:
+    radial-gradient(ellipse at 18% 35%,rgba(224,170,132,.25),transparent 24%),
+    radial-gradient(ellipse at 78% 28%,rgba(155,63,103,.42),transparent 29%),
+    radial-gradient(ellipse at 62% 82%,rgba(212,157,120,.2),transparent 26%),
+    radial-gradient(ellipse at 35% 72%,rgba(105,24,62,.65),transparent 34%);
+  filter:blur(24px);
+  animation:deq-scent-nebula 10s ease-in-out infinite alternate;
+}
+.scent-finder::after {
+  opacity:.32;
+  background:
+    repeating-radial-gradient(ellipse at 50% 48%,transparent 0 54px,rgba(235,204,176,.15) 55px,transparent 56px 94px),
+    linear-gradient(115deg,transparent 20%,rgba(242,216,190,.1) 48%,transparent 72%);
+  mask-image:radial-gradient(ellipse at center,#000 10%,transparent 76%);
+  animation:deq-scent-orbit 28s linear infinite;
+}
+.scent-finder>.section-intro,
+.scent-finder>.orbit-wrap,
+.scent-finder>.scent-result { position:relative;z-index:1; }
+@keyframes deq-scent-nebula {
+  0% { transform:translate3d(-2%,-1%,0) scale(.96); }
+  50% { transform:translate3d(2%,2%,0) scale(1.04); }
+  100% { transform:translate3d(-1%,1%,0) scale(1.01); }
+}
+@keyframes deq-scent-orbit {
+  from { transform:rotate(0deg) scale(1); }
+  to { transform:rotate(360deg) scale(1.08); }
+}
+@media (max-width:760px) {
+  .scent-finder::before { inset:-12%;opacity:.62;filter:blur(18px);animation-duration:15s; }
+  .scent-finder::after { inset:-8%;opacity:.2;animation-duration:36s; }
+}
+@media (prefers-reduced-motion:reduce) {
+  .scent-finder::before,.scent-finder::after { animation:none!important; }
+}
+
+/* Avoid rendering an empty catalogue card in the overview dashboard */
+.deq-catalog-preview { content-visibility:auto; contain-intrinsic-size: 360px; }
+.deq-catalog-preview .deq-product-list:empty { display:none; }
+@media (max-width:900px) {
+  .deq-admin { min-height:100svh; }
+  .deq-sidebar { position:relative; }
+  .deq-main { min-width:0; overflow-x:clip; }
+}
+@media (max-width:600px) {
+  .deq-catalog-preview { padding:14px; }
+  .deq-catalog-preview .deq-product-list>article { min-width:0; }
+  .deq-catalog-preview .deq-product-name { min-width:0;overflow-wrap:anywhere; }
+}
