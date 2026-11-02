@@ -851,8 +851,8 @@ h1,h2,h3,p{margin-top:0}h1,h2,h3{font-family:var(--serif);font-weight:300;line-h
   .scent-finder::before,.scent-finder::after { animation:none!important; }
 }
 
-/* Avoid rendering an empty catalogue card in the overview dashboard */
-.deq-catalog-preview { content-visibility:auto; contain-intrinsic-size: 360px; }
+/* Keep the catalogue panel in normal flow; do not defer its rendering while scrolling. */
+.deq-catalog-preview { content-visibility:visible; }
 .deq-catalog-preview .deq-product-list:empty { display:none; }
 @media (max-width:900px) {
   .deq-admin { min-height:100svh; }
