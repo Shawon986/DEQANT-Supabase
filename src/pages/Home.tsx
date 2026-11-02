@@ -236,3 +236,5 @@ export default function Home() {
     </section>
   </PageShell>;
 }
+
+// Hero motion refinement release marker.
