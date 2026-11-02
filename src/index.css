@@ -76,3 +76,37 @@ h1,h2,h3,p{margin-top:0}h1,h2,h3{font-family:var(--serif);font-weight:300;line-h
 @media(prefers-reduced-motion:reduce){.deq-admin:before,.deq-admin:after{animation:none}.deq-stats article,.deq-glass-panel,.deq-welcome,.deq-editor,.deq-modal-backdrop{animation:none;transition:none}.deq-stats article:hover,.deq-glass-panel:hover,.deq-primary:hover,.deq-welcome>button:hover{transform:none}}
 
 .guest-login-note{display:block;margin-top:15px;color:rgba(255,255,255,.68);font-size:10px;text-align:center}.guest-login-note a{color:#e6c2a7;text-decoration:underline;text-underline-offset:3px}
+
+/* DEQANT dashboard refinement: stable sticky workspace, dense operations view, and visible account control */
+.deq-admin{overflow:visible;min-height:100vh}
+.deq-sidebar{position:sticky;top:0;align-self:start;height:100vh;height:100dvh;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:rgba(218,183,157,.3) transparent}
+.deq-sidebar::-webkit-scrollbar{width:5px}.deq-sidebar::-webkit-scrollbar-thumb{background:rgba(218,183,157,.28);border-radius:10px}
+.deq-main{min-width:0}
+.deq-ops-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin:0 0 20px}
+.deq-ops-card{min-width:0;padding:20px;border:1px solid rgba(255,255,255,.12);border-radius:17px;background:linear-gradient(145deg,rgba(255,255,255,.075),rgba(255,255,255,.025));backdrop-filter:blur(20px);box-shadow:0 16px 45px rgba(0,0,0,.12);transition:transform .28s,border-color .28s,box-shadow .28s}
+.deq-ops-card:hover{transform:translateY(-4px);border-color:rgba(226,190,164,.32);box-shadow:0 22px 52px rgba(0,0,0,.22)}
+.deq-ops-card-top{display:flex;align-items:center;justify-content:space-between;color:#c6a58c;font-size:9px;letter-spacing:.14em}.deq-ops-card-top svg{color:#d7ad8e}
+.deq-ops-card>strong{display:block;margin:17px 0 5px;color:#fff;font-family:var(--serif);font-size:clamp(26px,3vw,36px);font-weight:400;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.deq-ops-card>small{display:block;color:#ad9e99;font-size:9px;line-height:1.6;min-height:28px}
+.deq-ops-card>button{display:inline-flex;align-items:center;gap:6px;margin-top:13px;padding:0;border:0;background:none;color:#e4c6ad;font-size:10px;cursor:pointer}
+.deq-ops-meter{height:4px;margin-top:15px;border-radius:9px;background:rgba(255,255,255,.09);overflow:hidden}.deq-ops-meter i{display:block;height:100%;border-radius:9px;background:linear-gradient(90deg,#8d4a5b,#e0bd9e);transition:width .45s ease}
+.deq-dashboard-lower{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(270px,.75fr);gap:20px}
+.deq-dashboard-lower .deq-glass-panel{min-width:0;margin-top:0}
+.deq-activity-row{display:grid;grid-template-columns:8px minmax(0,1fr) auto auto;align-items:center;gap:10px;padding:13px 0;border-top:1px solid rgba(255,255,255,.08)}
+.deq-activity-dot{width:7px;height:7px;border-radius:50%;background:#d4ad8f;box-shadow:0 0 12px rgba(212,173,143,.55)}
+.deq-activity-row>div{min-width:0}.deq-activity-row b,.deq-activity-row small{display:block}.deq-activity-row b{color:#f4e8e1;font-size:10px}.deq-activity-row small{margin-top:4px;color:#a99a96;font-size:9px}.deq-activity-row>strong{color:#e7c8ad;font-size:10px;white-space:nowrap}
+.deq-activity-status{padding:5px 8px;border:1px solid rgba(255,255,255,.1);border-radius:20px;color:#d6c3b7;font-size:8px;text-transform:capitalize;white-space:nowrap}
+.deq-activity-status.status-delivered{color:#a9d0ad;border-color:rgba(143,194,154,.25)}.deq-activity-status.status-cancelled{color:#e0a2a2;border-color:rgba(224,162,162,.2)}
+.deq-stock-row{display:flex;align-items:center;gap:11px;padding:11px 0;border-top:1px solid rgba(255,255,255,.08)}.deq-stock-row img{width:38px;height:46px;object-fit:cover;border-radius:6px;background:rgba(255,255,255,.06)}.deq-stock-row>div{min-width:0;flex:1}.deq-stock-row b,.deq-stock-row small{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.deq-stock-row b{font-size:10px;color:#f4e8e1}.deq-stock-row small{margin-top:4px;color:#a99a96;font-size:8px}.deq-stock-row>strong{color:#e4b99a;font-size:9px;white-space:nowrap}
+.deq-stock-clear{min-height:170px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px;color:#a9d0ad;text-align:center}.deq-stock-clear span{color:#f2e7df;font-family:var(--serif);font-size:18px}.deq-stock-clear small{color:#a99a96;font-size:9px}
+.deq-admin button,.deq-admin a,.deq-admin select,.deq-admin input,.deq-admin textarea{outline-offset:3px}
+.deq-admin button:focus-visible,.deq-admin a:focus-visible,.deq-admin select:focus-visible,.deq-admin input:focus-visible,.deq-admin textarea:focus-visible{outline:2px solid #d8b394}
+.deq-admin button:disabled{cursor:wait;opacity:.65}
+.account-trigger{width:auto;min-width:44px;gap:8px;padding:0 10px;border:1px solid rgba(112,57,69,.18);border-radius:30px;color:var(--brand-burgundy);background:rgba(255,255,255,.5);transition:background .22s,border-color .22s,transform .22s,box-shadow .22s}
+.account-trigger:hover{background:#fff;border-color:rgba(112,57,69,.38);transform:translateY(-1px);box-shadow:0 7px 20px rgba(42,24,28,.09)}
+.account-trigger-avatar{width:28px;height:28px;display:grid;place-items:center;flex:0 0 28px;border-radius:50%;background:linear-gradient(145deg,#8b4a57,#40202b);color:#fff}
+.account-trigger-label{display:block;max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:10px;letter-spacing:.02em}
+@media(max-width:1100px){.deq-ops-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.deq-dashboard-lower{grid-template-columns:1fr}}
+@media(max-width:900px){.deq-sidebar{position:relative;top:auto;align-self:auto;height:auto;overflow:visible}.deq-ops-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:560px){.deq-ops-grid{gap:9px}.deq-ops-card{padding:14px}.deq-ops-card>strong{font-size:27px}.deq-activity-row{grid-template-columns:7px minmax(0,1fr) auto;gap:8px}.deq-activity-status{grid-column:2/-1;justify-self:start}.account-trigger{padding:0 7px}.account-trigger-label{display:none}}
+@media(prefers-reduced-motion:reduce){.deq-ops-card,.deq-ops-meter i,.account-trigger{transition:none}.deq-ops-card:hover,.account-trigger:hover{transform:none}}
