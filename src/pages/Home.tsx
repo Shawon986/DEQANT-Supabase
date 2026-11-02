@@ -19,7 +19,9 @@ function ScrollBottleExperience() {
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (reducedMotion) return;
     let frame = 0;
+    let isVisible = false;
     const update = () => {
+      if (!isVisible) return;
       window.cancelAnimationFrame(frame);
       frame = window.requestAnimationFrame(() => {
         const rect = section.getBoundingClientRect();
@@ -36,11 +38,21 @@ function ScrollBottleExperience() {
         section.style.setProperty("--explode-progress", progress.toFixed(3));
       });
     };
+    const visibilityObserver = "IntersectionObserver" in window
+      ? new IntersectionObserver(([entry]) => {
+          isVisible = entry.isIntersecting;
+          if (isVisible) update();
+          else window.cancelAnimationFrame(frame);
+        }, { rootMargin: "100px 0px" })
+      : null;
+    if (visibilityObserver) visibilityObserver.observe(section);
+    else isVisible = true;
     update();
     window.addEventListener("scroll", update, { passive: true });
     window.addEventListener("resize", update);
     return () => {
       window.cancelAnimationFrame(frame);
+      visibilityObserver?.disconnect();
       window.removeEventListener("scroll", update);
       window.removeEventListener("resize", update);
     };

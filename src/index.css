@@ -274,3 +274,38 @@ h1,h2,h3,p{margin-top:0}h1,h2,h3{font-family:var(--serif);font-weight:300;line-h
  .scroll-pulse{animation:none}.bottle-part{transform:none!important;will-change:auto}
  .bottle-exploded-stage:before{transform:none}
 }
+
+
+/* Mobile home scroll stability */
+@media(max-width:760px){
+  .scent-finder{overflow:visible;touch-action:pan-y;overscroll-behavior-y:auto;contain:layout}
+  .orbit-wrap{width:min(100%,300px);height:300px;margin:28px auto 24px;contain:layout}
+  .orbit-center{width:108px;height:108px}
+  .orbit-center span{font-size:25px}
+  .orbit-node{width:68px;height:68px;font-size:9px;left:auto;top:auto;transform:none;transition:background-color .18s ease,color .18s ease}
+  .orbit-node:nth-of-type(1){left:calc(50% + 66px);top:calc(50% - 34px)}
+  .orbit-node:nth-of-type(2){left:calc(50% + 16px);top:calc(50% + 52px)}
+  .orbit-node:nth-of-type(3){left:calc(50% - 84px);top:calc(50% + 52px)}
+  .orbit-node:nth-of-type(4){left:calc(50% - 134px);top:calc(50% - 34px)}
+  .orbit-node:nth-of-type(5){left:calc(50% - 84px);top:calc(50% - 120px)}
+  .orbit-node:nth-of-type(6){left:calc(50% + 16px);top:calc(50% - 120px)}
+  .orbit-node:hover,.orbit-node.active{transform:none}
+  .scent-result{min-height:0;margin-top:18px;padding-top:22px;align-items:center;gap:14px}
+  .scent-result>img{width:92px;height:116px;flex:0 0 92px}
+  .scent-result>div{min-width:0;padding:4px 0 0}
+  .scent-result h3{font-size:27px;overflow-wrap:anywhere}
+  .scent-result span{line-height:1.6}
+  .manifesto{overflow:clip}
+  .manifesto .reveal,.manifesto .reveal.is-visible{opacity:1;transform:none;transition:none}
+}
+@media(max-width:380px){
+  .orbit-wrap{width:280px;height:280px}
+  .orbit-center{width:96px;height:96px}
+  .orbit-node{width:62px;height:62px;font-size:8px}
+  .orbit-node:nth-of-type(1){left:calc(50% + 60px);top:calc(50% - 31px)}
+  .orbit-node:nth-of-type(2){left:calc(50% + 14px);top:calc(50% + 47px)}
+  .orbit-node:nth-of-type(3){left:calc(50% - 76px);top:calc(50% + 47px)}
+  .orbit-node:nth-of-type(4){left:calc(50% - 122px);top:calc(50% - 31px)}
+  .orbit-node:nth-of-type(5){left:calc(50% - 76px);top:calc(50% - 109px)}
+  .orbit-node:nth-of-type(6){left:calc(50% + 14px);top:calc(50% - 109px)}
+}
