@@ -309,3 +309,13 @@ h1,h2,h3,p{margin-top:0}h1,h2,h3{font-family:var(--serif);font-weight:300;line-h
   .orbit-node:nth-of-type(5){left:calc(50% - 76px);top:calc(50% - 109px)}
   .orbit-node:nth-of-type(6){left:calc(50% + 14px);top:calc(50% - 109px)}
 }
+
+/* Customer order cancellation */
+.tracking-cancel-panel{display:flex;align-items:center;justify-content:space-between;gap:22px;margin-top:28px;padding:22px;background:var(--brand-ivory);border:1px solid var(--line)}
+.tracking-cancel-panel>div>span{display:flex;align-items:center;gap:7px;font-size:9px;letter-spacing:.13em;color:var(--brand-burgundy)}
+.tracking-cancel-panel>div>strong{display:block;font-family:var(--serif);font-size:30px;font-weight:400;margin:7px 0}
+.tracking-cancel-panel>div>p,.tracking-cancel-closed{font-size:11px;line-height:1.7;opacity:.72;margin:0;max-width:52ch}
+.tracking-cancel-button{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:46px;padding:0 16px;border:1px solid var(--brand-burgundy);background:var(--brand-burgundy);color:var(--brand-ivory);font-size:10px;letter-spacing:.06em;white-space:nowrap;cursor:pointer}
+.tracking-cancel-button:disabled{opacity:.55;cursor:wait}
+.tracking-cancel-closed{margin-top:24px;padding:14px 16px;border:1px solid var(--line);background:rgba(206,201,189,.18)}
+@media(max-width:560px){.tracking-cancel-panel{align-items:stretch;flex-direction:column;padding:18px}.tracking-cancel-button{width:100%}}
