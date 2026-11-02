@@ -128,18 +128,31 @@ export default function Home() {
     return () => window.clearInterval(timer);
   }, []);
   return <PageShell>
-    <section className="hero">
+    <section className="hero hero-cinematic">
       <div className="hero-copy">
-        <p className="hero-kicker">{typed}<span className="typing-caret" /></p>
+        <p className="hero-kicker"><span className="hero-kicker-dot" />{typed}<span className="typing-caret" /></p>
         <h1>{(settings?.heroTitle ?? "YOUR SCENT. YOUR SIGNATURE.").split(". ").map((part: string, index: number) => <span key={part}>{part}{index === 0 ? "." : ""}</span>)}</h1>
         <p className="hero-description">{settings?.heroText ?? "Discover the art of fragrance. Find the scent that defines you."}</p>
         <div className="hero-actions"><Link className="button button-ivory" to="/shop">Explore collection <ArrowRight /></Link><Link className="text-link light" to="/about">Discover DEQANT <ArrowRight /></Link></div>
+        <div className="hero-proofline"><span>01 / 03</span><i /><span>SCENT IS A FORM OF MEMORY</span></div>
       </div>
-      <div className="hero-visual" aria-label="Rouge Amber eau de parfum">
+      <div className="hero-visual hero-visual-cinematic" aria-label="Rouge Amber eau de parfum">
+        <div className="hero-visual-grain" />
+        <div className="hero-visual-glow" />
+        <div className="hero-orbit hero-orbit-a" /><div className="hero-orbit hero-orbit-b" /><div className="hero-orbit hero-orbit-c" />
+        <div className="hero-light-beam" />
+        <div className="hero-particles" aria-hidden="true"><i /><i /><i /><i /><i /><i /><i /><i /><i /><i /></div>
         <div className="hero-orbit-text">DEQANT · OLFACTORY EDITIONS · DHAKA ·</div>
-        <img className="hero-bottle" src="/products/rouge-amber.svg" alt="Rouge Amber perfume bottle in burgundy light" width="900" height="1100" />
-        <div className="hero-note glass"><span>THE OPENING</span><strong>Saffron / Almond</strong><small>Bright. Textural. Unexpected.</small></div>
-        <div className="hero-edition">OLFACTORY<br />EDITION 03</div>
+        <div className="hero-bottle-stage">
+          <div className="hero-bottle-aura" />
+          <img className="hero-bottle" src="/products/rouge-amber.svg" alt="Rouge Amber perfume bottle in burgundy light" width="900" height="1100" fetchPriority="high" />
+          <div className="hero-bottle-reflection" />
+          <div className="hero-pedestal"><span>DEQANT</span><small>OBJECT Nº 001</small></div>
+        </div>
+        <div className="hero-note glass hero-note-primary"><span><i /> THE OPENING</span><strong>Saffron / Almond</strong><small>Bright. Textural. Unexpected.</small></div>
+        <div className="hero-note glass hero-note-secondary"><span>THE SIGNATURE</span><strong>Warm. Distinctive.</strong></div>
+        <div className="hero-edition">OLFACTORY<br /><b>EDITION 03</b><i /></div>
+        <div className="hero-visual-index"><span>EAU DE PARFUM</span><b>01</b><span>EXTRAIT OF CHARACTER</span></div>
       </div>
       <a className="scroll-cue" href="#collection"><ArrowDown /><span>Scroll to discover</span></a>
     </section>
