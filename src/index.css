@@ -581,3 +581,41 @@ h1,h2,h3,p{margin-top:0}h1,h2,h3{font-family:var(--serif);font-weight:300;line-h
   .hero-aurora-layer,.hero-scanline,.hero-copy>*{animation:none!important}
   .hero-cinematic .button{transition:none}
 }
+
+
+/* Interactive hero bottle: mouse drag on desktop, swipe on touch screens */
+.hero-bottle{
+  cursor:ew-resize;
+  touch-action:pan-y;
+  user-select:none;
+  -webkit-user-drag:none;
+  transform-style:preserve-3d;
+  transition:filter .45s ease,scale .45s ease;
+}
+.hero-bottle.is-dragging{
+  cursor:grabbing;
+  animation-play-state:paused;
+  scale:1.025;
+  filter:drop-shadow(0 52px 42px rgba(0,0,0,.56)) saturate(1.12);
+}
+@keyframes deq-bottle-levitate{
+  0%,100%{transform:translate3d(var(--hero-shift-x,0px),calc(var(--hero-shift-y,0px) - 7px),0) rotateY(calc(var(--hero-tilt,0deg) + var(--hero-spin,0deg))) rotateZ(-1deg)}
+  50%{transform:translate3d(var(--hero-shift-x,0px),calc(var(--hero-shift-y,0px) + 9px),0) rotateY(calc(var(--hero-tilt,0deg) + var(--hero-spin,0deg))) rotateZ(1deg)}
+}
+.hero-rotate-hint{
+  position:absolute;z-index:5;left:50%;bottom:13%;transform:translateX(-50%);
+  display:flex;align-items:center;gap:9px;white-space:nowrap;
+  color:rgba(246,226,204,.7);font-size:7px;font-weight:600;letter-spacing:.2em;
+  pointer-events:none;text-shadow:0 2px 12px rgba(0,0,0,.5);
+  animation:deq-rotate-prompt 2.8s ease-in-out infinite;
+}
+.hero-rotate-hint span{font-size:17px;line-height:1;color:#e6c5a4}
+@keyframes deq-rotate-prompt{0%,100%{opacity:.5;translate:0 0}50%{opacity:1;translate:0 -4px}}
+@media(max-width:760px){
+  .hero-bottle{width:min(100%,560px);height:88%;max-height:500px}
+  .hero-rotate-hint{bottom:12%;font-size:7px}
+}
+@media(prefers-reduced-motion:reduce){
+  .hero-rotate-hint{animation:none}
+  .hero-bottle{animation:none}
+}
