@@ -866,3 +866,103 @@ h1,h2,h3,p{margin-top:0}h1,h2,h3{font-family:var(--serif);font-weight:300;line-h
 }
 
 /* Production release trigger: include the complete DEQANT dashboard and motion refinement. */
+
+
+/* DEQANT correction — scroll story pace, not the hero bottle */
+.hero-bottle { animation-duration:8.5s !important; }
+@media (max-width:760px) {
+  .hero-bottle { animation-duration:8.5s !important; }
+}
+
+/* The exploded bottle now completes its assembly journey in a shorter scroll distance. */
+.bottle-scroll-story { height:175vh; }
+@media (max-width:760px) {
+  .bottle-scroll-story { height:165vh; }
+}
+
+/* Admin overview: remove fixed decorative layers that can flash as empty panels during scroll.
+   Keep the workspace background in its own static gradient layer. */
+.deq-admin::before,
+.deq-admin::after {
+  content:none !important;
+  display:none !important;
+  animation:none !important;
+}
+.deq-glass-panel,
+.deq-stats article,
+.deq-welcome {
+  transform:none;
+}
+.deq-glass-panel:hover,
+.deq-stats article:hover {
+  transform:none !important;
+}
+.deq-catalog-preview {
+  position:relative;
+  isolation:isolate;
+  overflow:clip;
+  content-visibility:visible !important;
+  contain:layout paint;
+}
+.deq-catalog-preview .deq-product-list:empty { display:none !important; }
+.deq-catalog-preview .deq-empty { min-height:0; }
+
+/* A signature olfactory light sculpture — prismatic liquid ribbons, not a stock orbit. */
+.scent-finder {
+  overflow:hidden;
+  isolation:isolate;
+  background:
+    radial-gradient(ellipse at 50% 52%,rgba(110,24,57,.7),transparent 54%),
+    linear-gradient(128deg,#16000a 0%,#39091f 38%,#1b0615 72%,#10040b 100%);
+}
+.scent-finder::before {
+  inset:-38%;
+  opacity:.7;
+  filter:blur(34px) saturate(1.3);
+  background:
+    conic-gradient(from 20deg at 52% 50%,
+      transparent 0deg,
+      rgba(235,180,143,.12) 34deg,
+      transparent 76deg,
+      rgba(160,46,93,.42) 128deg,
+      transparent 176deg,
+      rgba(231,191,156,.2) 226deg,
+      transparent 278deg,
+      rgba(117,25,66,.42) 324deg,
+      transparent 360deg),
+    radial-gradient(ellipse at 22% 35%,rgba(234,175,135,.36),transparent 19%),
+    radial-gradient(ellipse at 76% 28%,rgba(172,55,106,.58),transparent 27%),
+    radial-gradient(ellipse at 65% 76%,rgba(217,154,122,.28),transparent 23%),
+    radial-gradient(ellipse at 32% 78%,rgba(88,13,48,.72),transparent 32%);
+  animation:deq-olfactory-ribbon 18s cubic-bezier(.45,0,.55,1) infinite alternate;
+  will-change:transform;
+}
+.scent-finder::after {
+  inset:-14%;
+  opacity:.28;
+  background:
+    repeating-conic-gradient(from 0deg at 50% 50%,
+      transparent 0deg 8deg,
+      rgba(239,205,177,.16) 8.2deg 8.45deg,
+      transparent 8.7deg 16deg),
+    radial-gradient(ellipse at center,transparent 24%,rgba(239,194,159,.16) 24.2%,transparent 24.7%,transparent 39%,rgba(174,73,109,.22) 39.2%,transparent 39.8%,transparent 56%,rgba(232,188,155,.12) 56.2%,transparent 56.7%);
+  mask-image:radial-gradient(ellipse at center,#000 8%,rgba(0,0,0,.8) 48%,transparent 76%);
+  animation:deq-prism-turn 64s linear infinite;
+  will-change:transform;
+}
+@keyframes deq-olfactory-ribbon {
+  0% { transform:translate3d(-3%,1%,0) rotate(-9deg) scale(.94); }
+  50% { transform:translate3d(2%,-2%,0) rotate(5deg) scale(1.08); }
+  100% { transform:translate3d(3%,2%,0) rotate(13deg) scale(1); }
+}
+@keyframes deq-prism-turn {
+  from { transform:rotate(0deg) scale(.96); }
+  to { transform:rotate(360deg) scale(1.04); }
+}
+@media (max-width:760px) {
+  .scent-finder::before { inset:-20%;filter:blur(25px) saturate(1.15);animation-duration:24s; }
+  .scent-finder::after { inset:-8%;opacity:.2;animation-duration:80s; }
+}
+@media (prefers-reduced-motion:reduce) {
+  .scent-finder::before,.scent-finder::after { animation:none !important;will-change:auto; }
+}
