@@ -110,3 +110,112 @@ h1,h2,h3,p{margin-top:0}h1,h2,h3{font-family:var(--serif);font-weight:300;line-h
 @media(max-width:900px){.deq-sidebar{position:relative;top:auto;align-self:auto;height:auto;overflow:visible}.deq-ops-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:560px){.deq-ops-grid{gap:9px}.deq-ops-card{padding:14px}.deq-ops-card>strong{font-size:27px}.deq-activity-row{grid-template-columns:7px minmax(0,1fr) auto;gap:8px}.deq-activity-status{grid-column:2/-1;justify-self:start}.account-trigger{padding:0 7px}.account-trigger-label{display:none}}
 @media(prefers-reduced-motion:reduce){.deq-ops-card,.deq-ops-meter i,.account-trigger{transition:none}.deq-ops-card:hover,.account-trigger:hover{transform:none}}
+
+
+/* Analytics workspace */
+.deq-analytics{display:grid;gap:18px;animation:deq-fade-up .55s both}
+.deq-analytics-toolbar{display:flex;align-items:center;justify-content:space-between;gap:18px;margin:30px 0 2px}
+.deq-analytics-toolbar>div:first-child>span{font-size:9px;letter-spacing:.2em;color:#c6a58c}.deq-analytics-toolbar p{margin:7px 0 0;color:#ad9e99;font-size:11px}
+.deq-range-switch{display:flex;gap:4px;padding:4px;border:1px solid rgba(255,255,255,.12);border-radius:12px;background:rgba(0,0,0,.16)}
+.deq-range-switch button{padding:9px 13px;border:0;border-radius:8px;background:transparent;color:#b8aaa5;font-size:10px;cursor:pointer;transition:background .22s,color .22s,box-shadow .22s}
+.deq-range-switch button:hover{color:#fff;background:rgba(255,255,255,.07)}.deq-range-switch button.active{color:#24171b;background:linear-gradient(135deg,#e2c3a7,#b98779);box-shadow:0 5px 18px rgba(185,135,121,.2)}
+.deq-analytics-kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.deq-analytics-kpis article{min-width:0;padding:20px;border:1px solid rgba(255,255,255,.12);border-radius:17px;background:linear-gradient(145deg,rgba(255,255,255,.085),rgba(255,255,255,.025));backdrop-filter:blur(22px);box-shadow:0 15px 42px rgba(0,0,0,.12);transition:transform .3s,border-color .3s,box-shadow .3s}
+.deq-analytics-kpis article:hover{transform:translateY(-5px);border-color:rgba(226,190,164,.35);box-shadow:0 24px 55px rgba(0,0,0,.2)}
+.deq-analytics-kpis article>span{display:flex;align-items:center;gap:8px;color:#c6a58c;font-size:9px;letter-spacing:.12em}
+.deq-analytics-kpis article>strong{display:block;margin:17px 0 6px;color:#fff;font-family:var(--serif);font-size:clamp(25px,3vw,35px);font-weight:400;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.deq-analytics-kpis article>small{display:block;color:#ad9e99;font-size:9px;line-height:1.6}
+.deq-chart-panel{min-width:0}.deq-chart-panel>.deq-panel-heading>small{color:#ad9e99;font-size:9px}
+.deq-chart-wrap{width:100%;height:290px;min-width:0}
+.deq-analytics-charts{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:18px}
+.deq-status-chart{display:grid;grid-template-columns:minmax(130px,.9fr) minmax(120px,1.1fr);align-items:center;gap:8px}
+.deq-status-chart .deq-chart-wrap{height:230px}
+.deq-status-legend{display:grid;gap:12px}
+.deq-status-legend>div{display:grid;grid-template-columns:9px minmax(0,1fr) auto;align-items:center;gap:8px;color:#d8cbc4;font-size:9px}
+.deq-status-legend i{width:8px;height:8px;border-radius:50%}.deq-status-legend strong{color:#fff;font-size:10px}
+.deq-product-chart{height:260px}
+.deq-analytics-footnote{display:flex;align-items:flex-start;gap:9px;padding:14px 16px;border:1px solid rgba(255,255,255,.09);border-radius:12px;color:#a99a96;font-size:9px;line-height:1.7;background:rgba(255,255,255,.025)}
+.deq-analytics-footnote svg{flex:0 0 auto;color:#c6a58c;margin-top:1px}
+@keyframes deq-fade-up{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+
+/* Storefront motion language: layered light, depth, reveal and tactile micro-interactions */
+.hero-visual{isolation:isolate}
+.hero-visual:before,.hero-visual:after{content:"";position:absolute;pointer-events:none;border-radius:50%;z-index:0}
+.hero-visual:before{width:min(78vw,540px);aspect-ratio:1;left:50%;top:48%;transform:translate(-50%,-50%);border:1px solid rgba(242,238,229,.13);box-shadow:0 0 0 28px rgba(242,238,229,.018),0 0 0 58px rgba(242,238,229,.012);animation:deq-hero-orbit 24s linear infinite}
+.hero-visual:after{inset:0;background:radial-gradient(circle at 50% 42%,rgba(232,190,158,.13),transparent 48%),linear-gradient(130deg,transparent 35%,rgba(255,255,255,.035) 50%,transparent 64%);background-size:100% 100%,220% 100%;animation:deq-hero-glint 12s ease-in-out infinite}
+.hero-bottle{z-index:1;filter:drop-shadow(0 32px 30px rgba(0,0,0,.4));transition:filter .6s}
+.hero-visual:hover .hero-bottle{filter:drop-shadow(0 40px 38px rgba(0,0,0,.5))}
+.hero-note,.hero-edition,.hero-orbit-text{z-index:2}
+.hero-note{transition:transform .35s,border-color .35s,background .35s}.hero-note:hover{transform:translateY(-5px);border-color:rgba(242,238,229,.5);background:rgba(77,2,32,.62)}
+.scent-marquee>div{will-change:transform}
+.product-card{border-radius:2px;transform:translateZ(0);transition:transform .45s cubic-bezier(.2,.7,.2,1),filter .45s}
+.product-card:hover{transform:translateY(-9px);filter:drop-shadow(0 18px 20px rgba(37,13,21,.12))}
+.product-image-wrap{isolation:isolate}.product-image-wrap:after{content:"";position:absolute;inset:0;pointer-events:none;opacity:0;background:linear-gradient(125deg,transparent 25%,rgba(255,255,255,.2) 48%,transparent 70%);transform:translateX(-100%);transition:opacity .2s}
+.product-card:hover .product-image-wrap:after{opacity:1;animation:deq-product-shimmer .85s ease-out}
+.product-image-wrap>img{transition:transform .8s cubic-bezier(.2,.7,.2,1),filter .8s}.product-card:hover .product-image-wrap>img{transform:scale(1.055);filter:saturate(1.06)}
+.product-view{transition:background .25s,padding .25s}.product-card:hover .product-view{background:#2b0717;padding-left:20px;padding-right:20px}
+.button,.text-link,.icon-button,.desktop-nav a,.mobile-menu nav a{transition:color .25s,background-color .25s,border-color .25s,transform .25s,box-shadow .25s}
+.button:hover{box-shadow:0 12px 28px rgba(25,4,13,.18)}
+.desktop-nav a{position:relative}.desktop-nav a:after{content:"";position:absolute;left:0;right:100%;bottom:-7px;height:1px;background:currentColor;transition:right .3s}.desktop-nav a:hover:after,.desktop-nav a.active:after{right:0}
+.icon-button:hover{transform:translateY(-1px)}
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .75s ease,transform .75s cubic-bezier(.2,.7,.2,1)}
+.reveal.is-visible{opacity:1;transform:translateY(0)}
+.site-footer a{transition:color .2s,transform .2s}.site-footer a:hover{color:#e4c6ad;transform:translateX(3px)}
+.mobile-menu nav a{transition:padding .22s,color .22s,background .22s}.mobile-menu nav a:hover{padding-left:8px;color:#e4c6ad}
+
+/* Mobile-first admin shell and responsive analytics */
+@media(max-width:1100px){.deq-analytics-kpis{grid-template-columns:repeat(2,minmax(0,1fr))}.deq-analytics-charts{grid-template-columns:1fr}}
+@media(max-width:900px){
+ .deq-admin{grid-template-columns:minmax(0,1fr)}
+ .deq-sidebar{position:relative;top:auto;align-self:auto;width:100%;height:auto;min-height:0;overflow:visible;padding:14px 18px 12px;border-right:0;border-bottom:1px solid rgba(255,255,255,.1)}
+ .deq-sidebar>a{display:inline-flex;align-items:center}.deq-sidebar .brand-logo{width:125px}
+ .deq-side-label{margin:12px 0 8px}
+ .deq-sidebar nav{display:flex;gap:7px;overflow-x:auto;padding:0 0 7px;scrollbar-width:thin}
+ .deq-sidebar nav button{flex:0 0 auto;padding:10px 12px;white-space:nowrap}
+ .deq-side-bottom{padding-top:10px;margin-top:8px}
+ .deq-main{padding:22px clamp(14px,3vw,30px) 50px}
+ .deq-topbar{align-items:flex-start;flex-wrap:wrap}
+}
+@media(max-width:600px){
+ .deq-topbar{gap:12px;padding-bottom:18px}.deq-topbar h1{font-size:30px}
+ .deq-top-actions{width:100%;justify-content:space-between}
+ .deq-welcome{padding:20px;align-items:flex-start;flex-direction:column}
+ .deq-stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+ .deq-stats article{padding:14px}.deq-stats strong{font-size:27px}
+ .deq-ops-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+ .deq-ops-card{padding:14px}.deq-ops-card>strong{font-size:26px}
+ .deq-dashboard-lower{grid-template-columns:minmax(0,1fr)}
+ .deq-glass-panel{padding:16px;margin-top:14px}
+ .deq-panel-heading{align-items:flex-start}
+ .deq-product-tools{align-items:stretch;flex-direction:column}
+ .deq-product-list>article{grid-template-columns:54px minmax(0,1fr);gap:10px}
+ .deq-product-list>article .deq-status,.deq-product-list>article .deq-row-actions{grid-column:2}
+ .deq-order-row{grid-template-columns:minmax(0,1fr) auto}
+ .deq-order-row select{grid-column:1/-1;width:100%}
+ .deq-analytics{gap:12px}
+ .deq-analytics-toolbar{align-items:flex-start;flex-direction:column;margin-top:20px}
+ .deq-range-switch{width:100%}.deq-range-switch button{flex:1}
+ .deq-analytics-kpis{gap:9px}
+ .deq-analytics-kpis article{padding:14px}
+ .deq-analytics-kpis article>strong{font-size:25px;margin:12px 0 5px}
+ .deq-chart-wrap{height:245px}
+ .deq-status-chart{grid-template-columns:1fr}
+ .deq-status-chart .deq-chart-wrap{height:190px}
+ .deq-status-legend{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+ .deq-product-chart{height:250px}
+}
+@media(max-width:380px){
+ .deq-analytics-kpis{grid-template-columns:1fr 1fr}
+ .deq-analytics-kpis article>span{font-size:8px}
+ .deq-ops-card-top{font-size:8px}
+ .deq-sidebar nav button{font-size:10px;padding:9px}
+}
+@keyframes deq-hero-orbit{to{transform:translate(-50%,-50%) rotate(360deg)}}
+@keyframes deq-hero-glint{0%,100%{background-position:0 0,-120% 0}50%{background-position:0 0,120% 0}}
+@keyframes deq-product-shimmer{to{transform:translateX(100%)}}
+@media(prefers-reduced-motion:reduce){
+ .hero-visual:before,.hero-visual:after,.product-card:hover .product-image-wrap:after{animation:none}
+ .hero-bottle,.hero-note,.product-card,.product-image-wrap>img,.button,.text-link,.icon-button,.desktop-nav a,.mobile-menu nav a,.reveal,.site-footer a{transition:none;animation:none}
+ .reveal{opacity:1;transform:none}
+ .product-card:hover,.hero-note:hover,.icon-button:hover,.site-footer a:hover{transform:none}
+}
