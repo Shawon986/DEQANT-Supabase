@@ -29,7 +29,7 @@ export default function Product() {
   if (query.isLoading) return <PageShell><LoadingState /></PageShell>;
   if (query.error || !query.data) return <PageShell><ErrorState message={query.error?.message ?? "Fragrance not found."} /></PageShell>;
   const { product, variants } = query.data;
-  const selected = variants.find((v) => v.id === variantId) ?? variants[0];
+  const selected = variants.find((v: { id: number; price: number; originalPrice: number; stock: number; sizeMl: number }) => v.id === variantId) ?? variants[0];
   const discount = selected.originalPrice > selected.price ? Math.round((1 - selected.price / selected.originalPrice) * 100) : 0;
   const related = relatedQuery.data?.filter((entry: CatalogEntry) => entry.product.id !== product.id && entry.product.family === product.family).slice(0, 2) ?? [];
   return <PageShell>
