@@ -136,7 +136,24 @@ export default function Home() {
         <div className="hero-actions"><Link className="button button-ivory" to="/shop">Explore collection <ArrowRight /></Link><Link className="text-link light" to="/about">Discover DEQANT <ArrowRight /></Link></div>
         <div className="hero-proofline"><span>01 / 03</span><i /><span>SCENT IS A FORM OF MEMORY</span></div>
       </div>
-      <div className="hero-visual hero-visual-cinematic" aria-label="Rouge Amber eau de parfum">
+      <div
+        className="hero-visual hero-visual-cinematic"
+        aria-label="Rouge Amber eau de parfum"
+        onPointerMove={(event) => {
+          if (event.pointerType !== "mouse" || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+          const rect = event.currentTarget.getBoundingClientRect();
+          const x = (event.clientX - rect.left) / rect.width - 0.5;
+          const y = (event.clientY - rect.top) / rect.height - 0.5;
+          event.currentTarget.style.setProperty("--hero-shift-x", `${x * 15}px`);
+          event.currentTarget.style.setProperty("--hero-shift-y", `${y * 12}px`);
+          event.currentTarget.style.setProperty("--hero-tilt", `${x * 8}deg`);
+        }}
+        onPointerLeave={(event) => {
+          event.currentTarget.style.setProperty("--hero-shift-x", "0px");
+          event.currentTarget.style.setProperty("--hero-shift-y", "0px");
+          event.currentTarget.style.setProperty("--hero-tilt", "0deg");
+        }}
+      >
         <div className="hero-visual-grain" />
         <div className="hero-visual-glow" />
         <div className="hero-orbit hero-orbit-a" /><div className="hero-orbit hero-orbit-b" /><div className="hero-orbit hero-orbit-c" />
