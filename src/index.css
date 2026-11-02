@@ -319,3 +319,11 @@ h1,h2,h3,p{margin-top:0}h1,h2,h3{font-family:var(--serif);font-weight:300;line-h
 .tracking-cancel-button:disabled{opacity:.55;cursor:wait}
 .tracking-cancel-closed{margin-top:24px;padding:14px 16px;border:1px solid var(--line);background:rgba(206,201,189,.18)}
 @media(max-width:560px){.tracking-cancel-panel{align-items:stretch;flex-direction:column;padding:18px}.tracking-cancel-button{width:100%}}
+
+.account-cancel-row{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:16px;padding-top:14px;border-top:1px solid var(--line)}
+.account-cancel-row>span{display:flex;align-items:center;gap:7px;font-size:9px;opacity:.72}
+.account-cancel-row button{display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:40px;padding:0 13px;border:1px solid var(--brand-burgundy);background:var(--brand-burgundy);color:var(--brand-ivory);font-size:9px;cursor:pointer}
+.account-cancel-row button:disabled{opacity:.55;cursor:wait}
+.account-cancel-note,.account-cancel-error{font-size:10px;margin-top:13px;opacity:.7}
+.account-cancel-error{color:#a51e36;opacity:1}
+@media(max-width:560px){.account-cancel-row{align-items:stretch;flex-direction:column}.account-cancel-row button{width:100%}}
