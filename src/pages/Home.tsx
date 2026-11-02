@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState, type CSSProperties } from "react";
+import { useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
 import { Link } from "react-router";
 import { ArrowDown, ArrowRight, PackageCheck, ShieldCheck, Sparkles } from "lucide-react";
 import { PageShell, ProductCard, Reveal, LoadingState } from "@/components/Storefront";
@@ -10,6 +10,82 @@ const moods = [
   { name: "Floral", terms: "rose jasmine" }, { name: "Woody", terms: "oud sandalwood" },
   { name: "Spicy", terms: "saffron cinnamon" }, { name: "Musk", terms: "musk iris" },
 ];
+
+function ScrollBottleExperience() {
+  const sectionRef = useRef<HTMLElement>(null);
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reducedMotion) return;
+    let frame = 0;
+    const update = () => {
+      window.cancelAnimationFrame(frame);
+      frame = window.requestAnimationFrame(() => {
+        const rect = section.getBoundingClientRect();
+        const travel = Math.max(1, section.offsetHeight - window.innerHeight);
+        const progress = Math.max(0, Math.min(1, -rect.top / travel));
+        section.style.setProperty("--cap-y", `${-108 * progress}px`);
+        section.style.setProperty("--atomizer-y", `${-58 * progress}px`);
+        section.style.setProperty("--collar-y", `${-22 * progress}px`);
+        section.style.setProperty("--glass-y", `${72 * progress}px`);
+        section.style.setProperty("--juice-y", `${76 * progress}px`);
+        section.style.setProperty("--label-y", `${82 * progress}px`);
+        section.style.setProperty("--halo-scale", String(1 + progress * 0.24));
+        section.style.setProperty("--halo-opacity", String(0.34 + progress * 0.42));
+        section.style.setProperty("--explode-progress", progress.toFixed(3));
+      });
+    };
+    update();
+    window.addEventListener("scroll", update, { passive: true });
+    window.addEventListener("resize", update);
+    return () => {
+      window.cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", update);
+      window.removeEventListener("resize", update);
+    };
+  }, []);
+
+  return <section className="bottle-scroll-story" ref={sectionRef} aria-label="Interactive perfume bottle story">
+    <div className="bottle-scroll-sticky">
+      <div className="bottle-story-copy">
+        <p className="eyebrow">ENGINEERED TO BE REMEMBERED</p>
+        <h2>Beauty in<br/><em>every layer.</em></h2>
+        <p className="bottle-story-description">A fragrance is more than a bottle. Discover the details that come together to hold a signature scent.</p>
+        <div className="bottle-scroll-instruction"><span className="scroll-pulse" /><span>SCROLL TO EXPLORE</span><small>Scroll down to separate · Scroll up to restore</small></div>
+        <div className="bottle-progress-track"><span /></div>
+      </div>
+      <div className="bottle-exploded-stage">
+        <div className="bottle-stage-orbit orbit-one" /><div className="bottle-stage-orbit orbit-two" />
+        <div className="bottle-stage-caption"><span>DEQANT / OBJECT 001</span><span>EAU DE PARFUM</span></div>
+        <svg className="exploded-perfume" viewBox="0 0 420 620" role="img" aria-label="A perfume bottle separating into its cap, atomizer, collar, glass body, fragrance and label">
+          <defs>
+            <linearGradient id="deq-cap" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stopColor="#e8d4bd"/><stop offset=".42" stopColor="#9e796d"/><stop offset="1" stopColor="#39212a"/></linearGradient>
+            <linearGradient id="deq-glass" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stopColor="#f7e8d5" stopOpacity=".78"/><stop offset=".22" stopColor="#d6b49d" stopOpacity=".18"/><stop offset=".72" stopColor="#7c354b" stopOpacity=".36"/><stop offset="1" stopColor="#f3d9c3" stopOpacity=".68"/></linearGradient>
+            <linearGradient id="deq-liquid" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#d8a16d" stopOpacity=".68"/><stop offset="1" stopColor="#6c263b" stopOpacity=".94"/></linearGradient>
+            <linearGradient id="deq-metal" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stopColor="#5d3540"/><stop offset=".35" stopColor="#e7c9a7"/><stop offset=".62" stopColor="#a47b70"/><stop offset="1" stopColor="#3d202b"/></linearGradient>
+            <filter id="deq-bottle-shadow" x="-60%" y="-40%" width="220%" height="200%"><feGaussianBlur stdDeviation="13"/></filter>
+            <clipPath id="deq-bottle-clip"><path d="M145 250 Q145 222 172 210 L180 190 L240 190 L248 210 Q275 222 275 250 L290 282 L290 495 Q290 520 265 520 L155 520 Q130 520 130 495 L130 282 Z"/></clipPath>
+          </defs>
+          <ellipse cx="210" cy="548" rx="110" ry="18" fill="#000" opacity=".35" filter="url(#deq-bottle-shadow)"/>
+          <g className="bottle-part bottle-atomizer"><rect x="196" y="112" width="28" height="62" rx="5" fill="url(#deq-metal)"/><rect x="201" y="96" width="18" height="20" rx="4" fill="#d9c1a7"/><path d="M210 97 V80 H247" fill="none" stroke="#e7d4bf" strokeWidth="5" strokeLinecap="round"/><circle cx="249" cy="80" r="4" fill="#e7d4bf"/></g>
+          <g className="bottle-part bottle-cap"><rect x="165" y="25" width="90" height="72" rx="15" fill="url(#deq-cap)" stroke="#f1ddc8" strokeOpacity=".55"/><path d="M180 38 V83" stroke="#fff" strokeOpacity=".32" strokeWidth="3" strokeLinecap="round"/><path d="M242 40 V80" stroke="#180d12" strokeOpacity=".25" strokeWidth="3" strokeLinecap="round"/></g>
+          <g className="bottle-part bottle-collar"><rect x="174" y="177" width="72" height="24" rx="6" fill="url(#deq-metal)" stroke="#ead2b9" strokeOpacity=".6"/><path d="M181 184 H239" stroke="#fff" strokeOpacity=".35" strokeWidth="2"/></g>
+          <g className="bottle-part bottle-glass">
+            <path d="M145 250 Q145 222 172 210 L180 190 L240 190 L248 210 Q275 222 275 250 L290 282 L290 495 Q290 520 265 520 L155 520 Q130 520 130 495 L130 282 Z" fill="url(#deq-glass)" stroke="#f2dfcb" strokeWidth="3"/>
+            <path d="M145 268 Q145 242 170 230 L177 214" fill="none" stroke="#fff" strokeOpacity=".46" strokeWidth="6" strokeLinecap="round"/>
+            <path d="M274 286 V482" fill="none" stroke="#fff" strokeOpacity=".22" strokeWidth="4" strokeLinecap="round"/>
+            <path d="M135 495 Q210 508 285 495" fill="none" stroke="#f4dcc5" strokeOpacity=".38" strokeWidth="3"/>
+          </g>
+          <g className="bottle-part bottle-juice" clipPath="url(#deq-bottle-clip)"><path d="M132 345 Q210 333 288 345 V525 H132 Z" fill="url(#deq-liquid)"/><path d="M136 348 Q210 336 284 348" fill="none" stroke="#f8d6a6" strokeOpacity=".58" strokeWidth="3"/></g>
+          <g className="bottle-part bottle-label"><rect x="157" y="365" width="106" height="92" rx="3" fill="#3c1425" fillOpacity=".91" stroke="#d8b994" strokeWidth="1.5"/><path d="M168 377 H252" stroke="#d8b994" strokeOpacity=".7"/><text x="210" y="405" textAnchor="middle" fill="#f4e5d2" fontSize="17" letterSpacing="3" fontFamily="Georgia,serif">DEQANT</text><text x="210" y="425" textAnchor="middle" fill="#d8b994" fontSize="7" letterSpacing="2">FRAGRANCE</text><text x="210" y="442" textAnchor="middle" fill="#d8b994" fontSize="6" letterSpacing="1.5">EAU DE PARFUM</text></g>
+        </svg>
+        <div className="bottle-stage-footer"><span>01 — FORM</span><span>02 — ESSENCE</span><span>03 — SIGNATURE</span></div>
+        <div className="bottle-stage-number">01<span>/</span>03</div>
+      </div>
+    </div>
+  </section>;
+}
 
 function ScentFinder() {
   const [mood, setMood] = useState(moods[0]);
@@ -55,6 +131,8 @@ export default function Home() {
       </div>
       <a className="scroll-cue" href="#collection"><ArrowDown /><span>Scroll to discover</span></a>
     </section>
+
+    <ScrollBottleExperience />
 
     <div className="scent-marquee" aria-hidden="true"><div>EXTRAITS OF CHARACTER <Sparkles /> DECANTS, DONE BEAUTIFULLY <Sparkles /> YOUR SCENT, YOUR SIGNATURE <Sparkles /> EXTRAITS OF CHARACTER <Sparkles /> DECANTS, DONE BEAUTIFULLY <Sparkles /></div></div>
 
