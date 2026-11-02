@@ -119,6 +119,7 @@ export default function Home() {
   const { data: settings } = storeApi.store.settings.useQuery();
   const { data: catalogue, isLoading } = storeApi.store.catalog.useQuery({ sort: "featured" });
   const featured = useMemo(() => catalogue?.filter((entry: CatalogEntry) => entry.product.featured).slice(0, 4) ?? [], [catalogue]);
+  const bottleDrag = useRef<{ pointerId: number; startX: number; startRotation: number } | null>(null);
   const [typed, setTyped] = useState("");
   useEffect(() => {
     const line = "EAU DE PARFUM · DHAKA · 2026";
@@ -168,8 +169,40 @@ export default function Home() {
         <div className="hero-orbit-text">DEQANT · OLFACTORY EDITIONS · DHAKA ·</div>
         <div className="hero-bottle-stage">
           <div className="hero-bottle-aura" />
-          <img className="hero-bottle" src="/products/rouge-amber.svg" alt="Rouge Amber perfume bottle in burgundy light" width="900" height="1100" fetchPriority="high" />
+          <img
+            className="hero-bottle"
+            src="/products/rouge-amber.svg"
+            alt="Rouge Amber perfume bottle in burgundy light. Drag left or right to rotate the bottle."
+            width="900"
+            height="1100"
+            fetchPriority="high"
+            draggable={false}
+            onPointerDown={(event) => {
+              if (!event.isPrimary) return;
+              const current = Number.parseFloat(event.currentTarget.style.getPropertyValue("--hero-spin")) || 0;
+              bottleDrag.current = { pointerId: event.pointerId, startX: event.clientX, startRotation: current };
+              event.currentTarget.setPointerCapture(event.pointerId);
+              event.currentTarget.classList.add("is-dragging");
+            }}
+            onPointerMove={(event) => {
+              const drag = bottleDrag.current;
+              if (!drag || drag.pointerId !== event.pointerId) return;
+              const rotation = Math.max(-48, Math.min(48, drag.startRotation + (event.clientX - drag.startX) * 0.7));
+              event.currentTarget.style.setProperty("--hero-spin", `${rotation}deg`);
+            }}
+            onPointerUp={(event) => {
+              if (bottleDrag.current?.pointerId !== event.pointerId) return;
+              bottleDrag.current = null;
+              event.currentTarget.classList.remove("is-dragging");
+              if (event.currentTarget.hasPointerCapture(event.pointerId)) event.currentTarget.releasePointerCapture(event.pointerId);
+            }}
+            onPointerCancel={(event) => {
+              bottleDrag.current = null;
+              event.currentTarget.classList.remove("is-dragging");
+            }}
+          />
           <div className="hero-bottle-reflection" />
+          <div className="hero-rotate-hint" aria-hidden="true"><span>↔</span> DRAG TO ROTATE</div>
           <div className="hero-pedestal"><span>DEQANT</span><small>OBJECT Nº 001</small></div>
         </div>
         <div className="hero-note glass hero-note-primary"><span><i /> THE OPENING</span><strong>Saffron / Almond</strong><small>Bright. Textural. Unexpected.</small></div>
