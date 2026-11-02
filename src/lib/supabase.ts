@@ -33,6 +33,7 @@ export async function updateCart(token:string,itemId:number,quantity:number){ret
 export async function removeCart(token:string,itemId:number){return await api("/rest/v1/rpc/cart_remove",{method:"POST",body:JSON.stringify({p_token:token,p_item_id:itemId})},false);}
 export async function checkout(i:any){return await api("/rest/v1/rpc/place_order",{method:"POST",body:JSON.stringify({p_token:i.token,p_idempotency_key:i.idempotencyKey,p_customer_name:i.customerName,p_phone:i.phone,p_email:i.email||null,p_district:i.district,p_area:i.area,p_address:i.address,p_instructions:i.instructions||null,p_zone_id:i.deliveryZoneId})},true);}
 export async function trackOrder(i:{orderNumber:string;phone:string}){return await api("/rest/v1/rpc/track_order",{method:"POST",body:JSON.stringify({p_order_number:i.orderNumber,p_phone:i.phone})},false);}
+export async function cancelOrder(i:{orderNumber:string;phone:string}){return await api("/rest/v1/rpc/cancel_order",{method:"POST",body:JSON.stringify({p_order_number:i.orderNumber,p_phone:i.phone})},false);}
 export async function orderByPhone(i:{orderNumber:string;phone:string}){return await api("/rest/v1/rpc/order_by_phone",{method:"POST",body:JSON.stringify({p_order_number:i.orderNumber,p_phone:i.phone})},false);}
 export async function sendContact(i:{name:string;email:string;message:string}){return await api("/rest/v1/rpc/submit_contact",{method:"POST",body:JSON.stringify({p_name:i.name,p_email:i.email,p_message:i.message})},false);}
 
