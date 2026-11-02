@@ -668,3 +668,110 @@ h1,h2,h3,p{margin-top:0}h1,h2,h3{font-family:var(--serif);font-weight:300;line-h
 }
 
 /* Build trigger: refined DEQANT hero motion release */
+
+
+/* DEQANT hero finish: no bottle dragging, animated atomizer mist and champagne glints */
+.hero-bottle {
+  cursor: default !important;
+  touch-action: auto;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+.hero-bottle.is-dragging { animation-play-state: running; scale: 1; }
+.hero-rotate-hint { display: none !important; }
+.hero-pedestal { display: none !important; }
+.hero-bottle-reflection { opacity: .38; filter: blur(30px); }
+
+.hero-perfume-spray {
+  position: absolute;
+  z-index: 5;
+  left: 53%;
+  top: 15.5%;
+  width: clamp(105px, 15vw, 190px);
+  height: clamp(80px, 11vw, 132px);
+  transform: rotate(-23deg);
+  transform-origin: 0 50%;
+  pointer-events: none;
+  overflow: visible;
+}
+.hero-perfume-spray .spray-cloud {
+  position: absolute;
+  left: 0;
+  top: 30%;
+  width: 100%;
+  height: 58%;
+  border-radius: 50%;
+  background:
+    radial-gradient(ellipse at 5% 50%,rgba(255,231,201,.58),transparent 18%),
+    radial-gradient(ellipse at 30% 45%,rgba(255,224,192,.24),transparent 42%),
+    radial-gradient(ellipse at 65% 50%,rgba(255,225,198,.13),transparent 65%);
+  filter: blur(9px);
+  transform-origin: left center;
+  animation: deq-spray-breath 3.6s ease-in-out infinite;
+}
+.hero-perfume-spray i {
+  position: absolute;
+  left: 5%;
+  top: 48%;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: #f8dfc2;
+  box-shadow: 0 0 8px 2px rgba(255,225,190,.72);
+  opacity: 0;
+  animation: deq-spray-drift 2.3s ease-out infinite;
+}
+.hero-perfume-spray i:nth-of-type(1){--sx:40px;--sy:-22px;animation-delay:0s}
+.hero-perfume-spray i:nth-of-type(2){--sx:66px;--sy:13px;animation-delay:.25s}
+.hero-perfume-spray i:nth-of-type(3){--sx:88px;--sy:-10px;animation-delay:.5s}
+.hero-perfume-spray i:nth-of-type(4){--sx:112px;--sy:23px;animation-delay:.75s}
+.hero-perfume-spray i:nth-of-type(5){--sx:132px;--sy:-25px;animation-delay:1s}
+.hero-perfume-spray i:nth-of-type(6){--sx:56px;--sy:32px;animation-delay:1.25s}
+.hero-perfume-spray i:nth-of-type(7){--sx:102px;--sy:-34px;animation-delay:1.5s}
+.hero-perfume-spray i:nth-of-type(8){--sx:148px;--sy:7px;animation-delay:1.75s}
+.hero-perfume-spray i:nth-of-type(9){--sx:75px;--sy:-40px;animation-delay:2s}
+.hero-perfume-spray i:nth-of-type(10){--sx:122px;--sy:35px;animation-delay:2.2s}
+@keyframes deq-spray-breath {
+  0%,100% { opacity:.35; scale:.72 .8; filter:blur(11px); }
+  45%,65% { opacity:.95; scale:1.08 1; filter:blur(7px); }
+}
+@keyframes deq-spray-drift {
+  0% { transform:translate3d(0,0,0) scale(.45); opacity:0; }
+  18% { opacity:.9; }
+  100% { transform:translate3d(var(--sx),var(--sy),0) scale(.1); opacity:0; }
+}
+.hero-spark-lights {
+  position:absolute;
+  z-index:4;
+  inset:8% 7% 13%;
+  pointer-events:none;
+}
+.hero-spark-lights i {
+  position:absolute;
+  width:4px;
+  height:4px;
+  border-radius:50%;
+  background:#ffe6c9;
+  box-shadow:0 0 7px 2px rgba(255,220,179,.72),0 0 19px 5px rgba(225,176,133,.3);
+  opacity:.15;
+  animation:deq-bottle-glint 3.8s ease-in-out infinite;
+}
+.hero-spark-lights i:nth-child(1){left:21%;top:32%;animation-delay:-.4s}
+.hero-spark-lights i:nth-child(2){left:76%;top:24%;animation-delay:-2.1s}
+.hero-spark-lights i:nth-child(3){left:15%;top:66%;animation-delay:-1.3s}
+.hero-spark-lights i:nth-child(4){left:84%;top:62%;animation-delay:-2.8s}
+.hero-spark-lights i:nth-child(5){left:34%;top:12%;animation-delay:-1.8s}
+.hero-spark-lights i:nth-child(6){left:68%;top:83%;animation-delay:-.9s}
+@keyframes deq-bottle-glint {
+  0%,100% { opacity:.08; scale:.55; }
+  35% { opacity:.95; scale:1.45; }
+  52% { opacity:.25; scale:.8; }
+}
+@media(max-width:760px) {
+  .hero-perfume-spray { left:54%;top:16%;width:116px;height:90px; }
+  .hero-spark-lights { inset:9% 4% 12%; }
+}
+@media(prefers-reduced-motion:reduce) {
+  .hero-perfume-spray .spray-cloud,.hero-perfume-spray i,.hero-spark-lights i { animation:none!important; }
+  .hero-perfume-spray .spray-cloud { opacity:.45; }
+}
