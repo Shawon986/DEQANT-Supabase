@@ -7,7 +7,7 @@ function query(name:string,fn:(input:any)=>Promise<any>){return {useQuery:(input
 function mutation(fn:(input:any)=>Promise<any>,invalidate:string[]=[]){return {useMutation:(options:any={})=>{const qc=useQueryClient();return useMutation({mutationFn:fn,onSuccess:async(data,vars,ctx)=>{for(const n of invalidate)await qc.invalidateQueries({queryKey:["supabase",n]});await options.onSuccess?.(data,vars,ctx);},onError:options.onError});}};}
 export const storeApi:any={
  useUtils:()=>{const qc=useQueryClient();return{store:{cart:{invalidate:()=>qc.invalidateQueries({queryKey:["supabase","cart"]})},catalog:{invalidate:()=>qc.invalidateQueries({queryKey:["supabase","catalog"]})}},invalidate:()=>qc.invalidateQueries()};},
- auth:{me:query("profile",()=>db.getProfile()),logout:mutation(()=>db.signOut())},
+ auth:{me:query("profile",()=>db.getProfile()),orders:query("my-orders",()=>db.listMyOrders()),logout:mutation(()=>db.signOut(),["profile","my-orders"])},
  store:{
   catalog:query("catalog",(i)=>db.catalog(i)),product:query("product",(i)=>db.productBySlug(i.slug)),settings:query("settings",()=>db.settings()),zones:query("zones",()=>db.zones()),cart:query("cart",(i)=>db.getCart(i?.token??null)),
   addToCart:mutation((i)=>db.addCart(i.token,i.variantId,i.quantity),["cart"]),updateCartItem:mutation((i)=>db.updateCart(i.token,i.itemId,i.quantity),["cart"]),removeCartItem:mutation((i)=>db.removeCart(i.token,i.itemId),["cart"]),
