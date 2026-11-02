@@ -9,7 +9,7 @@ Luxury perfume storefront for DEQANT, retaining the original storefront design, 
 - PostgreSQL Row Level Security and security-definer checkout/cart functions
 - Vercel static deployment with SPA rewrites and security headers
 
-## Features
+## Features & Functions
 
 - Existing DEQANT storefront, responsive product cards, collection pages, product details, search and filters
 - Customer registration, sign-in and sign-out; admin role is granted only by an owner in Supabase SQL
