@@ -619,3 +619,73 @@ h1,h2,h3,p{margin-top:0}h1,h2,h3{font-family:var(--serif);font-weight:300;line-h
   .hero-rotate-hint{animation:none}
   .hero-bottle{animation:none}
 }
+
+
+/* DEQANT hero: continuous turntable spin + tactile interaction polish */
+@property --hero-auto-spin {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+.hero-visual-cinematic {
+  perspective: 1400px;
+}
+.hero-bottle {
+  --hero-auto-spin: 0deg;
+  transform-origin: 50% 50%;
+  backface-visibility: visible;
+  transition:
+    filter 900ms cubic-bezier(.2,.75,.25,1),
+    scale 900ms cubic-bezier(.2,.75,.25,1);
+  animation:
+    deq-bottle-levitate 7s ease-in-out infinite,
+    deq-bottle-full-turn 22s linear infinite;
+}
+@keyframes deq-bottle-full-turn {
+  from { --hero-auto-spin: 0deg; }
+  to { --hero-auto-spin: 360deg; }
+}
+@keyframes deq-bottle-levitate {
+  0%,100% {
+    transform:
+      translate3d(var(--hero-shift-x,0px),calc(var(--hero-shift-y,0px) - 7px),0)
+      rotateY(calc(var(--hero-tilt,0deg) + var(--hero-spin,0deg) + var(--hero-auto-spin,0deg)))
+      rotateZ(-1deg);
+  }
+  50% {
+    transform:
+      translate3d(var(--hero-shift-x,0px),calc(var(--hero-shift-y,0px) + 9px),0)
+      rotateY(calc(var(--hero-tilt,0deg) + var(--hero-spin,0deg) + var(--hero-auto-spin,0deg)))
+      rotateZ(1deg);
+  }
+}
+.hero-visual-cinematic:hover .hero-bottle {
+  scale: 1.035;
+  filter: drop-shadow(0 58px 46px rgba(0,0,0,.58)) saturate(1.1) brightness(1.035);
+}
+.hero-bottle.is-dragging {
+  animation-play-state: paused, paused;
+  transition-duration: 180ms, 180ms;
+  scale: 1.045;
+}
+.hero-bottle.is-dragging,
+.hero-bottle:active {
+  filter: drop-shadow(0 62px 48px rgba(0,0,0,.62)) saturate(1.14) brightness(1.04);
+}
+@media (max-width:760px) {
+  .hero-bottle {
+    animation-duration: 7s, 26s;
+  }
+  .hero-visual-cinematic .hero-bottle {
+    transition-duration: 700ms, 700ms;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-bottle {
+    animation: none !important;
+    --hero-auto-spin: 0deg;
+  }
+  .hero-visual-cinematic:hover .hero-bottle {
+    scale: 1;
+  }
+}
