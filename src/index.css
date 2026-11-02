@@ -621,71 +621,48 @@ h1,h2,h3,p{margin-top:0}h1,h2,h3{font-family:var(--serif);font-weight:300;line-h
 }
 
 
-/* DEQANT hero: continuous turntable spin + tactile interaction polish */
-@property --hero-auto-spin {
-  syntax: "<angle>";
-  inherits: false;
-  initial-value: 0deg;
-}
-.hero-visual-cinematic {
-  perspective: 1400px;
-}
+/* DEQANT hero: restrained editorial motion and silky tactile response */
+.hero-visual-cinematic { perspective: 1400px; }
 .hero-bottle {
-  --hero-auto-spin: 0deg;
-  transform-origin: 50% 50%;
-  backface-visibility: visible;
+  transform-origin: 50% 55%;
+  backface-visibility: hidden;
+  animation: deq-bottle-levitate 8.5s cubic-bezier(.42,0,.58,1) infinite;
   transition:
-    filter 900ms cubic-bezier(.2,.75,.25,1),
-    scale 900ms cubic-bezier(.2,.75,.25,1);
-  animation:
-    deq-bottle-levitate 7s ease-in-out infinite,
-    deq-bottle-full-turn 22s linear infinite;
-}
-@keyframes deq-bottle-full-turn {
-  from { --hero-auto-spin: 0deg; }
-  to { --hero-auto-spin: 360deg; }
+    filter 850ms cubic-bezier(.2,.75,.25,1),
+    scale 850ms cubic-bezier(.2,.75,.25,1);
 }
 @keyframes deq-bottle-levitate {
   0%,100% {
     transform:
-      translate3d(var(--hero-shift-x,0px),calc(var(--hero-shift-y,0px) - 7px),0)
-      rotateY(calc(var(--hero-tilt,0deg) + var(--hero-spin,0deg) + var(--hero-auto-spin,0deg)))
-      rotateZ(-1deg);
+      translate3d(var(--hero-shift-x,0px),calc(var(--hero-shift-y,0px) - 6px),0)
+      rotateY(calc(var(--hero-tilt,0deg) + var(--hero-spin,0deg)))
+      rotateZ(-.65deg);
   }
   50% {
     transform:
-      translate3d(var(--hero-shift-x,0px),calc(var(--hero-shift-y,0px) + 9px),0)
-      rotateY(calc(var(--hero-tilt,0deg) + var(--hero-spin,0deg) + var(--hero-auto-spin,0deg)))
-      rotateZ(1deg);
+      translate3d(var(--hero-shift-x,0px),calc(var(--hero-shift-y,0px) + 7px),0)
+      rotateY(calc(var(--hero-tilt,0deg) + var(--hero-spin,0deg)))
+      rotateZ(.65deg);
   }
 }
 .hero-visual-cinematic:hover .hero-bottle {
-  scale: 1.035;
-  filter: drop-shadow(0 58px 46px rgba(0,0,0,.58)) saturate(1.1) brightness(1.035);
+  scale: 1.018;
+  filter: drop-shadow(0 52px 40px rgba(0,0,0,.55)) saturate(1.045) brightness(1.02);
 }
 .hero-bottle.is-dragging {
-  animation-play-state: paused, paused;
+  animation-play-state: paused;
   transition-duration: 180ms, 180ms;
-  scale: 1.045;
+  scale: 1.025;
 }
 .hero-bottle.is-dragging,
 .hero-bottle:active {
-  filter: drop-shadow(0 62px 48px rgba(0,0,0,.62)) saturate(1.14) brightness(1.04);
+  filter: drop-shadow(0 56px 44px rgba(0,0,0,.58)) saturate(1.08) brightness(1.025);
 }
 @media (max-width:760px) {
-  .hero-bottle {
-    animation-duration: 7s, 26s;
-  }
-  .hero-visual-cinematic .hero-bottle {
-    transition-duration: 700ms, 700ms;
-  }
+  .hero-bottle { animation-duration: 8.5s; }
+  .hero-visual-cinematic .hero-bottle { transition-duration: 700ms, 700ms; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .hero-bottle {
-    animation: none !important;
-    --hero-auto-spin: 0deg;
-  }
-  .hero-visual-cinematic:hover .hero-bottle {
-    scale: 1;
-  }
+  .hero-bottle { animation: none !important; }
+  .hero-visual-cinematic:hover .hero-bottle { scale: 1; }
 }
