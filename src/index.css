@@ -383,7 +383,7 @@ h1,h2,h3,p{margin-top:0}h1,h2,h3{font-family:var(--serif);font-weight:300;line-h
 @keyframes deq-reflection{0%,100%{opacity:.45;scale:.88 1}50%{opacity:.9;scale:1.08 1}}
 @keyframes deq-kicker-pulse{50%{opacity:.45;box-shadow:0 0 4px rgba(217,185,149,.5)}}
 @media(min-width:761px){
- .hero-cinematic{grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);min-height:min(850px,calc(100svh - var(--header-height,82px))}
+ .hero-cinematic{grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);min-height:min(850px,calc(100svh - var(--header-height,82px)))}
  .hero-cinematic .hero-copy{padding-top:clamp(70px,11vh,130px);padding-bottom:clamp(70px,11vh,130px);padding-left:clamp(34px,6vw,90px)}
  .hero-cinematic h1{font-size:clamp(76px,8vw,130px);width:130%;line-height:.79;letter-spacing:-.065em}
  .hero-cinematic .hero-description{max-width:34ch}
