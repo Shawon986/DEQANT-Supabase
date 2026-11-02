@@ -147,14 +147,20 @@ export default function Home() {
           event.currentTarget.style.setProperty("--hero-shift-x", `${x * 15}px`);
           event.currentTarget.style.setProperty("--hero-shift-y", `${y * 12}px`);
           event.currentTarget.style.setProperty("--hero-tilt", `${x * 8}deg`);
+          event.currentTarget.style.setProperty("--hero-pointer-x", `${(x + 0.5) * 100}%`);
+          event.currentTarget.style.setProperty("--hero-pointer-y", `${(y + 0.5) * 100}%`);
         }}
         onPointerLeave={(event) => {
           event.currentTarget.style.setProperty("--hero-shift-x", "0px");
           event.currentTarget.style.setProperty("--hero-shift-y", "0px");
           event.currentTarget.style.setProperty("--hero-tilt", "0deg");
+          event.currentTarget.style.setProperty("--hero-pointer-x", "50%");
+          event.currentTarget.style.setProperty("--hero-pointer-y", "45%");
         }}
       >
         <div className="hero-visual-grain" />
+        <div className="hero-aurora-layer" aria-hidden="true" />
+        <div className="hero-scanline" aria-hidden="true" />
         <div className="hero-visual-glow" />
         <div className="hero-orbit hero-orbit-a" /><div className="hero-orbit hero-orbit-b" /><div className="hero-orbit hero-orbit-c" />
         <div className="hero-light-beam" />
