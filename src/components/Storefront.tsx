@@ -29,6 +29,8 @@ export function Header() {
   const { cart } = useCart();
   const location = useLocation();
   const { data: settings } = storeApi.store.settings.useQuery();
+  const { data: profile } = storeApi.auth.me.useQuery();
+  const accountPath = profile?.role === "admin" ? "/admin" : profile ? "/account" : "/login";
   useEffect(() => setOpen(false), [location.pathname]);
   useEffect(() => {
     const close = (event: KeyboardEvent) => event.key === "Escape" && setOpen(false);
@@ -45,7 +47,7 @@ export function Header() {
       </nav>
       <div className="header-actions">
         <Link className="icon-button desktop-only" to="/shop?focus=search" aria-label="Search perfumes"><Search size={19} /></Link>
-        <Link className="icon-button" to="/login" aria-label="Customer account"><UserRound size={19}/></Link>
+        <Link className={`icon-button account-trigger${profile ? " account-trigger-signed-in" : ""}`} to={accountPath} aria-label={profile ? `Account: ${profile.full_name || profile.email || "signed in"}` : "Sign in or create an account"} title={profile?.full_name || profile?.email || "Your account"}>{profile?.full_name ? <span className="account-trigger-name">{profile.full_name.split(" ")[0]}</span> : null}<UserRound size={19}/></Link>
         <Link className="icon-button cart-link" to="/cart" aria-label={`Shopping bag with ${cart?.count ?? 0} items`}><ShoppingBag size={20} /><span>{cart?.count ?? 0}</span></Link>
         <button className="icon-button mobile-menu-button" onClick={() => setOpen(true)} aria-label="Open menu" aria-expanded={open}><Menu size={22} /></button>
       </div>
@@ -54,7 +56,7 @@ export function Header() {
       <button className="icon-button menu-close" onClick={() => setOpen(false)} aria-label="Close menu"><X /></button>
       <Logo />
       <nav>
-        {[["/shop", "All perfumes"], ["/decants", "Decants"], ["/intact", "Intact bottles"], ["/best-sellers", "Best sellers"], ["/offers", "Special offers"], ["/track", "Track an order"], ["/about", "Our story"], ["/contact", "Contact"], ["/login", "Your account"]].map(([to, label], index) => <NavLink key={to} to={to}><span>0{index + 1}</span>{label}<ArrowRight /></NavLink>)}
+        {[["/shop", "All perfumes"], ["/decants", "Decants"], ["/intact", "Intact bottles"], ["/best-sellers", "Best sellers"], ["/offers", "Special offers"], ["/track", "Track an order"], ["/about", "Our story"], ["/contact", "Contact"], [profile ? accountPath : "/login", profile ? "Your account" : "Sign in"]].map(([to, label], index) => <NavLink key={to} to={to}><span>0{index + 1}</span>{label}<ArrowRight /></NavLink>)}
       </nav>
       <p>Fragrance, chosen with intention.<br />Delivered across Bangladesh.</p>
     </div>}

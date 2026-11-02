@@ -10,6 +10,7 @@ import Track from "./pages/Track";
 import { About, Contact, PolicyPage } from "./pages/Info";
 import Admin from "./pages/Admin";
 import Login from "./pages/Login";
+import Account from "./pages/Account";
 import NotFound from "./pages/NotFound";
 
 function Experience() {
@@ -18,7 +19,7 @@ function Experience() {
   useEffect(() => { const timer = window.setTimeout(() => setLoading(false), 650); return () => window.clearTimeout(timer); }, []);
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "instant" });
-    const names: Record<string, string> = { "/shop": "All perfumes", "/decants": "Perfume decants", "/intact": "Intact bottles", "/best-sellers": "Best sellers", "/offers": "Special offers", "/cart": "Shopping bag", "/checkout": "Checkout", "/track": "Track your order", "/about": "Our story", "/contact": "Concierge", "/privacy": "Privacy policy", "/terms": "Terms & conditions", "/delivery-policy": "Delivery & returns", "/admin": "Owner portal", "/login": "Owner sign in" };
+    const names: Record<string, string> = { "/shop": "All perfumes", "/decants": "Perfume decants", "/intact": "Intact bottles", "/best-sellers": "Best sellers", "/offers": "Special offers", "/cart": "Shopping bag", "/checkout": "Checkout", "/track": "Track your order", "/about": "Our story", "/contact": "Concierge", "/privacy": "Privacy policy", "/terms": "Terms & conditions", "/delivery-policy": "Delivery & returns", "/admin": "Owner portal", "/login": "Owner sign in", "/account": "Your account" };
     document.title = `${names[location.pathname] ?? (location.pathname === "/" ? "Your scent. Your signature." : "DEQANT Fragrance")} — DEQANT`;
   }, [location.pathname]);
   useEffect(() => {
@@ -52,6 +53,7 @@ function Experience() {
       <Route path="/delivery-policy" element={<PolicyPage type="delivery" />} />
       <Route path="/admin" element={<Admin />} />
       <Route path="/login" element={<Login />} />
+      <Route path="/account" element={<Account />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
     <Toaster position="bottom-center" toastOptions={{ className: "deqant-toast" }} />

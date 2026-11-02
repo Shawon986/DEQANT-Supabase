@@ -1,0 +1,42 @@
+import { useEffect } from "react";
+import { Link, useNavigate } from "react-router";
+import { ArrowRight, LogOut, Package, ShieldCheck, ShoppingBag, UserRound } from "lucide-react";
+import { LoadingState, money, PageShell } from "@/components/Storefront";
+import { signOut } from "@/lib/supabase";
+import { storeApi } from "@/providers/store";
+
+type AccountOrder = {
+  id: number; order_number: string; customer_name: string; phone: string;
+  district: string; area: string; subtotal: number; delivery_fee: number;
+  total: number; payment_method: string; status: string; created_at: string;
+  order_items?: Array<{ id: number; product_name: string; size_ml: number; quantity: number; line_total: number }>;
+};
+
+export default function Account() {
+  const navigate = useNavigate();
+  const queryClient = storeApi.useUtils();
+  const profileQuery = storeApi.auth.me.useQuery();
+  const profile = profileQuery.data;
+  const ordersQuery = storeApi.auth.orders.useQuery(undefined, { enabled: Boolean(profile), retry: false });
+  useEffect(() => {
+    if (!profileQuery.isLoading && !profileQuery.error && !profile) navigate("/login?next=%2Faccount", { replace: true });
+  }, [profile, profileQuery.isLoading, profileQuery.error, navigate]);
+  const logout = async () => {
+    await signOut();
+    await queryClient.invalidate();
+    navigate("/", { replace: true });
+  };
+  if (profileQuery.isLoading || (!profile && !profileQuery.error)) return <PageShell><LoadingState label="Opening your DEQANT account…" /></PageShell>;
+  if (profileQuery.error) return <PageShell><section className="account-page"><div className="account-empty"><h1>We couldn’t verify your session.</h1><p>Please sign in again to securely access your account.</p><Link className="button button-burgundy" to="/login">Sign in</Link></div></section></PageShell>;
+  if (!profile) return null;
+  const orders = (ordersQuery.data ?? []) as AccountOrder[];
+  return <PageShell>
+    <section className="account-page">
+      <div className="account-heading"><div><p>YOUR PRIVATE SPACE</p><h1>Welcome back,<br/><em>{profile.full_name || "Fragrance lover"}.</em></h1><span>Your DEQANT account and order history, together in one place.</span></div><button className="account-signout" onClick={() => void logout()}><LogOut size={16}/> Sign out</button></div>
+      <div className="account-profile-card"><span className="account-avatar"><UserRound/></span><div><small>ACCOUNT HOLDER</small><strong>{profile.full_name || "DEQANT customer"}</strong><span>{profile.email}</span></div><ShieldCheck className="account-verified" size={22}/></div>
+      <div className="account-orders-heading"><div><p>YOUR PURCHASES</p><h2>Order history</h2></div><Link to="/track">Track an order <ArrowRight size={15}/></Link></div>
+      {ordersQuery.isLoading ? <LoadingState label="Retrieving your orders…"/> : ordersQuery.error ? <div className="account-empty"><p>We couldn’t load your order history. Your orders remain safe—please try again.</p><button className="button button-burgundy" onClick={() => void ordersQuery.refetch()}>Try again</button></div> : orders.length ? <div className="account-order-list">{orders.map(order => <article key={order.id}><div className="account-order-top"><div><small>ORDER REFERENCE</small><strong>{order.order_number}</strong><span>{new Date(order.created_at).toLocaleDateString(undefined,{year:"numeric",month:"long",day:"numeric"})}</span></div><span className={`account-order-status status-${order.status}`}>{order.status}</span></div><div className="account-order-items">{(order.order_items ?? []).map(item => <div key={item.id}><span>{item.product_name} · {item.size_ml}ml × {item.quantity}</span><strong>{money(item.line_total)}</strong></div>)}</div><div className="account-order-bottom"><span>{order.area}, {order.district} · Cash on delivery</span><strong>{money(order.total)}</strong></div></article>)}</div> : <div className="account-empty"><Package size={28}/><h3>Your fragrance story starts here.</h3><p>Orders placed while signed in will appear here. You can also place an order as a guest without creating an account.</p><Link className="button button-burgundy" to="/shop"><ShoppingBag size={16}/> Explore fragrances</Link></div>}
+      <div className="account-guest-note"><strong>Prefer checkout without an account?</strong><span>Guest checkout is always available. Just add your fragrance to the bag and continue to checkout.</span><Link to="/shop">Continue as guest <ArrowRight size={14}/></Link></div>
+    </section>
+  </PageShell>;
+}
