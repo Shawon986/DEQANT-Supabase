@@ -864,3 +864,5 @@ h1,h2,h3,p{margin-top:0}h1,h2,h3{font-family:var(--serif);font-weight:300;line-h
   .deq-catalog-preview .deq-product-list>article { min-width:0; }
   .deq-catalog-preview .deq-product-name { min-width:0;overflow-wrap:anywhere; }
 }
+
+/* Production release trigger: include the complete DEQANT dashboard and motion refinement. */
