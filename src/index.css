@@ -1624,3 +1624,9 @@ img,svg,video,canvas { max-width:100%; }
   .deq-row-actions { flex-wrap:wrap; }
   .deq-row-actions button { min-height:36px; }
 }
+
+
+/* Dashboard metric tiles are complete keyboard- and pointer-accessible shortcuts. */
+.deq-stats .deq-stat-link { cursor:pointer;transition:transform .22s,border-color .22s,background .22s; }
+.deq-stats .deq-stat-link:hover { transform:translateY(-3px);border-color:rgba(226,190,164,.4);background:rgba(255,255,255,.085); }
+.deq-stats .deq-stat-link:focus-visible { outline:2px solid #e2bea4;outline-offset:3px; }
