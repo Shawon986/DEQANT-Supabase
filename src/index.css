@@ -1731,3 +1731,71 @@ img,svg,video,canvas { max-width:100%; }
   .bottle-scroll-story { height: auto !important; }
   .bottle-scroll-sticky { height: auto !important; min-height: 0 !important; }
 }
+
+
+/* Final bottle-scroll correction: normal page scrolling, a stable viewport stage,
+   and enough desktop runway to complete the separation before the section ends. */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 24px;
+}
+body {
+  overflow-x: clip;
+}
+.bottle-scroll-story {
+  height: 190vh !important;
+  min-height: 0 !important;
+  overflow: clip;
+  content-visibility: visible !important;
+  contain: layout style;
+}
+.bottle-scroll-sticky {
+  position: sticky !important;
+  top: 0 !important;
+  height: 100svh !important;
+  min-height: 100svh !important;
+  padding-block: clamp(18px, 3vh, 34px);
+  contain: none !important;
+}
+.bottle-part {
+  will-change: auto !important;
+  backface-visibility: hidden;
+}
+.bottle-scroll-story.is-active .bottle-part {
+  will-change: transform !important;
+}
+@media (max-width: 760px) {
+  /* Preserve the previous mobile scroll timing; only remove frame-lag. */
+  .bottle-scroll-story {
+    height: 114svh !important;
+  }
+  .bottle-scroll-sticky {
+    position: sticky !important;
+    top: 0 !important;
+    height: 100svh !important;
+    min-height: 100svh !important;
+    padding: 18px 0 12px;
+  }
+}
+@media (max-width: 420px) {
+  .bottle-scroll-story {
+    height: 112svh !important;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .bottle-scroll-story {
+    height: auto !important;
+    content-visibility: visible;
+  }
+  .bottle-scroll-sticky {
+    position: relative !important;
+    top: auto !important;
+    height: auto !important;
+    min-height: 0 !important;
+  }
+  .bottle-part {
+    transform: none !important;
+    will-change: auto !important;
+  }
+}
