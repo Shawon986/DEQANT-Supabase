@@ -20,17 +20,17 @@ function ScrollBottleExperience() {
     if (reducedMotion) return;
     let frame = 0;
     let isVisible = false;
-    const update = () => {
-      if (!isVisible || frame) return;
-      frame = window.requestAnimationFrame(() => {
-        frame = 0;
-        const rect = section.getBoundingClientRect();
-        const travel = Math.max(1, section.offsetHeight - window.innerHeight);
-        const raw = Math.max(0, Math.min(1, -rect.top / travel));
-        // Keep the bottle directly tied to the user's scroll position. No smoothing,
-        // snapping or sticky scroll interception: the page remains free to move naturally.
-        const progress = raw;
-        section.style.setProperty("--cap-y", `${-220 * progress}px`);
+    let targetProgress = 0;
+    let displayedProgress = 0;
+    const renderFrame = () => {
+      frame = 0;
+      if (!isVisible) return;
+      // Ease toward the latest scroll position over successive frames. This removes
+      // wheel/touch input stepping while keeping the animation fully scroll-controlled.
+      displayedProgress += (targetProgress - displayedProgress) * 0.18;
+      if (Math.abs(targetProgress - displayedProgress) < 0.001) displayedProgress = targetProgress;
+      const progress = displayedProgress;
+      section.style.setProperty("--cap-y", `${-220 * progress}px`);
         section.style.setProperty("--cap-x", `${-20 * progress}px`);
         section.style.setProperty("--cap-rotate", `${-17 * progress}deg`);
         section.style.setProperty("--atomizer-y", `${-158 * progress}px`);
@@ -45,14 +45,35 @@ function ScrollBottleExperience() {
         section.style.setProperty("--label-y", `${78 * progress}px`);
         section.style.setProperty("--halo-scale", String(1 + progress * 0.2));
         section.style.setProperty("--explode-progress", progress.toFixed(3));
-      });
+      if (Math.abs(targetProgress - displayedProgress) >= 0.001) frame = window.requestAnimationFrame(renderFrame);
+    };
+    const update = () => {
+      if (!isVisible) return;
+      const rect = section.getBoundingClientRect();
+      const travel = Math.max(1, section.offsetHeight - window.innerHeight);
+      const raw = Math.max(0, Math.min(1, -rect.top / travel));
+      if (window.matchMedia("(min-width: 761px)").matches) {
+        // Open sooner, hold the fully exploded view for longer, then begin closing
+        // near the end of the section so users have time to inspect every layer.
+        const ease = (value: number) => value * value * (3 - 2 * value);
+        if (raw < 0.58) targetProgress = ease(Math.max(0, (raw - 0.025) / 0.555));
+        else if (raw < 0.84) targetProgress = 1;
+        else targetProgress = 1 - ease(Math.min(1, (raw - 0.84) / 0.16));
+      } else {
+        // Preserve the existing mobile opening/closing timing; only smooth its motion.
+        targetProgress = raw;
+      }
+      if (!frame) frame = window.requestAnimationFrame(renderFrame);
     };
     const visibilityObserver = "IntersectionObserver" in window
       ? new IntersectionObserver(([entry]) => {
           isVisible = entry.isIntersecting;
           section.classList.toggle("is-active", isVisible);
           if (isVisible) update();
-          else window.cancelAnimationFrame(frame);
+          else {
+            window.cancelAnimationFrame(frame);
+            frame = 0;
+          }
         }, { rootMargin: "100px 0px" })
       : null;
     if (visibilityObserver) visibilityObserver.observe(section);
@@ -62,6 +83,7 @@ function ScrollBottleExperience() {
     window.addEventListener("resize", update);
     return () => {
       window.cancelAnimationFrame(frame);
+      frame = 0;
       visibilityObserver?.disconnect();
       window.removeEventListener("scroll", update);
       window.removeEventListener("resize", update);

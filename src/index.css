@@ -1674,7 +1674,7 @@ img,svg,video,canvas { max-width:100%; }
 /* DEQANT motion refinement: visible bottle separation, tighter section ending,
    and a calmer scent-finder that does not continuously repaint large backgrounds. */
 .bottle-scroll-story {
-  height: 124vh !important;
+  height: 116vh !important;
   min-height: 0 !important;
   overflow: clip;
   content-visibility: visible !important;
@@ -1705,7 +1705,7 @@ img,svg,video,canvas { max-width:100%; }
 .bottle-scroll-story.is-active .bottle-part { will-change: transform !important; }
 .bottle-stage-orbit { animation: none !important; }
 @media (max-width: 760px) {
-  .bottle-scroll-story { height: 122svh !important; }
+  .bottle-scroll-story { height: 114svh !important; }
   .bottle-scroll-sticky {
     height: 100svh !important;
     min-height: 100svh !important;
@@ -1713,7 +1713,7 @@ img,svg,video,canvas { max-width:100%; }
   }
 }
 @media (max-width: 420px) {
-  .bottle-scroll-story { height: 118svh !important; }
+  .bottle-scroll-story { height: 112svh !important; }
 }
 .scent-atmosphere::before,
 .scent-atmosphere::after,
