@@ -104,13 +104,20 @@ function ScentFinder() {
   const { data, isLoading } = storeApi.store.catalog.useQuery({ q: mood.terms.split(" ")[0], sort: "popular" });
   const match = data?.[0];
   return <section className="scent-finder" id="scent-finder">
+    <div className="scent-atmosphere" aria-hidden="true">
+      <span className="scent-vapor scent-vapor-one" />
+      <span className="scent-vapor scent-vapor-two" />
+      <span className="scent-vapor scent-vapor-three" />
+      <span className="scent-light-refraction" />
+      <span className="scent-particle-field" />
+    </div>
     <div className="section-intro light"><p>AN OLFACTORY COMPASS</p><h2>What moves you<br /><em>today?</em></h2><span>Choose a mood. We’ll follow the notes.</span></div>
     <div className="orbit-wrap">
       <div className="orbit-center"><img src="/brand/emblem-ivory.png" alt="" /><span>{mood.name}</span></div>
       {moods.map((item, index) => <button key={item.name} className={`orbit-node ${mood.name === item.name ? "active" : ""}`} style={{ "--angle": `${index * 60}deg` } as CSSProperties} onClick={() => setMood(item)} aria-pressed={mood.name === item.name}>{item.name}</button>)}
     </div>
     <div className="scent-result" aria-live="polite">
-      {isLoading ? <p>Finding your notes…</p> : match ? <><img src={match.product.imageUrl} alt="" /><div><p>YOUR {mood.name.toUpperCase()} MATCH</p><h3>{match.product.name}</h3><span>{match.product.notes.split(" · ").slice(0, 3).join(" · ")}</span><Link className="text-link light" to={`/product/${match.product.slug}`}>Meet your match <ArrowRight /></Link></div></> : <p>No exact match yet. Explore the complete collection.</p>}
+      {isLoading ? <p>Finding your notes…</p> : match ? <><img src={match.product.imageUrl} alt={`${match.product.name} perfume bottle`} loading="lazy" /><div><p>YOUR {mood.name.toUpperCase()} MATCH</p><h3>{match.product.name}</h3><span>{match.product.notes.split(" · ").slice(0, 3).join(" · ")}</span><Link className="text-link light" to={`/product/${match.product.slug}`}>Meet your match <ArrowRight /></Link></div></> : <p>No exact match yet. Explore the complete collection.</p>}
     </div>
   </section>;
 }
@@ -168,21 +175,9 @@ export default function Home() {
         <div className="hero-orbit-text">DEQANT · OLFACTORY EDITIONS · DHAKA ·</div>
         <div className="hero-bottle-stage">
           <div className="hero-bottle-aura" />
-          <img
-            className="hero-bottle"
-            src="/products/rouge-amber.svg"
-            alt="Rouge Amber perfume bottle in burgundy light."
-            width="900"
-            height="1100"
-            fetchPriority="high"
-            draggable={false}
-
-          />
+          <img className="hero-bottle" src="/products/rouge-amber.svg" alt="Rouge Amber perfume bottle in burgundy light." width="900" height="1100" fetchPriority="high" draggable={false} />
           <div className="hero-bottle-reflection" />
-          <div className="hero-perfume-spray" aria-hidden="true">
-            <span className="spray-cloud" />
-            <i /><i /><i /><i /><i /><i /><i /><i /><i /><i />
-          </div>
+          <div className="hero-perfume-spray" aria-hidden="true"><span className="spray-cloud" /><i /><i /><i /><i /><i /><i /><i /><i /><i /><i /></div>
           <div className="hero-spark-lights" aria-hidden="true"><i /><i /><i /><i /><i /><i /></div>
         </div>
         <div className="hero-note glass hero-note-primary"><span><i /> THE OPENING</span><strong>Saffron / Almond</strong><small>Bright. Textural. Unexpected.</small></div>
@@ -205,7 +200,7 @@ export default function Home() {
     <ScentFinder />
 
     <section className="manifesto">
-      <Reveal className="manifesto-image"><div className="pattern-frame"><img src="/products/ivory-santal.svg" alt="Ivory Santal bottle" loading="lazy" /><span>THE ART OF<br />WEARING LESS,<br />BUT MEANING MORE.</span></div></Reveal>
+      <Reveal className="manifesto-image"><div className="pattern-frame"><img src="/products/ivory-santal.svg" alt="Ivory Santal perfume bottle" loading="lazy" /><span>THE ART OF<br />WEARING LESS,<br />BUT MEANING MORE.</span></div></Reveal>
       <Reveal className="manifesto-copy"><p>THE DEQANT PHILOSOPHY</p><h2>A fragrance wardrobe,<br /><em>not a commitment.</em></h2><p>We believe finding your scent should feel like discovery—not a decision made under pressure. Our decants let you live with a fragrance on your skin, in your rhythm, before choosing the full bottle.</p><p>Every size is prepared with care, clearly labelled, and delivered with the same attention as our intact editions.</p><Link className="button button-burgundy" to="/decants">Explore decants <ArrowRight /></Link></Reveal>
     </section>
 
