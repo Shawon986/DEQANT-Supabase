@@ -1378,3 +1378,129 @@ h1,h2,h3,p{margin-top:0}h1,h2,h3{font-family:var(--serif);font-weight:300;line-h
   .catalog-suggestion { grid-template-columns:42px minmax(0,1fr) auto;gap:9px;padding:9px; }
   .catalog-suggestion>img { width:42px;height:48px; }
 }
+
+
+/* DEQANT cinematic motion pass — keep scroll work compositor-friendly. */
+.bottle-scroll-story {
+  --cap-rotate:0deg;
+  --atomizer-rotate:0deg;
+  --collar-rotate:0deg;
+  --glass-scale:1;
+  background:
+    radial-gradient(ellipse at 72% 48%,rgba(175,91,91,.23),transparent 42%),
+    radial-gradient(ellipse at 28% 78%,rgba(178,126,82,.12),transparent 36%),
+    linear-gradient(128deg,#100910 0%,#28101d 43%,#421b2a 72%,#100910 100%);
+  isolation:isolate;
+}
+.bottle-scroll-story::before {
+  opacity:.11;
+  mask-image:linear-gradient(90deg,transparent,#000 34%,#000 78%,transparent);
+}
+.bottle-scroll-sticky { backface-visibility:hidden; }
+.bottle-exploded-stage::before {
+  filter:none;
+  background:radial-gradient(circle,rgba(221,159,121,.2),rgba(126,52,71,.07) 44%,transparent 72%);
+}
+.exploded-perfume { filter:none; }
+.bottle-part { will-change:auto; }
+.bottle-cap {
+  transform:translate3d(0,var(--cap-y,0px),0) rotate(var(--cap-rotate,0deg));
+}
+.bottle-atomizer {
+  transform:translate3d(0,var(--atomizer-y,0px),0) rotate(var(--atomizer-rotate,0deg));
+}
+.bottle-collar {
+  transform:translate3d(0,var(--collar-y,0px),0) rotate(var(--collar-rotate,0deg));
+}
+.bottle-glass { transform:translate3d(0,var(--glass-y,0px),0) scale(var(--glass-scale,1)); }
+.bottle-juice { transform:translate3d(0,var(--juice-y,0px),0); }
+.bottle-label { transform:translate3d(0,var(--label-y,0px),0); }
+.bottle-stage-orbit { opacity:.58; }
+.bottle-stage-orbit.orbit-two { opacity:.24; }
+.bottle-stage-caption,.bottle-stage-footer { color:rgba(248,224,199,.68); }
+.bottle-stage-number { text-shadow:0 2px 18px rgba(0,0,0,.5); }
+
+/* Scent finder: rich jewel tones with restrained, low-cost ambient motion. */
+.scent-finder {
+  position:relative;
+  isolation:isolate;
+  background:
+    radial-gradient(ellipse at 18% 18%,rgba(157,52,91,.42),transparent 42%),
+    radial-gradient(ellipse at 82% 72%,rgba(193,111,65,.3),transparent 44%),
+    radial-gradient(ellipse at 52% 42%,rgba(112,49,77,.38),transparent 55%),
+    linear-gradient(132deg,#100812 0%,#2b1022 42%,#4a202e 72%,#130b16 100%) !important;
+}
+.scent-atmosphere { contain:strict; }
+.scent-atmosphere::before {
+  inset:-8%;
+  opacity:.55;
+  filter:none;
+  mix-blend-mode:normal;
+  background:
+    radial-gradient(ellipse at 24% 42%,rgba(234,160,112,.2),transparent 29%),
+    radial-gradient(ellipse at 76% 35%,rgba(190,75,113,.23),transparent 32%),
+    radial-gradient(ellipse at 58% 82%,rgba(221,169,116,.15),transparent 30%);
+  animation:deq-ambient-drift 30s ease-in-out infinite alternate;
+}
+.scent-atmosphere::after {
+  opacity:.22;
+  filter:none;
+  mix-blend-mode:normal;
+  background:
+    radial-gradient(2px 2px at 16% 34%,rgba(255,231,198,.8),transparent 100%),
+    radial-gradient(1px 1px at 28% 68%,rgba(255,215,176,.8),transparent 100%),
+    radial-gradient(2px 2px at 73% 24%,rgba(255,229,191,.8),transparent 100%),
+    radial-gradient(1px 1px at 84% 62%,rgba(255,211,173,.8),transparent 100%);
+  background-size:230px 220px,260px 240px,280px 260px,310px 290px;
+  animation:deq-dust-float 38s linear infinite;
+}
+.scent-vapor {
+  filter:none;
+  mix-blend-mode:normal;
+  opacity:.25;
+}
+.scent-vapor-one,.scent-vapor-two,.scent-vapor-three {
+  animation-duration:34s;
+}
+.scent-light-refraction {
+  filter:none;
+  opacity:.34;
+  animation-duration:110s;
+}
+.scent-particle-field { opacity:.38;animation-duration:15s; }
+.scent-finder .orbit-center {
+  border:1px solid rgba(255,222,190,.42);
+  box-shadow:0 0 55px rgba(234,168,119,.16),inset 0 1px rgba(255,255,255,.3),inset 0 -18px 32px rgba(0,0,0,.24);
+  backdrop-filter:blur(8px);
+}
+.scent-finder .orbit-node {
+  backdrop-filter:none;
+  transition:background-color .22s ease,color .22s ease,border-color .22s ease,box-shadow .22s ease;
+}
+.scent-finder .scent-result {
+  backdrop-filter:blur(10px);
+  background:linear-gradient(115deg,rgba(255,240,221,.12),rgba(48,13,29,.56));
+}
+@keyframes deq-ambient-drift {
+  from { transform:translate3d(-1.5%,1%,0) scale(.98); }
+  to { transform:translate3d(1.5%,-1%,0) scale(1.03); }
+}
+@keyframes deq-dust-float {
+  from { background-position:0 0,0 0,0 0,0 0; }
+  to { background-position:230px -220px,-260px 240px,280px -260px,-310px 290px; }
+}
+@media(max-width:760px) {
+  .scent-atmosphere::before { inset:-12%;opacity:.4;animation-duration:38s; }
+  .scent-atmosphere::after { opacity:.13;animation-duration:48s; }
+  .scent-vapor { opacity:.16; }
+  .scent-light-refraction { opacity:.2; }
+  .bottle-scroll-story { height:145vh !important; }
+}
+@media(prefers-reduced-motion:reduce) {
+  .scent-atmosphere::before,.scent-atmosphere::after,
+  .scent-vapor,.scent-light-refraction,.scent-particle-field {
+    animation:none !important;
+    transform:none !important;
+  }
+  .bottle-part { transform:none !important; }
+}
