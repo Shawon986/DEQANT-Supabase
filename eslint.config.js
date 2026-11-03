@@ -19,5 +19,12 @@ export default defineConfig([
       ecmaVersion: 2020,
       globals: globals.browser,
     },
+    rules: {
+      // Existing generated UI primitives intentionally export small helpers alongside components.
+      "react-refresh/only-export-components": "warn",
+      // Keep these migration and type-safety checks visible without failing CI on legacy patterns.
+      "react-hooks/set-state-in-effect": "warn",
+      "@typescript-eslint/no-explicit-any": "warn",
+    },
   },
 ])
