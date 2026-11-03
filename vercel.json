@@ -9,6 +9,86 @@
       "destination": "/api/sitemap.xml"
     },
     {
+      "source": "/",
+      "destination": "/api/seo?path=/"
+    },
+    {
+      "source": "/shop",
+      "destination": "/api/seo?path=/shop"
+    },
+    {
+      "source": "/decants",
+      "destination": "/api/seo?path=/decants"
+    },
+    {
+      "source": "/intact",
+      "destination": "/api/seo?path=/intact"
+    },
+    {
+      "source": "/best-sellers",
+      "destination": "/api/seo?path=/best-sellers"
+    },
+    {
+      "source": "/offers",
+      "destination": "/api/seo?path=/offers"
+    },
+    {
+      "source": "/about",
+      "destination": "/api/seo?path=/about"
+    },
+    {
+      "source": "/contact",
+      "destination": "/api/seo?path=/contact"
+    },
+    {
+      "source": "/privacy",
+      "destination": "/api/seo?path=/privacy"
+    },
+    {
+      "source": "/terms",
+      "destination": "/api/seo?path=/terms"
+    },
+    {
+      "source": "/delivery-policy",
+      "destination": "/api/seo?path=/delivery-policy"
+    },
+    {
+      "source": "/cart",
+      "destination": "/api/seo?path=/cart"
+    },
+    {
+      "source": "/checkout",
+      "destination": "/api/seo?path=/checkout"
+    },
+    {
+      "source": "/track",
+      "destination": "/api/seo?path=/track"
+    },
+    {
+      "source": "/account",
+      "destination": "/api/seo?path=/account"
+    },
+    {
+      "source": "/orders",
+      "destination": "/api/seo?path=/orders"
+    },
+    {
+      "source": "/login",
+      "destination": "/api/seo?path=/login"
+    },
+    {
+      "source": "/admin",
+      "destination": "/api/seo?path=/admin"
+    },
+    {
+      "source": "/product/:slug",
+      "destination": "/api/seo?path=/product/:slug"
+    },
+    {
+      "source": "/order/:orderNumber",
+      "destination": "/api/seo?path=/order/:orderNumber"
+    },
+    {
       "source": "/(.*)",
       "destination": "/index.html"
     }
