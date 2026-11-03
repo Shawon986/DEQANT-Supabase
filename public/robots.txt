@@ -1,12 +1,4 @@
 User-agent: *
 Allow: /
-Disallow: /admin
-Disallow: /login
-Disallow: /account
-Disallow: /orders
-Disallow: /cart
-Disallow: /checkout
-Disallow: /order/
-Disallow: /track
 
 Sitemap: https://deqant-perfume.vercel.app/sitemap.xml
