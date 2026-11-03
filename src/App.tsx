@@ -13,14 +13,54 @@ import Login from "./pages/Login";
 import Account from "./pages/Account";
 import NotFound from "./pages/NotFound";
 
+const routeMeta: Record<string, { title: string; description: string }> = {
+  "/": { title: "DEQANT Fragrance | Perfume Decants & Authentic Perfumes in Bangladesh", description: "Discover considered fragrances at DEQANT. Explore perfume decants and intact bottles, compare fragrance notes, and find a signature scent with delivery across Bangladesh." },
+  "/shop": { title: "Shop Perfumes & Fragrance Decants | DEQANT Bangladesh", description: "Shop the DEQANT fragrance collection. Discover perfume decants and intact bottles, explore scent families and notes, and find your next signature fragrance." },
+  "/decants": { title: "Perfume Decants in Bangladesh | DEQANT Fragrance", description: "Try your next signature scent before choosing a full bottle. Explore carefully prepared perfume decants in convenient sizes from DEQANT." },
+  "/intact": { title: "Authentic Intact Perfume Bottles | DEQANT Fragrance", description: "Explore intact perfume bottles at DEQANT. Discover fragrances for your collection, with clear product details and delivery across Bangladesh." },
+  "/best-sellers": { title: "Best-Selling Perfumes | DEQANT Fragrance", description: "Discover popular fragrances chosen by DEQANT customers. Browse best-selling perfume decants and intact bottles by scent and style." },
+  "/offers": { title: "Perfume Offers & Special Prices | DEQANT", description: "Explore current DEQANT fragrance offers on selected perfume decants and intact bottles. Check product sizes, availability and prices online." },
+  "/about": { title: "Our Story | DEQANT Fragrance", description: "Discover the DEQANT approach to fragrance: thoughtful discovery, carefully prepared decants, and a considered perfume wardrobe." },
+  "/contact": { title: "Contact & Fragrance Concierge | DEQANT", description: "Contact DEQANT for perfume enquiries, product guidance, order support and delivery information." },
+  "/privacy": { title: "Privacy Policy | DEQANT Fragrance", description: "Read how DEQANT handles customer information and protects privacy when you browse or shop online." },
+  "/terms": { title: "Terms & Conditions | DEQANT Fragrance", description: "Review the terms and conditions for shopping, orders and services at DEQANT Fragrance." },
+  "/delivery-policy": { title: "Delivery & Returns Policy | DEQANT", description: "Find DEQANT delivery information, shipping charges, order handling and return policy details." },
+};
+
+function setMeta(selector: string, attribute: string, value: string) {
+  let element = document.head.querySelector<HTMLMetaElement>(selector);
+  if (!element) {
+    element = document.createElement("meta");
+    const [key, content] = selector.match(/\[(name|property)="([^"]+)"\]/)?.slice(1) ?? [];
+    if (key && content) element.setAttribute(key, content);
+    document.head.appendChild(element);
+  }
+  element.setAttribute(attribute, value);
+}
+
 function Experience() {
   const location = useLocation();
   const [loading, setLoading] = useState(true);
   useEffect(() => { const timer = window.setTimeout(() => setLoading(false), 650); return () => window.clearTimeout(timer); }, []);
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "instant" });
-    const names: Record<string, string> = { "/shop": "All perfumes", "/decants": "Perfume decants", "/intact": "Intact bottles", "/best-sellers": "Best sellers", "/offers": "Special offers", "/cart": "Shopping bag", "/checkout": "Checkout", "/track": "Track your order", "/about": "Our story", "/contact": "Concierge", "/privacy": "Privacy policy", "/terms": "Terms & conditions", "/delivery-policy": "Delivery & returns", "/admin": "Owner portal", "/login": "Owner sign in", "/account": "Your account", "/orders": "My orders" };
-    document.title = `${names[location.pathname] ?? (location.pathname === "/" ? "Your scent. Your signature." : "DEQANT Fragrance")} — DEQANT`;
+    const path = location.pathname.replace(/\/+$/, "") || "/";
+    const isProduct = path.startsWith("/product/");
+    const isPrivate = /^\/(admin|login|account|orders|cart|checkout|order|track)(\/|$)/.test(path);
+    const fallback = { title: "DEQANT Fragrance | Perfume Decants & Authentic Perfumes in Bangladesh", description: "Discover perfume decants and intact bottles at DEQANT Fragrance. Explore scent notes and find your signature perfume, with delivery across Bangladesh." };
+    const meta = routeMeta[path] ?? fallback;
+    if (!isProduct) document.title = meta.title;
+    setMeta('meta[name="description"]', "content", meta.description);
+    setMeta('meta[property="og:title"]', "content", meta.title);
+    setMeta('meta[property="og:description"]', "content", meta.description);
+    setMeta('meta[property="og:type"]', "content", isProduct ? "product" : "website");
+    setMeta('meta[name="twitter:title"]', "content", meta.title);
+    setMeta('meta[name="twitter:description"]', "content", meta.description);
+    setMeta('meta[name="robots"]', "content", isPrivate ? "noindex, nofollow" : "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1");
+    let canonical = document.head.querySelector<HTMLLinkElement>('link[rel="canonical"]');
+    if (!canonical) { canonical = document.createElement("link"); canonical.rel = "canonical"; document.head.appendChild(canonical); }
+    canonical.href = `https://deqant-perfume.vercel.app${path === "/" ? "/" : path}`;
+    setMeta('meta[property="og:url"]', "content", canonical.href);
   }, [location.pathname]);
   useEffect(() => {
     if (!window.matchMedia("(pointer:fine)").matches) return;
