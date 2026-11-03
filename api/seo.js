@@ -36,8 +36,11 @@ function replaceTitle(html, title) {
   const safe = title.replace(/&/g, "&amp;").replace(/</g, "&lt;");
   return start >= 0 && end > start ? html.slice(0, start) + "<title>" + safe + "</title>" + html.slice(end + 8) : html.replace("</head>", "<title>" + safe + "</title></head>");
 }
-function jsonScript(value) {
-  return '<script type="application/ld+json">' + JSON.stringify(value).replace(/</g, "\\u003c") + "</script>";
+function jsonScript(value, id) {
+  return '<script type="application/ld+json"' + (id ? ' id="' + id + '"' : "") + '>' + JSON.stringify(value).replace(/</g, "\\u003c") + "</script>";
+}
+function escapeHtml(value) {
+  return String(value ?? "").replace(/[&<>"]/g, character => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[character]));
 }
 export default async function handler(request, response) {
   const rawPath = typeof request.query?.path === "string" ? request.query.path : "/";
@@ -52,7 +55,7 @@ export default async function handler(request, response) {
   const htmlResponse = await fetch(new URL("/index.html", origin), { headers: { Accept: "text/html" } });
   if (!htmlResponse.ok) { response.status(502).send("Storefront document is temporarily unavailable."); return; }
   let html = await htmlResponse.text();
-  let title, description, image = SITE + "/products/rouge-amber.svg", structuredProduct = null;
+  let title, description, image = SITE + "/products/rouge-amber.svg", structuredProduct = null, productRecord = null, productNotFound = false;
   if (productSlug) {
     title = "Perfume | DEQANT Fragrance";
     description = "Explore fragrance details, sizes and availability at DEQANT Fragrance.";
@@ -65,6 +68,8 @@ export default async function handler(request, response) {
         const result = await fetch(endpoint, { headers: { apikey: anonKey, Authorization: "Bearer " + anonKey }, signal: AbortSignal.timeout(4500) });
         if (result.ok) {
           const product = (await result.json())[0];
+          productRecord = product || null;
+          productNotFound = !product;
           if (product) {
             title = product.name + " Perfume | " + product.brand + " | DEQANT Bangladesh";
             description = String(product.description || "Discover " + product.name + " at DEQANT Fragrance.").trim().split(" ").filter(Boolean).join(" ").slice(0, 158);
@@ -95,7 +100,7 @@ export default async function handler(request, response) {
   const canonical = SITE + path;
   html = replaceTitle(html, title);
   html = replaceMeta(html, "name", "description", description);
-  html = replaceMeta(html, "name", "robots", isPrivate ? "noindex, nofollow" : "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1");
+  html = replaceMeta(html, "name", "robots", (isPrivate || productNotFound) ? "noindex, nofollow" : "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1");
   html = replaceMeta(html, "property", "og:title", title);
   html = replaceMeta(html, "property", "og:description", description);
   html = replaceMeta(html, "property", "og:url", canonical);
@@ -111,9 +116,23 @@ export default async function handler(request, response) {
       { "@type": "ListItem", position: 2, name: "Shop perfumes", item: SITE + "/shop" },
       { "@type": "ListItem", position: 3, name: title.split(" | ")[0], item: canonical }
     ]};
-    html = html.replace("</head>", jsonScript(structuredProduct) + jsonScript(breadcrumb) + "\n</head>");
+    html = html.replace("</head>", jsonScript(structuredProduct, "deqant-product-schema") + jsonScript(breadcrumb, "deqant-breadcrumb-schema") + "\n</head>");
+  }
+  const userAgent = String(request.headers["user-agent"] || "").toLowerCase();
+  const isCrawler = /(googlebot|bingbot|duckduckbot|slurp|baiduspider|yandexbot|facebookexternalhit|twitterbot)/.test(userAgent);
+  if (isCrawler && !isPrivate) {
+    let crawlableContent = "";
+    if (productRecord) {
+      const variants = (productRecord.product_variants || []).filter(v => v.active);
+      const variantList = variants.map(v => "<li>" + escapeHtml(v.size_ml) + " ml — ৳" + escapeHtml(v.price) + " — " + (Number(v.stock) > 0 ? "In stock" : "Out of stock") + "</li>").join("");
+      const safeImage = String(image).startsWith("http") ? image : SITE + image;
+      crawlableContent = "<main><nav aria-label=\"Breadcrumb\"><a href=\"/\">Home</a> / <a href=\"/shop\">Shop perfumes</a> / " + escapeHtml(productRecord.name) + "</nav><article><h1>" + escapeHtml(productRecord.name) + "</h1><p><strong>" + escapeHtml(productRecord.brand) + "</strong> · " + escapeHtml(productRecord.category === "decant" ? "Perfume decant" : "Intact perfume bottle") + "</p><p>" + escapeHtml(productRecord.description) + "</p><p>Fragrance family: " + escapeHtml(productRecord.family) + "</p><p>Fragrance notes: " + escapeHtml(productRecord.notes) + "</p><img src=\"" + escapeHtml(safeImage) + "\" alt=\"" + escapeHtml(productRecord.name + " perfume bottle") + "\" width=\"420\" /><h2>Available sizes and prices</h2><ul>" + variantList + "</ul><a href=\"/shop\">Explore the DEQANT fragrance collection</a></article></main>";
+    } else {
+      crawlableContent = "<main><h1>" + escapeHtml(title.split(" | ")[0]) + "</h1><p>" + escapeHtml(description) + "</p><nav aria-label=\"Explore DEQANT\"><a href=\"/shop\">Shop all perfumes</a> · <a href=\"/decants\">Perfume decants</a> · <a href=\"/intact\">Intact bottles</a> · <a href=\"/best-sellers\">Best sellers</a></nav></main>";
+    }
+    html = html.replace('<div id="root"></div>', '<div id="root">' + crawlableContent + '</div>');
   }
   response.setHeader("Content-Type", "text/html; charset=utf-8");
   response.setHeader("Cache-Control", isPrivate ? "private, no-store" : "public, max-age=0, s-maxage=300, stale-while-revalidate=1800");
-  response.status(200).send(html);
+  response.status(productNotFound ? 404 : 200).send(html);
 }
