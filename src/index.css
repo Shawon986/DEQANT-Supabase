@@ -966,3 +966,195 @@ h1,h2,h3,p{margin-top:0}h1,h2,h3{font-family:var(--serif);font-weight:300;line-h
 @media (prefers-reduced-motion:reduce) {
   .scent-finder::before,.scent-finder::after { animation:none !important;will-change:auto; }
 }
+
+
+/* Scent finder: an atmospheric perfume still-life with slow vapour, warm liquid light and glass refraction. */
+.scent-finder {
+  position:relative;
+  isolation:isolate;
+  overflow:hidden;
+  background:
+    radial-gradient(ellipse at 52% 58%,rgba(119,55,48,.38) 0%,transparent 43%),
+    radial-gradient(ellipse at 15% 15%,rgba(112,42,58,.24),transparent 34%),
+    linear-gradient(112deg,#10070b 0%,#241018 36%,#3b1822 58%,#13080e 100%);
+}
+.scent-finder::before {
+  content:"";
+  position:absolute;
+  z-index:0;
+  inset:0;
+  pointer-events:none;
+  background:
+    radial-gradient(ellipse at 50% 48%,rgba(236,190,139,.14),transparent 22%),
+    radial-gradient(ellipse at 50% 100%,rgba(178,91,52,.14),transparent 48%),
+    linear-gradient(90deg,rgba(0,0,0,.24),transparent 35%,rgba(0,0,0,.18));
+}
+.scent-finder::after {
+  content:"";
+  position:absolute;
+  z-index:0;
+  inset:0;
+  pointer-events:none;
+  opacity:.22;
+  background:
+    radial-gradient(circle at 12% 23%,rgba(255,226,188,.8) 0 1px,transparent 1.8px),
+    radial-gradient(circle at 78% 18%,rgba(255,226,188,.65) 0 1px,transparent 1.8px),
+    radial-gradient(circle at 88% 72%,rgba(255,226,188,.6) 0 1px,transparent 1.8px),
+    radial-gradient(circle at 22% 82%,rgba(255,226,188,.55) 0 1px,transparent 1.8px);
+  background-size:173px 191px,227px 211px,193px 239px,251px 197px;
+  animation:scent-dust-drift 38s linear infinite;
+}
+.scent-atmosphere {
+  position:absolute;
+  z-index:0;
+  inset:0;
+  overflow:hidden;
+  pointer-events:none;
+  contain:paint;
+}
+.scent-vapor {
+  position:absolute;
+  display:block;
+  width:58%;
+  height:72%;
+  border-radius:50%;
+  opacity:.42;
+  filter:blur(32px);
+  mix-blend-mode:screen;
+  will-change:transform,opacity;
+}
+.scent-vapor-one {
+  left:-14%;
+  top:16%;
+  background:
+    radial-gradient(ellipse at 60% 42%,rgba(205,133,96,.2),transparent 25%),
+    radial-gradient(ellipse at 42% 55%,rgba(143,53,72,.48),transparent 48%),
+    radial-gradient(ellipse at 65% 72%,rgba(236,188,139,.16),transparent 30%);
+  animation:scent-vapour-rise-one 23s cubic-bezier(.42,0,.58,1) infinite alternate;
+}
+.scent-vapor-two {
+  right:-18%;
+  top:0;
+  width:64%;
+  height:86%;
+  background:
+    radial-gradient(ellipse at 34% 58%,rgba(221,171,125,.2),transparent 28%),
+    radial-gradient(ellipse at 58% 42%,rgba(117,36,62,.56),transparent 52%),
+    radial-gradient(ellipse at 42% 25%,rgba(242,211,171,.13),transparent 25%);
+  animation:scent-vapour-rise-two 29s cubic-bezier(.4,0,.6,1) infinite alternate;
+}
+.scent-vapor-three {
+  left:28%;
+  bottom:-42%;
+  width:52%;
+  height:92%;
+  opacity:.34;
+  background:
+    radial-gradient(ellipse at 50% 30%,rgba(235,184,132,.26),transparent 35%),
+    radial-gradient(ellipse at 50% 60%,rgba(119,42,52,.6),transparent 60%);
+  animation:scent-vapour-rise-three 32s ease-in-out infinite alternate;
+}
+.scent-light-refraction {
+  position:absolute;
+  left:50%;
+  top:50%;
+  width:min(78vw,980px);
+  aspect-ratio:1;
+  transform:translate(-50%,-50%);
+  border-radius:50%;
+  background:
+    conic-gradient(from 12deg,transparent 0 24%,rgba(240,205,163,.08) 29%,transparent 34% 58%,rgba(175,81,91,.1) 64%,transparent 70% 100%),
+    radial-gradient(circle,transparent 38%,rgba(242,208,170,.12) 38.2%,transparent 38.8%,transparent 48%,rgba(232,187,146,.08) 48.2%,transparent 48.7%);
+  filter:blur(1px);
+  opacity:.7;
+  animation:scent-glass-turn 86s linear infinite;
+}
+.scent-particle-field {
+  position:absolute;
+  inset:0;
+  opacity:.45;
+  background:
+    radial-gradient(2px 2px at 16% 34%,rgba(255,225,185,.75),transparent 100%),
+    radial-gradient(1px 1px at 28% 68%,rgba(255,225,185,.8),transparent 100%),
+    radial-gradient(2px 2px at 73% 24%,rgba(255,225,185,.7),transparent 100%),
+    radial-gradient(1px 1px at 84% 62%,rgba(255,225,185,.85),transparent 100%),
+    radial-gradient(1.5px 1.5px at 62% 82%,rgba(255,225,185,.7),transparent 100%),
+    radial-gradient(1px 1px at 42% 18%,rgba(255,225,185,.65),transparent 100%);
+  animation:scent-particle-breathe 9s ease-in-out infinite alternate;
+}
+.scent-finder>.section-intro,
+.scent-finder>.orbit-wrap,
+.scent-finder>.scent-result {
+  position:relative;
+  z-index:1;
+}
+.scent-finder .section-intro>p {
+  color:#d7b18c;
+}
+.scent-finder .section-intro h2 {
+  text-shadow:0 8px 36px rgba(0,0,0,.28);
+}
+.scent-finder .orbit-center {
+  background:radial-gradient(circle at 35% 28%,rgba(255,245,225,.13),rgba(38,14,22,.78) 68%);
+  box-shadow:0 0 65px rgba(223,168,118,.13),inset 0 1px rgba(255,255,255,.18);
+  backdrop-filter:blur(16px);
+}
+.scent-finder .orbit-node {
+  background:rgba(25,9,16,.35);
+  backdrop-filter:blur(8px);
+  box-shadow:0 8px 30px rgba(0,0,0,.16),inset 0 1px rgba(255,255,255,.08);
+}
+.scent-finder .orbit-node:hover,
+.scent-finder .orbit-node.active {
+  background:linear-gradient(145deg,#ead5b7,#b88a70);
+  color:#281018;
+  border-color:rgba(255,239,216,.8);
+  box-shadow:0 0 34px rgba(232,188,144,.22);
+}
+.scent-finder .scent-result {
+  border-color:rgba(229,195,162,.28);
+}
+.scent-finder .scent-result>img {
+  border:1px solid rgba(236,207,176,.35);
+  box-shadow:0 18px 38px rgba(0,0,0,.28);
+}
+@keyframes scent-vapour-rise-one {
+  0%{transform:translate3d(-5%,5%,0) rotate(-9deg) scale(.88);opacity:.28}
+  48%{transform:translate3d(8%,-7%,0) rotate(4deg) scale(1.12);opacity:.52}
+  100%{transform:translate3d(2%,-12%,0) rotate(11deg) scale(1.02);opacity:.34}
+}
+@keyframes scent-vapour-rise-two {
+  0%{transform:translate3d(4%,8%,0) rotate(12deg) scale(1.04);opacity:.3}
+  55%{transform:translate3d(-8%,-5%,0) rotate(-4deg) scale(.92);opacity:.5}
+  100%{transform:translate3d(-2%,-13%,0) rotate(-12deg) scale(1.12);opacity:.32}
+}
+@keyframes scent-vapour-rise-three {
+  0%{transform:translate3d(0,10%,0) scale(.9);opacity:.18}
+  100%{transform:translate3d(2%,-12%,0) scale(1.12);opacity:.42}
+}
+@keyframes scent-glass-turn {
+  from{transform:translate(-50%,-50%) rotate(0deg)}
+  to{transform:translate(-50%,-50%) rotate(360deg)}
+}
+@keyframes scent-particle-breathe {
+  from{opacity:.2;transform:translate3d(0,8px,0)}
+  to{opacity:.52;transform:translate3d(0,-8px,0)}
+}
+@keyframes scent-dust-drift {
+  from{background-position:0 0,0 0,0 0,0 0}
+  to{background-position:173px -191px,-227px 211px,193px -239px,-251px 197px}
+}
+@media(max-width:760px) {
+  .scent-vapor{filter:blur(25px);opacity:.34}
+  .scent-vapor-one{width:82%;left:-30%}
+  .scent-vapor-two{width:84%;right:-34%}
+  .scent-vapor-three{width:80%;left:10%}
+  .scent-light-refraction{width:110vw;opacity:.42}
+  .scent-finder::after{opacity:.14}
+}
+@media(prefers-reduced-motion:reduce) {
+  .scent-finder::after,.scent-vapor,.scent-light-refraction,.scent-particle-field {
+    animation:none!important;
+    will-change:auto;
+  }
+}
