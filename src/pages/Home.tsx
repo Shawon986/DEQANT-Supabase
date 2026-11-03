@@ -25,8 +25,14 @@ function ScrollBottleExperience() {
       frame = window.requestAnimationFrame(() => {
         frame = 0;
         const rect = section.getBoundingClientRect();
-        const travel = Math.max(1, section.offsetHeight - window.innerHeight);
-        const raw = Math.max(0, Math.min(1, -rect.top / travel));
+        const isDesktop = window.matchMedia("(min-width: 761px)").matches;
+        // On laptop/desktop, begin as soon as the section enters the viewport and
+        // finish while the bottle is still on screen, instead of waiting until its
+        // top reaches the top edge. Mobile keeps its already-tuned timing.
+        const startOffset = isDesktop ? window.innerHeight * 0.92 : 0;
+        const endClearance = isDesktop ? window.innerHeight * 0.10 : 0;
+        const travel = Math.max(1, section.offsetHeight + startOffset - endClearance);
+        const raw = Math.max(0, Math.min(1, (startOffset - rect.top) / travel));
         // Keep the bottle directly tied to the user's scroll position. No smoothing,
         // snapping or sticky scroll interception: the page remains free to move naturally.
         const progress = raw;

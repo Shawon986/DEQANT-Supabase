@@ -1731,3 +1731,26 @@ img,svg,video,canvas { max-width:100%; }
   .bottle-scroll-story { height: auto !important; }
   .bottle-scroll-sticky { height: auto !important; min-height: 0 !important; }
 }
+
+
+/* Laptop scroll polish: remove large-area filter animation work while preserving
+   the hero's static lighting, bottle artwork and page transitions. */
+@media (min-width: 761px) {
+  .hero-aurora-layer {
+    animation: none !important;
+    filter: none !important;
+    transform: none !important;
+  }
+  .hero-perfume-spray,
+  .hero-perfume-spray i {
+    animation: none !important;
+    filter: none !important;
+  }
+  .hero-particles i,
+  .hero-spark-lights i {
+    animation-duration: 12s !important;
+  }
+  .bottle-scroll-story {
+    scroll-margin-top: 0;
+  }
+}
