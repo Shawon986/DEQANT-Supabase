@@ -131,8 +131,31 @@ export default function Home() {
     const line = "EAU DE PARFUM · DHAKA · 2026";
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) { setTyped(line); return; }
     let index = 0;
-    const timer = window.setInterval(() => { index += 1; setTyped(line.slice(0, index)); if (index >= line.length) window.clearInterval(timer); }, 45);
-    return () => window.clearInterval(timer);
+    let deleting = false;
+    let timeout = 0;
+    const tick = () => {
+      if (!deleting) {
+        index = Math.min(line.length, index + 1);
+        setTyped(line.slice(0, index));
+        if (index === line.length) {
+          deleting = true;
+          timeout = window.setTimeout(tick, 2400);
+          return;
+        }
+        timeout = window.setTimeout(tick, 52);
+        return;
+      }
+      index = Math.max(0, index - 1);
+      setTyped(line.slice(0, index));
+      if (index === 0) {
+        deleting = false;
+        timeout = window.setTimeout(tick, 700);
+        return;
+      }
+      timeout = window.setTimeout(tick, 28);
+    };
+    timeout = window.setTimeout(tick, 350);
+    return () => window.clearTimeout(timeout);
   }, []);
   return <PageShell>
     <section className="hero hero-cinematic">
