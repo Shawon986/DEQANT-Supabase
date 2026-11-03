@@ -27,9 +27,9 @@ function ScrollBottleExperience() {
         const rect = section.getBoundingClientRect();
         const travel = Math.max(1, section.offsetHeight - window.innerHeight);
         const raw = Math.max(0, Math.min(1, -rect.top / travel));
-        // Ease the separation at both ends so the bottle opens and closes with a deliberate,
-        // mechanical glide instead of a linear, jittery response to every scroll pixel.
-        const progress = raw * raw * (3 - 2 * raw);
+        // Keep the bottle directly tied to the user's scroll position. No smoothing,
+        // snapping or sticky scroll interception: the page remains free to move naturally.
+        const progress = raw;
         section.style.setProperty("--cap-y", `${-178 * progress}px`);
         section.style.setProperty("--cap-x", `${-13 * progress}px`);
         section.style.setProperty("--cap-rotate", `${-13 * progress}deg`);
@@ -50,6 +50,7 @@ function ScrollBottleExperience() {
     const visibilityObserver = "IntersectionObserver" in window
       ? new IntersectionObserver(([entry]) => {
           isVisible = entry.isIntersecting;
+          section.classList.toggle("is-active", isVisible);
           if (isVisible) update();
           else window.cancelAnimationFrame(frame);
         }, { rootMargin: "100px 0px" })

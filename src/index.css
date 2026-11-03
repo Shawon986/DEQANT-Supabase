@@ -1630,3 +1630,42 @@ img,svg,video,canvas { max-width:100%; }
 .deq-stats .deq-stat-link { cursor:pointer;transition:transform .22s,border-color .22s,background .22s; }
 .deq-stats .deq-stat-link:hover { transform:translateY(-3px);border-color:rgba(226,190,164,.4);background:rgba(255,255,255,.085); }
 .deq-stats .deq-stat-link:focus-visible { outline:2px solid #e2bea4;outline-offset:3px; }
+
+
+/* DEQANT scroll performance: keep the story in normal document flow.
+   The bottle follows the scroll position; it never pins or pauses the page. */
+.bottle-scroll-story {
+  height: 140vh !important;
+  min-height: 0;
+  overflow: clip;
+  contain: layout style;
+  content-visibility: auto;
+  contain-intrinsic-size: 140vh;
+}
+.bottle-scroll-sticky {
+  position: relative !important;
+  top: auto !important;
+  height: 100svh !important;
+  min-height: 100svh !important;
+  contain: none !important;
+  backface-visibility: visible;
+}
+.bottle-exploded-stage::before { filter: none !important; }
+.exploded-perfume { filter: none !important; }
+.bottle-part { will-change: auto !important; }
+.bottle-scroll-story.is-active .bottle-part { will-change: transform !important; }
+.bottle-stage-orbit { will-change: auto; }
+@media (max-width:760px) {
+  .bottle-scroll-story { height: 140svh !important; }
+  .bottle-scroll-sticky {
+    height: 100svh !important;
+    min-height: 100svh !important;
+    padding-top: 28px;
+    padding-bottom: 18px;
+  }
+}
+@media (prefers-reduced-motion:reduce) {
+  .bottle-scroll-story { height: auto !important; content-visibility: visible; }
+  .bottle-scroll-sticky { height: auto !important; min-height: 0 !important; }
+  .bottle-part { will-change: auto !important; }
+}
