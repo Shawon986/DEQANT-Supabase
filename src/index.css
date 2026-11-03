@@ -1345,3 +1345,36 @@ h1,h2,h3,p{margin-top:0}h1,h2,h3{font-family:var(--serif);font-weight:300;line-h
 @media(prefers-reduced-motion:reduce) {
   .scent-atmosphere::before,.scent-atmosphere::after { animation:none !important; }
 }
+
+
+/* Search autocomplete — compact editorial suggestions with real product context. */
+.filter-search { position:relative;z-index:8; }
+.catalog-search-control { position:relative; }
+.catalog-search-control>svg { z-index:1;pointer-events:none; }
+.catalog-search-control input { position:relative;z-index:1; }
+.catalog-search-suggestions {
+  position:absolute;top:calc(100% + 8px);left:0;right:0;z-index:30;
+  max-height:min(440px,65vh);overflow:auto;
+  border:1px solid rgba(77,2,32,.16);border-radius:12px;
+  background:rgba(250,247,240,.98);color:#351321;
+  box-shadow:0 22px 58px rgba(36,8,22,.2);
+  backdrop-filter:blur(20px);
+}
+.catalog-suggestion {
+  display:grid;grid-template-columns:48px minmax(0,1fr) auto;align-items:center;gap:12px;
+  padding:10px 12px;border-bottom:1px solid rgba(77,2,32,.09);
+  transition:background .18s ease;
+}
+.catalog-suggestion:last-of-type { border-bottom:0; }
+.catalog-suggestion:hover,.catalog-suggestion:focus-visible { background:#f0e5d9; }
+.catalog-suggestion>img { width:48px;height:54px;object-fit:cover;border-radius:6px;background:#e7ded3; }
+.catalog-suggestion>span { min-width:0;display:grid;gap:3px; }
+.catalog-suggestion b { overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-family:var(--serif);font-size:18px;font-weight:500;line-height:1.1; }
+.catalog-suggestion small { overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#785d66;font-size:9px;line-height:1.35; }
+.catalog-suggestion>strong { color:#7a3049;font-size:9px;letter-spacing:.08em;text-transform:uppercase; }
+.catalog-suggestion-status { margin:0;padding:10px 13px;color:#795f68;font-size:10px; }
+@media(max-width:760px) {
+  .catalog-search-suggestions { max-height:55vh; }
+  .catalog-suggestion { grid-template-columns:42px minmax(0,1fr) auto;gap:9px;padding:9px; }
+  .catalog-suggestion>img { width:42px;height:48px; }
+}
