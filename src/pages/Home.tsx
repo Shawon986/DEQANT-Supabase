@@ -21,20 +21,26 @@ function ScrollBottleExperience() {
     let frame = 0;
     let isVisible = false;
     const update = () => {
-      if (!isVisible) return;
-      window.cancelAnimationFrame(frame);
+      if (!isVisible || frame) return;
       frame = window.requestAnimationFrame(() => {
+        frame = 0;
         const rect = section.getBoundingClientRect();
         const travel = Math.max(1, section.offsetHeight - window.innerHeight);
-        const progress = Math.max(0, Math.min(1, -rect.top / travel));
-        section.style.setProperty("--cap-y", `${-108 * progress}px`);
-        section.style.setProperty("--atomizer-y", `${-58 * progress}px`);
-        section.style.setProperty("--collar-y", `${-22 * progress}px`);
+        const raw = Math.max(0, Math.min(1, -rect.top / travel));
+        // Ease the separation at both ends so the bottle opens and closes with a deliberate,
+        // mechanical glide instead of a linear, jittery response to every scroll pixel.
+        const progress = raw * raw * (3 - 2 * raw);
+        section.style.setProperty("--cap-y", `${-126 * progress}px`);
+        section.style.setProperty("--cap-rotate", `${-7 * progress}deg`);
+        section.style.setProperty("--atomizer-y", `${-70 * progress}px`);
+        section.style.setProperty("--atomizer-rotate", `${3 * progress}deg`);
+        section.style.setProperty("--collar-y", `${-28 * progress}px`);
+        section.style.setProperty("--collar-rotate", `${-2 * progress}deg`);
         section.style.setProperty("--glass-y", `${72 * progress}px`);
+        section.style.setProperty("--glass-scale", String(1 - progress * 0.018));
         section.style.setProperty("--juice-y", `${76 * progress}px`);
         section.style.setProperty("--label-y", `${82 * progress}px`);
-        section.style.setProperty("--halo-scale", String(1 + progress * 0.24));
-        section.style.setProperty("--halo-opacity", String(0.34 + progress * 0.42));
+        section.style.setProperty("--halo-scale", String(1 + progress * 0.2));
         section.style.setProperty("--explode-progress", progress.toFixed(3));
       });
     };
