@@ -26,7 +26,7 @@ export default function Track() {
     if (!query.data) return;
     const timer = window.setInterval(() => setNow(Date.now()), 1000);
     return () => window.clearInterval(timer);
-  }, [query.data?.orderNumber, query.data?.createdAt]);
+  }, [query.data]);
   const submit = (event: FormEvent) => { event.preventDefault(); setSearch({ orderNumber: orderNumber.trim().toUpperCase(), phone: phone.trim() }); };
   const activeIndex = query.data ? statuses.indexOf(query.data.status) : -1;
   const deadline = query.data ? query.data.createdAt.getTime() + CANCELLATION_WINDOW_MS : 0;
