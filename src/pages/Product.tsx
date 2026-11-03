@@ -18,11 +18,40 @@ export default function Product() {
   }, [query.data, variantId]);
   useEffect(() => {
     if (!query.data) return;
-    document.title = `${query.data.product.name} — DEQANT Fragrance`;
+    const { product } = query.data;
+    const title = `${product.name} Perfume | ${product.brand} | DEQANT Fragrance`;
+    const description = `${product.name} by ${product.brand}. ${product.description} Explore fragrance notes, available sizes and prices at DEQANT, with delivery across Bangladesh.`.slice(0, 300);
+    document.title = title;
+    const descriptionTag = document.querySelector<HTMLMetaElement>('meta[name="description"]');
+    descriptionTag?.setAttribute("content", description);
+    const canonicalUrl = `https://deqant-perfume.vercel.app/product/${encodeURIComponent(product.slug)}`;
+    let canonical = document.head.querySelector<HTMLLinkElement>('link[rel="canonical"]');
+    if (!canonical) { canonical = document.createElement("link"); canonical.rel = "canonical"; document.head.appendChild(canonical); }
+    canonical.href = canonicalUrl;
+    document.querySelector('meta[property="og:title"]')?.setAttribute("content", title);
+    document.querySelector('meta[property="og:description"]')?.setAttribute("content", description);
+    document.querySelector('meta[property="og:url"]')?.setAttribute("content", canonicalUrl);
+    document.querySelector('meta[property="og:type"]')?.setAttribute("content", "product");
     const script = document.createElement("script");
     script.type = "application/ld+json";
     script.dataset.deqantProduct = "true";
-    script.textContent = JSON.stringify({ "@context": "https://schema.org", "@type": "Product", name: query.data.product.name, brand: { "@type": "Brand", name: query.data.product.brand }, description: query.data.product.description, image: query.data.product.imageUrl, offers: query.data.variants.map((variant: {price:number;stock:number}) => ({ "@type": "Offer", priceCurrency: "BDT", price: variant.price, availability: variant.stock > 0 ? "https://schema.org/InStock" : "https://schema.org/OutOfStock", url: window.location.href })) });
+    script.textContent = JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "Product",
+      name: product.name,
+      description: product.description,
+      image: new URL(product.imageUrl, window.location.origin).href,
+      sku: product.slug,
+      brand: { "@type": "Brand", name: product.brand },
+      offers: query.data.variants.map((variant: {price:number;stock:number;sizeMl:number}) => ({
+        "@type": "Offer",
+        name: `${variant.sizeMl} ml`,
+        priceCurrency: "BDT",
+        price: variant.price,
+        availability: variant.stock > 0 ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
+        url: canonicalUrl
+      }))
+    });
     document.head.appendChild(script);
     return () => script.remove();
   }, [query.data]);
