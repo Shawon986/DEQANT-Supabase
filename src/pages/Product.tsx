@@ -39,6 +39,9 @@ export default function Product() {
     document.querySelector('meta[name="twitter:image"]')?.setAttribute("content", socialImage);
     document.querySelector('meta[name="robots"]')?.setAttribute("content", "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1");
     const structuredData = document.createElement("script");
+    document.getElementById("deqant-product-schema")?.remove();
+    document.getElementById("deqant-breadcrumb-schema")?.remove();
+    structuredData.id = "deqant-product-schema";
     structuredData.type = "application/ld+json";
     structuredData.dataset.deqantProduct = "true";
     structuredData.textContent = JSON.stringify({
