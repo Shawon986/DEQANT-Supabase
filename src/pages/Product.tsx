@@ -37,28 +37,58 @@ export default function Product() {
     document.querySelector('meta[name="twitter:title"]')?.setAttribute("content", title);
     document.querySelector('meta[name="twitter:description"]')?.setAttribute("content", description);
     document.querySelector('meta[name="twitter:image"]')?.setAttribute("content", socialImage);
-    const script = document.createElement("script");
-    script.type = "application/ld+json";
-    script.dataset.deqantProduct = "true";
-    script.textContent = JSON.stringify({
+    document.querySelector('meta[name="robots"]')?.setAttribute("content", "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1");
+    const structuredData = document.createElement("script");
+    structuredData.type = "application/ld+json";
+    structuredData.dataset.deqantProduct = "true";
+    structuredData.textContent = JSON.stringify({
       "@context": "https://schema.org",
-      "@type": "Product",
-      name: product.name,
-      description: product.description,
-      image: new URL(product.imageUrl, window.location.origin).href,
-      sku: product.slug,
-      brand: { "@type": "Brand", name: product.brand },
-      offers: query.data.variants.map((variant: {price:number;stock:number;sizeMl:number}) => ({
-        "@type": "Offer",
-        name: `${variant.sizeMl} ml`,
-        priceCurrency: "BDT",
-        price: variant.price,
-        availability: variant.stock > 0 ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
-        url: canonicalUrl
-      }))
+      "@graph": [
+        {
+          "@type": "Product",
+          "@id": `${canonicalUrl}#product`,
+          name: product.name,
+          description: product.description,
+          image: [new URL(product.imageUrl, window.location.origin).href],
+          sku: product.slug,
+          category: product.category === "decant" ? "Perfume decant" : "Intact perfume bottle",
+          brand: { "@type": "Brand", name: product.brand },
+          mainEntityOfPage: { "@type": "WebPage", "@id": canonicalUrl },
+          additionalProperty: [
+            { "@type": "PropertyValue", name: "Fragrance family", value: product.family },
+            { "@type": "PropertyValue", name: "Fragrance notes", value: product.notes }
+          ],
+          offers: {
+            "@type": "AggregateOffer",
+            url: canonicalUrl,
+            priceCurrency: "BDT",
+            lowPrice: Math.min(...query.data.variants.map((variant: {price:number}) => variant.price)),
+            highPrice: Math.max(...query.data.variants.map((variant: {price:number}) => variant.price)),
+            offerCount: query.data.variants.length,
+            offers: query.data.variants.map((variant: {price:number;stock:number;sizeMl:number}) => ({
+              "@type": "Offer",
+              name: `${variant.sizeMl} ml`,
+              priceCurrency: "BDT",
+              price: variant.price,
+              itemCondition: "https://schema.org/NewCondition",
+              availability: variant.stock > 0 ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
+              url: canonicalUrl,
+              seller: { "@type": "Organization", name: "DEQANT Fragrance" }
+            }))
+          }
+        },
+        {
+          "@type": "BreadcrumbList",
+          itemListElement: [
+            { "@type": "ListItem", position: 1, name: "Home", item: "https://deqant-perfume.vercel.app/" },
+            { "@type": "ListItem", position: 2, name: "Shop perfumes", item: "https://deqant-perfume.vercel.app/shop" },
+            { "@type": "ListItem", position: 3, name: product.name, item: canonicalUrl }
+          ]
+        }
+      ]
     });
-    document.head.appendChild(script);
-    return () => script.remove();
+    document.head.appendChild(structuredData);
+    return () => structuredData.remove();
   }, [query.data]);
   if (query.isLoading) return <PageShell><LoadingState /></PageShell>;
   if (query.error || !query.data) return <PageShell><ErrorState message={query.error?.message ?? "Fragrance not found."} /></PageShell>;
