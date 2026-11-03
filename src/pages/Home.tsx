@@ -42,7 +42,7 @@ function ScrollBottleExperience() {
         // the final 3.5% of reassembly slightly sooner so the intact bottle is
         // visible while the section is still comfortably in view.
         const progress = scrollingUp
-          ? Math.max(0, Math.min(1, (naturalProgress - 0.035) / 0.965))
+          ? Math.max(0, Math.min(1, (naturalProgress - 0.07) / 0.93))
           : naturalProgress;
 
         section.style.setProperty("--cap-y", `${-220 * progress}px`);

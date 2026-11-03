@@ -1837,3 +1837,54 @@ body {
     min-height: 0 !important;
   }
 }
+
+
+/* DEQANT admin: keep every workspace destination visible on mobile. */
+@media (max-width: 900px) {
+  .deq-admin .deq-sidebar {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
+    padding: 14px 16px 16px;
+  }
+  .deq-admin .deq-sidebar > a {
+    grid-column: 1 / -1;
+    width: fit-content;
+  }
+  .deq-admin .deq-sidebar nav {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    justify-content: stretch;
+    gap: 8px;
+    width: 100%;
+    overflow: visible;
+    padding: 0;
+  }
+  .deq-admin .deq-sidebar nav button {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 9px;
+    width: 100%;
+    min-width: 0;
+    min-height: 44px;
+    padding: 10px 12px;
+    white-space: normal;
+    text-align: left;
+    font-size: 11px;
+    line-height: 1.25;
+  }
+  .deq-admin .deq-sidebar nav button svg {
+    flex: 0 0 18px;
+    width: 18px;
+    height: 18px;
+  }
+}
+@media (max-width: 380px) {
+  .deq-admin .deq-sidebar nav button {
+    gap: 7px;
+    padding: 9px 10px;
+    font-size: 10px;
+  }
+}
