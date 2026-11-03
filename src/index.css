@@ -1504,3 +1504,41 @@ h1,h2,h3,p{margin-top:0}h1,h2,h3{font-family:var(--serif);font-weight:300;line-h
   }
   .bottle-part { transform:none !important; }
 }
+
+
+/* Interaction polish: reliable clear control, calmer page motion and touch targets. */
+.catalog-search-control { display:flex;align-items:center; }
+.catalog-search-control input { padding-right:46px !important; }
+.catalog-search-control>button {
+  position:absolute;right:7px;top:50%;z-index:4;
+  width:34px;height:34px;display:grid;place-items:center;
+  border:1px solid rgba(77,2,32,.12);border-radius:50%;
+  background:#f5eee7;color:#6f3047;cursor:pointer;
+  opacity:1;visibility:visible;pointer-events:auto;
+  transition:background .18s ease,transform .18s ease,border-color .18s ease;
+}
+.catalog-search-control>button:hover { background:#ead9ce;border-color:rgba(77,2,32,.3);transform:scale(1.06); }
+.catalog-search-control>button:focus-visible { outline:2px solid #8c4059;outline-offset:2px; }
+.catalog-search-control>button svg { width:15px;height:15px;pointer-events:none; }
+.catalog-search-control input:focus { outline-offset:2px; }
+.deq-variant-row input[inputmode="decimal"] { caret-color:#f3d0a8; }
+.deq-variant-row input:focus { border-color:rgba(226,190,164,.72) !important;box-shadow:0 0 0 3px rgba(226,190,164,.1); }
+.deq-variant-row input::placeholder { color:#a9958e; }
+.bottle-mist { opacity:calc(.18 + var(--explode-progress,0) * .82);transform-origin:210px 80px;animation:deq-mist-pulse 2.8s ease-in-out infinite; }
+.bottle-mist circle { animation:deq-mist-drift 2.4s ease-in-out infinite alternate; }
+.bottle-mist circle:nth-of-type(2n) { animation-delay:-.8s; }
+.bottle-mist circle:nth-of-type(3n) { animation-delay:-1.5s; }
+@keyframes deq-mist-pulse { 0%,100% { transform:translate3d(0,0,0) scale(.92);opacity:.5; } 50% { transform:translate3d(7px,-3px,0) scale(1.08);opacity:1; } }
+@keyframes deq-mist-drift { from { transform:translate3d(0,0,0);opacity:.4; } to { transform:translate3d(9px,-8px,0);opacity:1; } }
+@media(max-width:760px) {
+  .catalog-search-control>button { right:5px;width:38px;height:38px; }
+  .deq-variant-field { padding:12px; }
+  .deq-variant-row { min-width:0; }
+  .deq-variant-row label { min-width:0; }
+  .deq-variant-row input { width:100%;font-size:14px !important; }
+  .bottle-mist { animation-duration:3.8s; }
+}
+@media(prefers-reduced-motion:reduce) {
+  .bottle-mist,.bottle-mist circle { animation:none !important; }
+  .catalog-search-control>button { transition:none; }
+}
