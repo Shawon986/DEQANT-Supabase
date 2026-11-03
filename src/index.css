@@ -1158,3 +1158,17 @@ h1,h2,h3,p{margin-top:0}h1,h2,h3{font-family:var(--serif);font-weight:300;line-h
     will-change:auto;
   }
 }
+
+
+/* Motion tuning: make the scroll-driven bottle opening/closing respond sooner on every screen. */
+.bottle-scroll-story { height:145vh !important; }
+@media (max-width:760px) {
+  .bottle-scroll-story { height:138vh !important; }
+}
+@media (prefers-reduced-motion:reduce) {
+  .bottle-scroll-story { height:auto !important; }
+}
+
+/* Continuous editorial typing: reserve a stable line box while the text cycles. */
+.hero-kicker { min-width:0; }
+.hero-kicker .typing-caret { flex:0 0 1px; }
