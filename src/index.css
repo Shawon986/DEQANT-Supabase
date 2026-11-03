@@ -1799,3 +1799,41 @@ body {
     will-change: auto !important;
   }
 }
+
+
+/* Final scroll fix: the bottle story stays in normal document flow.
+   No sticky pinning, artificial scroll runway, or scroll pause. */
+.bottle-scroll-story {
+  height: 100svh !important;
+  min-height: 100svh !important;
+  overflow: clip;
+  content-visibility: visible !important;
+  contain: layout style;
+}
+.bottle-scroll-sticky {
+  position: relative !important;
+  inset: auto !important;
+  height: 100svh !important;
+  min-height: 100svh !important;
+  padding-block: clamp(18px, 3vh, 34px);
+  contain: none !important;
+}
+@media (max-width: 760px) {
+  .bottle-scroll-story {
+    height: 100svh !important;
+    min-height: 100svh !important;
+  }
+  .bottle-scroll-sticky {
+    position: relative !important;
+    height: 100svh !important;
+    min-height: 100svh !important;
+    padding: 18px 0 12px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .bottle-scroll-story,
+  .bottle-scroll-sticky {
+    height: auto !important;
+    min-height: 0 !important;
+  }
+}

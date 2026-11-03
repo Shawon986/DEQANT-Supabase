@@ -29,16 +29,11 @@ function ScrollBottleExperience() {
         if (!isVisible) return;
 
         const rect = section.getBoundingClientRect();
-        const travel = Math.max(1, section.offsetHeight - window.innerHeight);
-        const raw = Math.max(0, Math.min(1, -rect.top / travel));
-
-        // Keep the animation directly tied to the page scroll (no delayed easing).
-        // Desktop reaches the fully exploded state before the section ends, then
-        // holds it in the viewport. Scrolling upward naturally reverses the motion.
-        const isDesktop = window.matchMedia("(min-width: 761px)").matches;
-        const progress = isDesktop
-          ? Math.min(1, raw / 0.76)
-          : raw;
+        // Animate across the section's natural journey through the viewport.
+        // The section and bottle stage are not sticky, so the page never pauses.
+        // Progress reverses naturally when the visitor scrolls upward.
+        const travel = Math.max(1, window.innerHeight + rect.height);
+        const progress = Math.max(0, Math.min(1, (window.innerHeight - rect.top) / travel));
 
         section.style.setProperty("--cap-y", `${-220 * progress}px`);
         section.style.setProperty("--cap-x", `${-20 * progress}px`);
