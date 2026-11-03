@@ -21,6 +21,7 @@ function ScrollBottleExperience() {
 
     let frame = 0;
     let isVisible = false;
+    let lastScrollY = window.scrollY;
 
     const update = () => {
       if (!isVisible || frame) return;
@@ -33,7 +34,16 @@ function ScrollBottleExperience() {
         // The section and bottle stage are not sticky, so the page never pauses.
         // Progress reverses naturally when the visitor scrolls upward.
         const travel = Math.max(1, window.innerHeight + rect.height);
-        const progress = Math.max(0, Math.min(1, (window.innerHeight - rect.top) / travel));
+        const naturalProgress = Math.max(0, Math.min(1, (window.innerHeight - rect.top) / travel));
+        const currentScrollY = window.scrollY;
+        const scrollingUp = currentScrollY < lastScrollY;
+        lastScrollY = currentScrollY;
+        // Keep the opening animation unchanged. On the return journey, complete
+        // the final 3.5% of reassembly slightly sooner so the intact bottle is
+        // visible while the section is still comfortably in view.
+        const progress = scrollingUp
+          ? Math.max(0, Math.min(1, (naturalProgress - 0.035) / 0.965))
+          : naturalProgress;
 
         section.style.setProperty("--cap-y", `${-220 * progress}px`);
         section.style.setProperty("--cap-x", `${-20 * progress}px`);
