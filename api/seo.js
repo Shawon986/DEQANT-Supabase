@@ -21,14 +21,14 @@ const pages = {
 };
 function replaceMeta(html, key, name, value) {
   const escaped = String(value).replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;");
-  const selector = new RegExp("<meta\\\\s+[^>]*" + key + "=[\\\\"']" + name + "[\\\\"'][^>]*>", "i");
+  const selector = new RegExp('<meta\\s+[^>]*' + key + '="' + name + '"[^>]*>', 'i');
   const tag = '<meta ' + key + '="' + name + '" content="' + escaped + '" />';
-  return selector.test(html) ? html.replace(selector, tag) : html.replace("</head>", "    " + tag + "\\n  </head>");
+  return selector.test(html) ? html.replace(selector, tag) : html.replace("</head>", "    " + tag + "\n  </head>");
 }
 function replaceLink(html, rel, href) {
   const tag = '<link rel="' + rel + '" href="' + href.replace(/&/g, "&amp;").replace(/"/g, "&quot;") + '" />';
-  const selector = new RegExp("<link\\\\s+[^>]*rel=[\\\\"']" + rel + "[\\\\"'][^>]*>", "i");
-  return selector.test(html) ? html.replace(selector, tag) : html.replace("</head>", "    " + tag + "\\n  </head>");
+  const selector = new RegExp('<link\\s+[^>]*rel="' + rel + '"[^>]*>', 'i');
+  return selector.test(html) ? html.replace(selector, tag) : html.replace("</head>", "    " + tag + "\n  </head>");
 }
 function replaceTitle(html, title) {
   const start = html.toLowerCase().indexOf("<title>");
@@ -37,7 +37,7 @@ function replaceTitle(html, title) {
   return start >= 0 && end > start ? html.slice(0, start) + "<title>" + safe + "</title>" + html.slice(end + 8) : html.replace("</head>", "<title>" + safe + "</title></head>");
 }
 function jsonScript(value) {
-  return '<script type="application/ld+json">' + JSON.stringify(value).replace(/</g, "\\\\u003c") + "</script>";
+  return '<script type="application/ld+json">' + JSON.stringify(value).replace(/</g, "\\u003c") + "</script>";
 }
 export default async function handler(request, response) {
   const rawPath = typeof request.query?.path === "string" ? request.query.path : "/";
@@ -111,7 +111,7 @@ export default async function handler(request, response) {
       { "@type": "ListItem", position: 2, name: "Shop perfumes", item: SITE + "/shop" },
       { "@type": "ListItem", position: 3, name: title.split(" | ")[0], item: canonical }
     ]};
-    html = html.replace("</head>", jsonScript(structuredProduct) + jsonScript(breadcrumb) + "\\n</head>");
+    html = html.replace("</head>", jsonScript(structuredProduct) + jsonScript(breadcrumb) + "\n</head>");
   }
   response.setHeader("Content-Type", "text/html; charset=utf-8");
   response.setHeader("Cache-Control", isPrivate ? "private, no-store" : "public, max-age=0, s-maxage=300, stale-while-revalidate=1800");
