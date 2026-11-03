@@ -20,26 +20,13 @@ function ScrollBottleExperience() {
     if (reducedMotion) return;
     let frame = 0;
     let isVisible = false;
-    let sectionStart = 0;
-    let sectionHeight = 0;
-    let isDesktop = window.matchMedia("(min-width: 761px)").matches;
-    const measure = () => {
-      const rect = section.getBoundingClientRect();
-      sectionStart = rect.top + window.scrollY;
-      sectionHeight = section.offsetHeight;
-      isDesktop = window.matchMedia("(min-width: 761px)").matches;
-      update();
-    };
     const update = () => {
       if (!isVisible || frame) return;
       frame = window.requestAnimationFrame(() => {
         frame = 0;
-        // Cached geometry avoids a layout read on every scroll frame while keeping
-        // the opening and closing perfectly reversible with the user's scroll.
-        const startOffset = isDesktop ? window.innerHeight * 0.92 : 0;
-        const endClearance = isDesktop ? window.innerHeight * 0.10 : 0;
-        const travel = Math.max(1, sectionHeight + startOffset - endClearance);
-        const raw = Math.max(0, Math.min(1, (window.scrollY - sectionStart + startOffset) / travel));
+        const rect = section.getBoundingClientRect();
+        const travel = Math.max(1, section.offsetHeight - window.innerHeight);
+        const raw = Math.max(0, Math.min(1, -rect.top / travel));
         // Keep the bottle directly tied to the user's scroll position. No smoothing,
         // snapping or sticky scroll interception: the page remains free to move naturally.
         const progress = raw;
@@ -70,14 +57,14 @@ function ScrollBottleExperience() {
       : null;
     if (visibilityObserver) visibilityObserver.observe(section);
     else isVisible = true;
-    measure();
+    update();
     window.addEventListener("scroll", update, { passive: true });
-    window.addEventListener("resize", measure);
+    window.addEventListener("resize", update);
     return () => {
       window.cancelAnimationFrame(frame);
       visibilityObserver?.disconnect();
       window.removeEventListener("scroll", update);
-      window.removeEventListener("resize", measure);
+      window.removeEventListener("resize", update);
     };
   }, []);
 
@@ -117,11 +104,6 @@ function ScrollBottleExperience() {
         </svg>
         <div className="bottle-stage-footer"><span>01 — FORM</span><span>02 — ESSENCE</span><span>03 — SIGNATURE</span></div>
         <div className="bottle-stage-number">01<span>/</span>03</div>
-      </div>
-      <div className="bottle-story-footnotes" aria-label="Fragrance composition">
-        <div><span>01 / OPENING</span><strong>Saffron &amp; almond</strong><small>A bright first impression</small></div>
-        <div><span>02 / HEART</span><strong>Amber &amp; iris</strong><small>The character at its centre</small></div>
-        <div><span>03 / TRAIL</span><strong>Woods &amp; musk</strong><small>A lasting signature</small></div>
       </div>
     </div>
   </section>;

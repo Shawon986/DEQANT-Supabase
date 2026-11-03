@@ -1715,30 +1715,13 @@ img,svg,video,canvas { max-width:100%; }
 @media (max-width: 420px) {
   .bottle-scroll-story { height: 118svh !important; }
 }
-/* Lightweight scent atmosphere: transform-only ambience, no animated blur. */
 .scent-atmosphere::before,
-.scent-atmosphere::after {
-  animation-duration: 42s !important;
-  filter: none !important;
-  will-change: transform;
-}
-.scent-vapor {
-  filter: none !important;
-  mix-blend-mode: normal !important;
-  opacity: .18;
-  animation-duration: 42s !important;
-  will-change: transform, opacity;
-}
-.scent-light-refraction {
-  filter: none !important;
-  opacity: .22;
-  animation-duration: 120s !important;
-  will-change: transform;
-}
+.scent-atmosphere::after,
+.scent-vapor,
+.scent-light-refraction,
 .scent-particle-field {
   animation: none !important;
   transform: none !important;
-  opacity: .28;
 }
 .scent-atmosphere::after { background-position: center !important; }
 .scent-finder .orbit-center { backdrop-filter: none !important; }
@@ -1747,73 +1730,4 @@ img,svg,video,canvas { max-width:100%; }
 @media (prefers-reduced-motion: reduce) {
   .bottle-scroll-story { height: auto !important; }
   .bottle-scroll-sticky { height: auto !important; min-height: 0 !important; }
-}
-
-
-/* Keep the original cinematic hero animation settings. */
-
-
-/* Desktop bottle-story composition: use the lower edge for a tactile fragrance index. */
-@media (min-width: 761px) {
-  .bottle-scroll-story { height: 145vh !important; }
-  .bottle-scroll-sticky {
-    grid-template-rows: minmax(0, 1fr) auto;
-    row-gap: clamp(10px, 2vh, 20px);
-  }
-  .bottle-exploded-stage { height: min(68svh, 620px); }
-  .exploded-perfume { filter: none !important; }
-  .bottle-exploded-stage:before { filter: none !important; }
-  .bottle-story-footnotes {
-    grid-column: 1 / -1;
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    border-top: 1px solid rgba(231, 205, 180, .2);
-    padding-top: 14px;
-    gap: 22px;
-  }
-  .bottle-story-footnotes > div {
-    display: grid;
-    gap: 5px;
-    min-width: 0;
-    padding-left: 15px;
-    border-left: 1px solid rgba(215, 179, 148, .38);
-  }
-  .bottle-story-footnotes span {
-    color: #d4b293;
-    font-size: 8px;
-    letter-spacing: .18em;
-  }
-  .bottle-story-footnotes strong {
-    color: #f5eadf;
-    font-family: var(--serif);
-    font-size: clamp(15px, 1.5vw, 20px);
-    font-weight: 400;
-  }
-  .bottle-story-footnotes small {
-    color: rgba(245, 234, 223, .5);
-    font-size: 9px;
-  }
-}
-@media (max-width: 760px) {
-  .bottle-story-footnotes { display: none; }
-}
-
-
-/* Restore the last smooth homepage motion profile: keep cinematic lighting static
-   and remove the expensive full-area hero blur/spray animation workload. */
-@media (min-width: 761px) {
-  .hero-aurora-layer {
-    animation: none !important;
-    filter: none !important;
-    transform: none !important;
-  }
-  .hero-perfume-spray,
-  .hero-perfume-spray i {
-    animation: none !important;
-    filter: none !important;
-  }
-  .hero-particles i,
-  .hero-spark-lights i {
-    animation-duration: 12s !important;
-  }
 }
