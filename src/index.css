@@ -1797,3 +1797,23 @@ img,svg,video,canvas { max-width:100%; }
 @media (max-width: 760px) {
   .bottle-story-footnotes { display: none; }
 }
+
+
+/* Restore the last smooth homepage motion profile: keep cinematic lighting static
+   and remove the expensive full-area hero blur/spray animation workload. */
+@media (min-width: 761px) {
+  .hero-aurora-layer {
+    animation: none !important;
+    filter: none !important;
+    transform: none !important;
+  }
+  .hero-perfume-spray,
+  .hero-perfume-spray i {
+    animation: none !important;
+    filter: none !important;
+  }
+  .hero-particles i,
+  .hero-spark-lights i {
+    animation-duration: 12s !important;
+  }
+}
