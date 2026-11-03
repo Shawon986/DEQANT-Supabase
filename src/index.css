@@ -1574,3 +1574,53 @@ img,svg,video,canvas { max-width:100%; }
 @media(prefers-reduced-motion:reduce) {
   html { scroll-behavior:auto; }
 }
+
+
+/* DEQANT finishing pass — align the catalogue clear action to the actual input centre. */
+.catalog-search-control { position:relative;display:flex;align-items:center;min-height:48px; }
+.catalog-search-control input { min-width:0;height:48px;padding-right:54px !important; }
+.catalog-search-control>button {
+  top:50% !important;right:7px !important;transform:translateY(-50%);
+  width:34px;height:34px;display:grid;place-items:center;
+}
+.catalog-search-control>button:hover { transform:translateY(-50%) scale(1.06); }
+.catalog-search-control>button svg { position:static !important;inset:auto !important;margin:0; }
+
+/* Keep the sticky story truly sticky and give the disassembly enough scroll runway. */
+.bottle-scroll-story { height:190vh !important;overflow:clip; }
+.bottle-scroll-sticky { contain:layout;backface-visibility:visible; }
+.bottle-cap { transform:translate3d(var(--cap-x,0px),var(--cap-y,0px),0) rotate(var(--cap-rotate,0deg)); }
+.bottle-atomizer { transform:translate3d(var(--atomizer-x,0px),var(--atomizer-y,0px),0) rotate(var(--atomizer-rotate,0deg)); }
+.bottle-collar { transform:translate3d(var(--collar-x,0px),var(--collar-y,0px),0) rotate(var(--collar-rotate,0deg)); }
+.bottle-glass { transform:translate3d(0,var(--glass-y,0px),0) scale(var(--glass-scale,1)); }
+.bottle-juice { transform:translate3d(0,var(--juice-y,0px),0); }
+.bottle-label { transform:translate3d(0,var(--label-y,0px),0); }
+.bottle-part { transform-box:fill-box;transform-origin:center;will-change:transform; }
+@media(max-width:760px) {
+  .bottle-scroll-story { height:178vh !important; }
+  .bottle-scroll-sticky { contain:layout; }
+}
+@media(prefers-reduced-motion:reduce) {
+  .bottle-scroll-story { height:auto !important; }
+  .bottle-scroll-sticky { contain:none; }
+  .bottle-part { transform:none !important;will-change:auto; }
+}
+
+/* Order state labels: high-contrast, distinct status colours in live operations. */
+.deq-activity-status.status-pending { color:#f3d28f;border-color:rgba(243,210,143,.42);background:rgba(166,119,47,.13); }
+.deq-activity-status.status-confirmed { color:#a9d9f0;border-color:rgba(121,190,222,.4);background:rgba(58,126,157,.14); }
+.deq-activity-status.status-processing { color:#d7b6f4;border-color:rgba(190,148,226,.4);background:rgba(126,80,165,.14); }
+.deq-activity-status.status-shipped { color:#f0c49a;border-color:rgba(230,174,119,.42);background:rgba(157,97,52,.14); }
+.deq-activity-status.status-delivered { color:#b8e5bf;border-color:rgba(143,194,154,.48);background:rgba(73,133,84,.16); }
+.deq-activity-status.status-cancelled { color:#ffc0c0;border-color:rgba(244,145,145,.48);background:rgba(154,55,65,.18); }
+
+/* Admin navigation and destructive actions remain clear and comfortably interactive. */
+.deq-admin { overflow:visible; }
+.deq-sidebar nav button { min-height:46px;width:100%;cursor:pointer; }
+.deq-sidebar nav button:focus-visible { outline:2px solid #e2bea4;outline-offset:3px; }
+.deq-row-actions .deq-delete-product { color:#ffc0c0;border-color:rgba(244,145,145,.35);background:rgba(154,55,65,.12); }
+.deq-row-actions .deq-delete-product:hover { color:#fff;background:rgba(154,55,65,.35);border-color:rgba(244,145,145,.7); }
+@media(max-width:560px) {
+  .deq-row-actions { flex-wrap:wrap; }
+  .deq-row-actions button { min-height:36px; }
+}
