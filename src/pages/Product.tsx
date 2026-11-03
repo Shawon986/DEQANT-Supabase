@@ -32,6 +32,11 @@ export default function Product() {
     document.querySelector('meta[property="og:description"]')?.setAttribute("content", description);
     document.querySelector('meta[property="og:url"]')?.setAttribute("content", canonicalUrl);
     document.querySelector('meta[property="og:type"]')?.setAttribute("content", "product");
+    const socialImage = new URL(product.imageUrl, window.location.origin).href;
+    document.querySelector('meta[property="og:image"]')?.setAttribute("content", socialImage);
+    document.querySelector('meta[name="twitter:title"]')?.setAttribute("content", title);
+    document.querySelector('meta[name="twitter:description"]')?.setAttribute("content", description);
+    document.querySelector('meta[name="twitter:image"]')?.setAttribute("content", socialImage);
     const script = document.createElement("script");
     script.type = "application/ld+json";
     script.dataset.deqantProduct = "true";
