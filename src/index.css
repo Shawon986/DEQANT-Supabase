@@ -1669,3 +1669,65 @@ img,svg,video,canvas { max-width:100%; }
   .bottle-scroll-sticky { height: auto !important; min-height: 0 !important; }
   .bottle-part { will-change: auto !important; }
 }
+
+
+/* DEQANT motion refinement: visible bottle separation, tighter section ending,
+   and a calmer scent-finder that does not continuously repaint large backgrounds. */
+.bottle-scroll-story {
+  height: 124vh !important;
+  min-height: 0 !important;
+  overflow: clip;
+  content-visibility: visible !important;
+  contain: layout style;
+  contain-intrinsic-size: auto;
+}
+.bottle-scroll-sticky {
+  position: relative !important;
+  top: auto !important;
+  height: 100svh !important;
+  min-height: 100svh !important;
+  padding-block: clamp(18px, 3vh, 34px);
+}
+.bottle-exploded-stage {
+  min-height: 0;
+}
+.bottle-cap,
+.bottle-atomizer,
+.bottle-collar,
+.bottle-glass,
+.bottle-juice,
+.bottle-label {
+  transform-box: fill-box;
+  transform-origin: center;
+  backface-visibility: hidden;
+}
+.bottle-part { will-change: auto !important; }
+.bottle-scroll-story.is-active .bottle-part { will-change: transform !important; }
+.bottle-stage-orbit { animation: none !important; }
+@media (max-width: 760px) {
+  .bottle-scroll-story { height: 122svh !important; }
+  .bottle-scroll-sticky {
+    height: 100svh !important;
+    min-height: 100svh !important;
+    padding: 18px 0 12px;
+  }
+}
+@media (max-width: 420px) {
+  .bottle-scroll-story { height: 118svh !important; }
+}
+.scent-atmosphere::before,
+.scent-atmosphere::after,
+.scent-vapor,
+.scent-light-refraction,
+.scent-particle-field {
+  animation: none !important;
+  transform: none !important;
+}
+.scent-atmosphere::after { background-position: center !important; }
+.scent-finder .orbit-center { backdrop-filter: none !important; }
+.scent-finder .scent-result { backdrop-filter: none !important; }
+.scent-finder .orbit-node { backdrop-filter: none !important; }
+@media (prefers-reduced-motion: reduce) {
+  .bottle-scroll-story { height: auto !important; }
+  .bottle-scroll-sticky { height: auto !important; min-height: 0 !important; }
+}

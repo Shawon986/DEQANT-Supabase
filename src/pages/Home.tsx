@@ -30,19 +30,19 @@ function ScrollBottleExperience() {
         // Keep the bottle directly tied to the user's scroll position. No smoothing,
         // snapping or sticky scroll interception: the page remains free to move naturally.
         const progress = raw;
-        section.style.setProperty("--cap-y", `${-178 * progress}px`);
-        section.style.setProperty("--cap-x", `${-13 * progress}px`);
-        section.style.setProperty("--cap-rotate", `${-13 * progress}deg`);
-        section.style.setProperty("--atomizer-y", `${-112 * progress}px`);
-        section.style.setProperty("--atomizer-x", `${17 * progress}px`);
-        section.style.setProperty("--atomizer-rotate", `${7 * progress}deg`);
-        section.style.setProperty("--collar-y", `${-62 * progress}px`);
-        section.style.setProperty("--collar-x", `${-9 * progress}px`);
-        section.style.setProperty("--collar-rotate", `${-8 * progress}deg`);
-        section.style.setProperty("--glass-y", `${91 * progress}px`);
+        section.style.setProperty("--cap-y", `${-220 * progress}px`);
+        section.style.setProperty("--cap-x", `${-20 * progress}px`);
+        section.style.setProperty("--cap-rotate", `${-17 * progress}deg`);
+        section.style.setProperty("--atomizer-y", `${-158 * progress}px`);
+        section.style.setProperty("--atomizer-x", `${24 * progress}px`);
+        section.style.setProperty("--atomizer-rotate", `${10 * progress}deg`);
+        section.style.setProperty("--collar-y", `${-92 * progress}px`);
+        section.style.setProperty("--collar-x", `${-14 * progress}px`);
+        section.style.setProperty("--collar-rotate", `${-11 * progress}deg`);
+        section.style.setProperty("--glass-y", `${52 * progress}px`);
         section.style.setProperty("--glass-scale", String(1 - progress * 0.024));
-        section.style.setProperty("--juice-y", `${99 * progress}px`);
-        section.style.setProperty("--label-y", `${112 * progress}px`);
+        section.style.setProperty("--juice-y", `${64 * progress}px`);
+        section.style.setProperty("--label-y", `${78 * progress}px`);
         section.style.setProperty("--halo-scale", String(1 + progress * 0.2));
         section.style.setProperty("--explode-progress", progress.toFixed(3));
       });
