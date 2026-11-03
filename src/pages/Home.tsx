@@ -132,10 +132,12 @@ export default function Home() {
   const { data: settings } = storeApi.store.settings.useQuery();
   const { data: catalogue, isLoading } = storeApi.store.catalog.useQuery({ sort: "featured" });
   const featured = useMemo(() => catalogue?.filter((entry: CatalogEntry) => entry.product.featured).slice(0, 4) ?? [], [catalogue]);
-  const [typed, setTyped] = useState("");
+  const line = "EAU DE PARFUM · DHAKA · 2026";
+  const [typed, setTyped] = useState(() =>
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches ? line : ""
+  );
   useEffect(() => {
-    const line = "EAU DE PARFUM · DHAKA · 2026";
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) { setTyped(line); return; }
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     let index = 0;
     let deleting = false;
     let timeout = 0;
