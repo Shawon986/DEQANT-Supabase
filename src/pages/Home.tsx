@@ -42,9 +42,11 @@ function ScrollBottleExperience() {
         // Smoothstep eases both ends while remaining perfectly reversible.
         const progress = rawProgress * rawProgress * (3 - 2 * rawProgress);
         const isMobile = window.matchMedia("(max-width: 760px)").matches;
+        // Restore the original, clearly visible separation distances. The
+        // longer section runway below makes this movement unfold gradually.
         const distance = isMobile
-          ? { cap: 66, atomizer: 48, collar: 28, glass: 22, juice: 27, label: 32 }
-          : { cap: 112, atomizer: 78, collar: 43, glass: 30, juice: 38, label: 45 };
+          ? { cap: 150, atomizer: 112, collar: 66, glass: 38, juice: 46, label: 54 }
+          : { cap: 220, atomizer: 158, collar: 92, glass: 52, juice: 64, label: 78 };
 
         section.style.setProperty("--cap-y", `${-distance.cap * progress}px`);
         section.style.setProperty("--cap-x", `${-10 * progress}px`);
