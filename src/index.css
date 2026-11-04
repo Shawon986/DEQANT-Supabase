@@ -2005,3 +2005,21 @@ body { position: relative; }
   .bottle-scroll-sticky { position: relative !important; height: auto !important; min-height: 0 !important; }
   .bottle-part { transform: none !important; will-change: auto !important; }
 }
+
+
+/* Final scroll-timeline tuning: spread the complete bottle opening over a longer
+   continuous runway so each wheel/touch movement reveals only part of the motion.
+   Reverse scrolling maps to the exact same progress and fully closes the bottle. */
+.bottle-scroll-story {
+  height: 360svh !important;
+}
+@media (max-width: 760px) {
+  .bottle-scroll-story {
+    height: 300svh !important;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .bottle-scroll-story {
+    height: auto !important;
+  }
+}
