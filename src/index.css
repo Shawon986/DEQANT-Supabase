@@ -2023,3 +2023,60 @@ body { position: relative; }
     height: auto !important;
   }
 }
+
+/* DEQANT bottle story: short, predictable scroll window.
+   The scene stays in view only for the duration needed to see the complete
+   separation. Native wheel/touch scrolling is never intercepted or locked.
+   Progress is measured from the real section/stage dimensions in Home.tsx. */
+.bottle-scroll-story {
+  position: relative !important;
+  height: 165svh !important;
+  min-height: 0 !important;
+  overflow: clip !important;
+  contain: none !important;
+  content-visibility: visible !important;
+}
+.bottle-scroll-sticky {
+  position: sticky !important;
+  top: 0 !important;
+  height: 100svh !important;
+  min-height: 100svh !important;
+  contain: none !important;
+  backface-visibility: hidden;
+}
+.bottle-scroll-story.is-active .bottle-part {
+  will-change: transform !important;
+}
+@media (max-width: 760px) {
+  .bottle-scroll-story {
+    height: 155svh !important;
+  }
+  .bottle-scroll-sticky {
+    position: sticky !important;
+    top: 0 !important;
+    height: 100svh !important;
+    min-height: 100svh !important;
+    padding-top: max(14px, env(safe-area-inset-top)) !important;
+    padding-bottom: max(10px, env(safe-area-inset-bottom)) !important;
+  }
+  .bottle-exploded-stage {
+    min-height: 0 !important;
+    overflow: visible !important;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .bottle-scroll-story {
+    height: auto !important;
+    content-visibility: visible !important;
+  }
+  .bottle-scroll-sticky {
+    position: relative !important;
+    top: auto !important;
+    height: auto !important;
+    min-height: 0 !important;
+  }
+  .bottle-part {
+    transform: none !important;
+    will-change: auto !important;
+  }
+}
