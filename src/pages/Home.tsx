@@ -76,6 +76,11 @@ function ScrollBottleExperience() {
   }, []);
 
   return <section className="bottle-scroll-story" ref={sectionRef} aria-label="Interactive perfume bottle story">
+    <div className="bottle-story-ornament bottle-story-ornament-top" aria-hidden="true">
+      <span className="bottle-ornament-index">DEQANT / THE ART OF FRAGRANCE</span>
+      <span className="bottle-ornament-rule" />
+      <span className="bottle-ornament-edition">ANATOMY OF A SIGNATURE <i>✳</i> VOL. 001</span>
+    </div>
     <div className="bottle-scroll-sticky">
       <div className="bottle-story-copy">
         <p className="eyebrow">ENGINEERED TO BE REMEMBERED</p>
@@ -112,6 +117,11 @@ function ScrollBottleExperience() {
         <div className="bottle-stage-footer"><span>01 — FORM</span><span>02 — ESSENCE</span><span>03 — SIGNATURE</span></div>
         <div className="bottle-stage-number">01<span>/</span>03</div>
       </div>
+    </div>
+    <div className="bottle-story-ornament bottle-story-ornament-bottom" aria-hidden="true">
+      <div className="bottle-bottom-note"><span>THE CRAFT</span><strong>Designed to be discovered.</strong></div>
+      <div className="bottle-bottom-notes"><span>01 <i>FORM</i></span><span>02 <i>ESSENCE</i></span><span>03 <i>MEMORY</i></span></div>
+      <div className="bottle-bottom-mark">SCENT IS A FORM OF MEMORY <b>—</b> DEQANT, DHAKA</div>
     </div>
   </section>;
 }
