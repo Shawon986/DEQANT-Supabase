@@ -32,31 +32,34 @@ function ScrollBottleExperience() {
         if (!isVisible) return;
 
         const rect = section.getBoundingClientRect();
-        // Animate across the section's natural journey through the viewport.
-        // The section and bottle stage are not sticky, so the page never pauses.
-        // Progress reverses naturally when the visitor scrolls upward.
-        const travel = Math.max(1, window.innerHeight + rect.height);
-        const naturalProgress = Math.max(0, Math.min(1, (window.innerHeight - rect.top) / travel));
-        // Use one continuous, direction-independent progress value. This avoids
-        // jumps when touch scrolling pauses or reverses direction: scrolling down
-        // separates every component, and scrolling up restores every component
-        // through the exact same complete animation path.
-        const progress = naturalProgress;
+        // The bottle stage pins for the section's full scroll runway. Progress
+        // starts when the section reaches the top of the viewport and reaches
+        // 100% exactly as the section's bottom reaches the viewport bottom.
+        // The same value is used in both directions, so upward scrolling fully
+        // reassembles the bottle without direction-change jumps.
+        const runway = Math.max(1, section.offsetHeight - window.innerHeight);
+        const rawProgress = Math.max(0, Math.min(1, -rect.top / runway));
+        // Smoothstep eases both ends while remaining perfectly reversible.
+        const progress = rawProgress * rawProgress * (3 - 2 * rawProgress);
+        const isMobile = window.matchMedia("(max-width: 760px)").matches;
+        const distance = isMobile
+          ? { cap: 66, atomizer: 48, collar: 28, glass: 22, juice: 27, label: 32 }
+          : { cap: 112, atomizer: 78, collar: 43, glass: 30, juice: 38, label: 45 };
 
-        section.style.setProperty("--cap-y", `${-220 * progress}px`);
-        section.style.setProperty("--cap-x", `${-20 * progress}px`);
-        section.style.setProperty("--cap-rotate", `${-17 * progress}deg`);
-        section.style.setProperty("--atomizer-y", `${-158 * progress}px`);
-        section.style.setProperty("--atomizer-x", `${24 * progress}px`);
-        section.style.setProperty("--atomizer-rotate", `${10 * progress}deg`);
-        section.style.setProperty("--collar-y", `${-92 * progress}px`);
-        section.style.setProperty("--collar-x", `${-14 * progress}px`);
-        section.style.setProperty("--collar-rotate", `${-11 * progress}deg`);
-        section.style.setProperty("--glass-y", `${52 * progress}px`);
-        section.style.setProperty("--glass-scale", String(1 - progress * 0.024));
-        section.style.setProperty("--juice-y", `${64 * progress}px`);
-        section.style.setProperty("--label-y", `${78 * progress}px`);
-        section.style.setProperty("--halo-scale", String(1 + progress * 0.2));
+        section.style.setProperty("--cap-y", `${-distance.cap * progress}px`);
+        section.style.setProperty("--cap-x", `${-10 * progress}px`);
+        section.style.setProperty("--cap-rotate", `${-12 * progress}deg`);
+        section.style.setProperty("--atomizer-y", `${-distance.atomizer * progress}px`);
+        section.style.setProperty("--atomizer-x", `${14 * progress}px`);
+        section.style.setProperty("--atomizer-rotate", `${8 * progress}deg`);
+        section.style.setProperty("--collar-y", `${-distance.collar * progress}px`);
+        section.style.setProperty("--collar-x", `${-9 * progress}px`);
+        section.style.setProperty("--collar-rotate", `${-8 * progress}deg`);
+        section.style.setProperty("--glass-y", `${distance.glass * progress}px`);
+        section.style.setProperty("--glass-scale", String(1 - progress * 0.018));
+        section.style.setProperty("--juice-y", `${distance.juice * progress}px`);
+        section.style.setProperty("--label-y", `${distance.label * progress}px`);
+        section.style.setProperty("--halo-scale", String(1 + progress * 0.16));
         section.style.setProperty("--explode-progress", progress.toFixed(3));
       });
     };
