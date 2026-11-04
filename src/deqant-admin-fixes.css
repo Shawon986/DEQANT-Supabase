@@ -1,20 +1,114 @@
 /* DEQANT targeted mobile admin navigation and chart tooltip fixes */
-@media(max-width:900px){
-  .deq-sidebar{display:grid!important;grid-template-columns:minmax(0,1fr);grid-template-rows:auto auto auto auto;align-content:start;gap:0;width:100%;min-width:0;padding:14px 16px 12px!important;}
-  .deq-sidebar>a{grid-row:1;display:flex!important;position:relative;z-index:1;width:max-content;max-width:100%;margin:0 0 10px!important;}
-  .deq-sidebar>a .brand-logo{display:block;width:124px;height:auto;}
-  .deq-side-label{grid-row:2;display:block;margin:3px 0 7px!important;line-height:1.4;}
-  .deq-sidebar nav{grid-row:3;display:flex!important;flex-wrap:nowrap;align-items:center;width:100%;min-width:0;max-width:100%;gap:7px;overflow-x:auto!important;overflow-y:hidden;padding:0 0 9px!important;scrollbar-width:thin;overscroll-behavior-x:contain;}
-  .deq-sidebar nav button{position:relative;display:inline-flex;flex:0 0 auto;align-items:center;justify-content:flex-start;gap:8px;min-height:40px;padding:9px 11px!important;white-space:nowrap;}
-  .deq-side-bottom{grid-row:4;display:flex;align-items:center;min-width:0;width:100%;margin-top:7px;padding-top:10px;}
-  .deq-side-bottom>div{min-width:0;overflow:hidden;}
-  .deq-side-bottom>div b{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+/* Mobile admin navigation: keep all four destinations visible in a two-column grid. */
+@media (max-width: 900px) {
+  .deq-admin .deq-sidebar {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    grid-template-rows: auto auto auto auto !important;
+    align-content: start;
+    gap: 0;
+    width: 100%;
+    min-width: 0;
+    padding: 14px 16px 12px !important;
+  }
+  .deq-admin .deq-sidebar > a {
+    grid-row: 1;
+    display: flex !important;
+    position: relative;
+    z-index: 1;
+    width: max-content;
+    max-width: 100%;
+    margin: 0 0 10px !important;
+  }
+  .deq-admin .deq-side-label { grid-row: 2; display: block; margin: 3px 0 7px !important; }
+  .deq-admin .deq-sidebar nav {
+    grid-row: 3;
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    grid-auto-flow: row !important;
+    align-items: stretch;
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+    gap: 8px !important;
+    overflow: visible !important;
+    padding: 0 !important;
+  }
+  .deq-admin .deq-sidebar nav button {
+    display: flex !important;
+    flex: initial !important;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 8px;
+    width: 100% !important;
+    min-width: 0;
+    min-height: 44px;
+    padding: 9px 11px !important;
+    white-space: normal !important;
+    overflow: visible;
+    text-align: left;
+    font-size: 11px;
+    line-height: 1.25;
+  }
+  .deq-admin .deq-sidebar nav button svg { flex: 0 0 18px; width: 18px; height: 18px; }
+  .deq-admin .deq-side-bottom {
+    grid-row: 4;
+    display: flex;
+    align-items: center;
+    min-width: 0;
+    width: 100%;
+    margin-top: 7px;
+    padding-top: 10px;
+  }
+  .deq-admin .deq-side-bottom > div { min-width: 0; overflow: hidden; }
+  .deq-admin .deq-side-bottom > div b { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 }
-@media(max-width:380px){
-  .deq-sidebar{padding-left:12px!important;padding-right:12px!important;}
-  .deq-sidebar nav{gap:5px;}
-  .deq-sidebar nav button{padding:8px 9px!important;font-size:10px;}
+@media (max-width: 380px) {
+  .deq-admin .deq-sidebar { padding-left: 12px !important; padding-right: 12px !important; }
+  .deq-admin .deq-sidebar nav button { gap: 7px; padding: 8px 9px !important; font-size: 10px; }
 }
+
+/* Product list filters for all, unpublished drafts, and featured fragrances. */
+.deq-product-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0 0 18px;
+}
+.deq-product-filters button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 38px;
+  padding: 8px 13px;
+  border: 1px solid rgba(226,190,164,.18);
+  border-radius: 999px;
+  background: rgba(255,255,255,.035);
+  color: #d9c9c1;
+  font: inherit;
+  font-size: 12px;
+  cursor: pointer;
+  transition: background .18s ease, border-color .18s ease, color .18s ease;
+}
+.deq-product-filters button span {
+  display: inline-grid;
+  place-items: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 5px;
+  border-radius: 999px;
+  background: rgba(255,255,255,.08);
+  color: #d6b79f;
+  font-size: 10px;
+}
+.deq-product-filters button.active {
+  border-color: rgba(226,190,164,.55);
+  background: rgba(226,190,164,.13);
+  color: #f5dfcc;
+}
+.deq-product-filters button:focus-visible { outline: 2px solid #e2bea4; outline-offset: 2px; }
+.deq-product-filters button:disabled { opacity: .55; cursor: wait; }
+
 .deq-chart-panel{position:relative;overflow:visible!important;}
 .deq-product-chart{position:relative;overflow:visible!important;isolation:isolate;}
 .deq-product-chart .recharts-wrapper,.deq-product-chart .recharts-surface{overflow:visible!important;}
