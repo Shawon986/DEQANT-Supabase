@@ -117,3 +117,221 @@
 .deq-product-tooltip strong,.deq-product-tooltip span{display:block;}
 .deq-product-tooltip strong{overflow-wrap:anywhere;font-size:11px;font-weight:600;line-height:1.45;}
 .deq-product-tooltip span{margin-top:5px;color:#e2c3a7;font-size:10px;letter-spacing:.03em;}
+
+
+/* Mobile admin navigation hit-target correction.
+   Keep each destination in a distinct grid cell and make decorative shine layers
+   transparent to pointer input so taps always reach the button underneath. */
+@media (max-width: 900px) {
+  .deq-admin .deq-sidebar {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    grid-template-rows: auto auto auto auto !important;
+    align-content: start !important;
+    gap: 0 !important;
+    isolation: isolate;
+  }
+  .deq-admin .deq-sidebar > a { grid-row: 1; }
+  .deq-admin .deq-sidebar .deq-side-label { grid-row: 2; }
+  .deq-admin .deq-sidebar nav {
+    position: relative !important;
+    z-index: 4 !important;
+    grid-row: 3;
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    grid-template-rows: repeat(2, minmax(48px, auto)) !important;
+    grid-auto-flow: row !important;
+    align-items: stretch !important;
+    justify-content: stretch !important;
+    gap: 9px !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    overflow: visible !important;
+    padding: 0 !important;
+    touch-action: manipulation;
+  }
+  .deq-admin .deq-sidebar nav button,
+  .deq-admin .deq-sidebar nav button[data-admin-tab] {
+    position: relative !important;
+    z-index: 5 !important;
+    display: flex !important;
+    flex: none !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    gap: 9px !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    min-height: 48px !important;
+    margin: 0 !important;
+    padding: 10px 12px !important;
+    overflow: hidden !important;
+    border: 1px solid rgba(226,190,164,.17) !important;
+    border-radius: 12px !important;
+    font-size: 11px !important;
+    line-height: 1.25 !important;
+    white-space: normal !important;
+    text-align: left !important;
+    touch-action: manipulation !important;
+    -webkit-user-select: none;
+    user-select: none;
+    pointer-events: auto !important;
+  }
+  .deq-admin .deq-sidebar nav button > * { position: relative; z-index: 1; pointer-events: none; }
+  .deq-admin .deq-sidebar nav button::before,
+  .deq-admin .deq-sidebar nav button::after { pointer-events: none !important; }
+  .deq-admin .deq-sidebar nav button::after { display: none !important; }
+  .deq-admin .deq-sidebar nav button svg { flex: 0 0 18px !important; width: 18px !important; height: 18px !important; }
+  .deq-admin .deq-sidebar .deq-side-bottom { grid-row: 4; }
+}
+@media (max-width: 380px) {
+  .deq-admin .deq-sidebar nav { gap: 7px !important; }
+  .deq-admin .deq-sidebar nav button { padding: 9px 10px !important; font-size: 10px !important; }
+}
+
+/* Scent finder redesign: give the mood selector and recommendation equal visual weight. */
+.scent-finder {
+  position: relative;
+  display: block !important;
+  padding: clamp(64px, 8vw, 112px) var(--gutter);
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse at 18% 18%, rgba(172,92,111,.30), transparent 36%),
+    radial-gradient(ellipse at 82% 78%, rgba(198,137,91,.19), transparent 38%),
+    linear-gradient(135deg, #170c16 0%, #351522 52%, #180d18 100%) !important;
+}
+.scent-finder-inner { position: relative; z-index: 1; width: min(100%, 1240px); margin: 0 auto; }
+.scent-finder-heading { display: flex; align-items: end; justify-content: space-between; gap: 32px; margin-bottom: 42px; }
+.scent-finder .section-intro { text-align: left !important; margin: 0; }
+.scent-finder .section-intro h2 { margin: 14px 0 12px; font-size: clamp(48px, 6.3vw, 78px); line-height: .98; }
+.scent-finder .section-intro > span { margin: 0 !important; max-width: 420px; color: rgba(250,237,225,.7); line-height: 1.7; }
+.scent-editorial-note { width: min(340px, 34%); padding: 0 0 8px 22px; border-left: 1px solid rgba(231,199,174,.35); }
+.scent-editorial-note > span,.scent-panel-kicker,.scent-mood-story > span,.scent-result-heading,.scent-result-foot { color: #d9b493; font-size: 9px; letter-spacing: .17em; }
+.scent-editorial-note b { display: block; margin: 12px 0 8px; color: #f8eee6; font-family: var(--serif); font-size: 25px; font-weight: 400; line-height: 1.12; }
+.scent-editorial-note p { margin: 0; color: rgba(250,237,225,.58); font-size: 11px; line-height: 1.7; }
+.scent-finder-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 18px; align-items: stretch; }
+.scent-selector-panel,.scent-result-panel { min-width: 0; border: 1px solid rgba(236,203,178,.16); border-radius: 22px; background: linear-gradient(145deg, rgba(255,255,255,.075), rgba(255,255,255,.025)); box-shadow: 0 24px 70px rgba(0,0,0,.17); }
+.scent-selector-panel { padding: 22px 24px 20px; }
+.scent-panel-kicker { display: flex; justify-content: space-between; gap: 12px; }
+.scent-finder .orbit-wrap { width: min(100%, 440px) !important; height: 420px !important; margin: 0 auto !important; }
+.scent-finder .orbit-center { width: 138px !important; height: 138px !important; border-color: rgba(238,205,177,.45); background: radial-gradient(circle, rgba(226,183,151,.10), rgba(255,255,255,.015) 70%); box-shadow: 0 0 48px rgba(210,147,117,.09), inset 0 1px rgba(255,255,255,.18); }
+.scent-finder .orbit-center img { width: 46px; }
+.scent-finder .orbit-center span { color: #fff0e4; font-size: 34px; }
+.scent-finder .orbit-node { width: 88px !important; height: 88px !important; left: calc(50% + 145px * cos(var(--angle)) - 44px) !important; top: calc(50% + 145px * sin(var(--angle)) - 44px) !important; border-color: rgba(236,203,178,.38); background: rgba(25,12,22,.36); color: #f5e8df; font-size: 10px; letter-spacing: .06em; cursor: pointer; touch-action: manipulation; }
+.scent-finder .orbit-node:hover,.scent-finder .orbit-node.active { background: #f0d9c4; color: #351522; border-color: #f0d9c4; }
+.scent-mood-story { padding-top: 17px; border-top: 1px solid rgba(236,203,178,.15); }
+.scent-mood-story p { margin: 8px 0 12px; color: rgba(250,237,225,.78); font-family: var(--serif); font-size: 21px; line-height: 1.3; }
+.scent-note-chips { display: flex; flex-wrap: wrap; gap: 7px; }
+.scent-note-chips span { padding: 6px 10px; border: 1px solid rgba(225,190,164,.25); border-radius: 999px; color: #e7c7ac; background: rgba(255,255,255,.035); font-size: 9px; letter-spacing: .08em; text-transform: uppercase; }
+.scent-result-panel { display: flex; flex-direction: column; padding: 22px 24px 18px; }
+.scent-result-heading { display: flex; justify-content: space-between; align-items: center; padding-bottom: 16px; border-bottom: 1px solid rgba(236,203,178,.15); }
+.scent-result-heading svg { color: #e3b894; }
+.scent-result-panel .scent-result { display: flex; align-items: center; justify-content: flex-start; gap: 22px; flex: 1; max-width: none; min-height: 0; margin: 0; padding: 22px 0; border: 0; }
+.scent-result-image { position: relative; flex: 0 0 min(42%, 210px); height: 300px; overflow: hidden; border: 1px solid rgba(236,203,178,.13); border-radius: 14px; background: radial-gradient(ellipse at 50% 42%, rgba(220,175,147,.17), transparent 64%), rgba(255,255,255,.025); }
+.scent-result-image img { width: 100%; height: 100%; object-fit: contain; }
+.scent-result-image > span { position: absolute; left: 10px; bottom: 10px; padding: 6px 8px; border-radius: 99px; background: rgba(22,11,20,.72); color: #e5c5a7; font-size: 8px; letter-spacing: .13em; }
+.scent-result-copy { min-width: 0; padding: 0 !important; }
+.scent-result-copy p { color: #d9b493; font-size: 9px; letter-spacing: .16em; }
+.scent-result-copy h3 { margin: 9px 0; color: #fff0e4; font-family: var(--serif); font-size: clamp(26px, 3vw, 38px); font-weight: 400; line-height: 1.05; overflow-wrap: anywhere; }
+.scent-result-copy > span { display: block; color: rgba(250,237,225,.65); font-size: 11px; line-height: 1.7; }
+.scent-result-copy .text-link { display: inline-flex; align-items: center; gap: 7px; margin-top: 20px; color: #f0d5bc; font-size: 10px; }
+.scent-result-foot { display: flex; justify-content: space-between; gap: 12px; padding-top: 13px; border-top: 1px solid rgba(236,203,178,.15); font-size: 8px; }
+.scent-result-loading,.scent-result-empty { display: flex; flex: 1; min-height: 260px; flex-direction: column; align-items: center; justify-content: center; gap: 12px; text-align: center; color: rgba(250,237,225,.7); }
+.scent-result-loading p,.scent-result-empty p { margin: 0; font-size: 11px; line-height: 1.6; }
+.scent-loading-orb { width: 34px; height: 34px; border: 1px solid rgba(225,190,164,.55); border-top-color: transparent; border-radius: 50%; animation: scent-spin 1.2s linear infinite; }
+@keyframes scent-spin { to { transform: rotate(360deg); } }
+.scent-result-empty > svg { color: #e3b894; }
+.scent-result-empty .text-link { display: inline-flex; align-items: center; gap: 7px; color: #f0d5bc; font-size: 10px; }
+@media (max-width: 900px) {
+  .scent-finder-heading { align-items: flex-start; flex-direction: column; gap: 22px; }
+  .scent-editorial-note { width: min(100%, 480px); }
+  .scent-finder-grid { grid-template-columns: minmax(0, 1fr); }
+  .scent-selector-panel { padding: 18px; }
+  .scent-result-panel { min-height: 430px; }
+}
+@media (max-width: 560px) {
+  .scent-finder { padding: 64px 16px !important; }
+  .scent-finder .section-intro h2 { font-size: clamp(46px, 13vw, 64px); }
+  .scent-editorial-note { padding-left: 16px; }
+  .scent-finder .orbit-wrap { width: 100% !important; height: 310px !important; }
+  .scent-finder .orbit-center { width: 108px !important; height: 108px !important; }
+  .scent-finder .orbit-center span { font-size: 28px; }
+  .scent-finder .orbit-node { width: 70px !important; height: 70px !important; left: calc(50% + 108px * cos(var(--angle)) - 35px) !important; top: calc(50% + 108px * sin(var(--angle)) - 35px) !important; font-size: 9px; }
+  .scent-result-panel { min-height: 390px; padding: 17px; }
+  .scent-result-panel .scent-result { gap: 13px; align-items: flex-start; }
+  .scent-result-image { flex-basis: 42%; height: 245px; }
+  .scent-result-copy h3 { font-size: 26px; }
+  .scent-result-copy .text-link { margin-top: 13px; }
+  .scent-result-foot { font-size: 7px; }
+}
+@media (max-width: 380px) {
+  .scent-finder .orbit-wrap { height: 286px !important; }
+  .scent-finder .orbit-node { width: 64px !important; height: 64px !important; left: calc(50% + 98px * cos(var(--angle)) - 32px) !important; top: calc(50% + 98px * sin(var(--angle)) - 32px) !important; }
+  .scent-result-panel .scent-result { gap: 10px; }
+  .scent-result-image { flex-basis: 39%; height: 220px; }
+}
+
+/* Bottle story: keep the full SVG and every separated component inside the visible
+   stage on desktop and mobile; use one reversible progress curve in both directions. */
+.bottle-scroll-story {
+  height: 100svh !important;
+  min-height: 100svh !important;
+  overflow: visible !important;
+  content-visibility: visible !important;
+  contain: none !important;
+}
+.bottle-scroll-sticky {
+  position: relative !important;
+  inset: auto !important;
+  height: 100svh !important;
+  min-height: 100svh !important;
+  padding: clamp(16px, 3vh, 30px) clamp(18px, 5vw, 72px) !important;
+  overflow: visible !important;
+  contain: none !important;
+}
+.bottle-exploded-stage {
+  width: 100%;
+  height: min(82svh, 720px) !important;
+  min-height: 0 !important;
+  overflow: visible !important;
+}
+.exploded-perfume {
+  width: min(100%, 400px) !important;
+  height: min(68svh, 580px) !important;
+  max-height: none !important;
+  overflow: visible !important;
+}
+@media (max-width: 760px) {
+  .bottle-scroll-story { height: 100svh !important; min-height: 100svh !important; }
+  .bottle-scroll-sticky {
+    grid-template-columns: minmax(0, 1fr) !important;
+    grid-template-rows: min-content minmax(0, 1fr) !important;
+    gap: 0 !important;
+    padding: 20px 18px 14px !important;
+    overflow: visible !important;
+  }
+  .bottle-story-copy h2 { margin: 10px 0 !important; font-size: clamp(40px, 10vw, 58px) !important; }
+  .bottle-story-description { font-size: 10px !important; line-height: 1.5 !important; }
+  .bottle-scroll-instruction { margin-top: 12px !important; }
+  .bottle-progress-track { margin-top: 9px !important; }
+  .bottle-exploded-stage {
+    height: min(48svh, 400px) !important;
+    min-height: 0 !important;
+    margin-top: 0 !important;
+  }
+  .exploded-perfume {
+    width: min(72vw, 310px) !important;
+    height: min(45svh, 360px) !important;
+  }
+  .bottle-stage-caption { top: 0 !important; }
+  .bottle-stage-footer { bottom: 0 !important; }
+}
+@media (max-width: 390px) {
+  .bottle-scroll-sticky { padding-left: 14px !important; padding-right: 14px !important; }
+  .bottle-exploded-stage { height: min(46svh, 360px) !important; }
+  .exploded-perfume { width: min(70vw, 285px) !important; height: min(43svh, 330px) !important; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .bottle-scroll-story { height: auto !important; min-height: 0 !important; }
+  .bottle-scroll-sticky { height: auto !important; min-height: 0 !important; }
+  .bottle-exploded-stage { height: auto !important; min-height: 300px !important; }
+}
