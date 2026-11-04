@@ -1888,3 +1888,120 @@ body {
     font-size: 10px;
   }
 }
+
+
+/* FINAL RESPONSIVE + BOTTLE STORY FIX
+   Keep the complete object inside the visible stage while the sticky stage travels
+   through a full scroll runway. All overflow safeguards are horizontal only. */
+html, body, #root {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  overflow-x: clip !important;
+}
+body { position: relative; }
+#root, main, .page-shell, .site-shell {
+  min-width: 0;
+  max-width: 100%;
+}
+.bottle-scroll-story {
+  position: relative;
+  height: 190svh !important;
+  min-height: 0 !important;
+  overflow: clip !important;
+  contain: none !important;
+  content-visibility: visible !important;
+  isolation: isolate;
+}
+.bottle-scroll-sticky {
+  position: sticky !important;
+  top: 0 !important;
+  display: grid;
+  grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr);
+  align-items: center;
+  gap: clamp(20px, 5vw, 76px);
+  width: 100%;
+  max-width: 1440px;
+  height: 100svh !important;
+  min-height: 100svh !important;
+  margin-inline: auto;
+  padding: clamp(20px, 4vh, 44px) clamp(18px, 5vw, 76px);
+  contain: none !important;
+  overflow: visible;
+}
+.bottle-story-copy { min-width: 0; }
+.bottle-exploded-stage {
+  position: relative;
+  width: 100%;
+  min-width: 0;
+  height: min(82svh, 760px) !important;
+  min-height: 0 !important;
+  overflow: visible;
+}
+.exploded-perfume {
+  display: block;
+  width: min(100%, 420px) !important;
+  height: min(74svh, 650px) !important;
+  max-width: 100%;
+  overflow: visible !important;
+}
+.bottle-part { transform-box: fill-box; transform-origin: center; }
+@media (max-width: 760px) {
+  .bottle-scroll-story { height: 190svh !important; }
+  .bottle-scroll-sticky {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto minmax(0, 1fr);
+    align-content: stretch;
+    justify-items: stretch;
+    gap: 4px;
+    height: 100svh !important;
+    min-height: 100svh !important;
+    padding: max(14px, env(safe-area-inset-top)) 16px max(10px, env(safe-area-inset-bottom));
+  }
+  .bottle-story-copy { width: 100%; max-width: 620px; }
+  .bottle-story-copy h2 {
+    margin: 8px 0 10px;
+    font-size: clamp(38px, 9.5vw, 58px);
+    line-height: .9;
+  }
+  .bottle-story-description { max-width: 44ch; font-size: 10px; line-height: 1.5; }
+  .bottle-scroll-instruction { margin-top: 10px; gap: 6px; }
+  .bottle-scroll-instruction small { font-size: 8px; }
+  .bottle-progress-track { margin-top: 8px; }
+  .bottle-exploded-stage {
+    height: 100% !important;
+    min-height: 0 !important;
+    margin: 0;
+    overflow: visible;
+  }
+  .exploded-perfume {
+    width: min(78vw, 330px) !important;
+    height: min(43svh, 390px) !important;
+  }
+  .bottle-stage-caption { top: 0; font-size: 6px; }
+  .bottle-stage-footer { bottom: 0; font-size: 6px; }
+  .bottle-stage-number { bottom: 7%; right: 0; font-size: 15px; }
+  .orbit-one { width: min(76vw, 330px); }
+  .orbit-two { width: min(88vw, 380px); }
+}
+@media (max-width: 390px) {
+  .bottle-scroll-sticky { padding-left: 12px; padding-right: 12px; }
+  .bottle-story-copy h2 { font-size: clamp(36px, 9.2vw, 43px); }
+  .bottle-story-description { font-size: 9px; }
+  .exploded-perfume {
+    width: min(82vw, 300px) !important;
+    height: min(39svh, 340px) !important;
+  }
+}
+@media (min-width: 761px) and (max-height: 760px) {
+  .bottle-scroll-sticky { padding-block: 12px; }
+  .bottle-story-copy h2 { font-size: clamp(46px, 5.8vw, 76px); }
+  .bottle-scroll-instruction { margin-top: 24px; }
+  .bottle-exploded-stage { height: 78svh !important; }
+  .exploded-perfume { height: 70svh !important; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .bottle-scroll-story { height: auto !important; }
+  .bottle-scroll-sticky { position: relative !important; height: auto !important; min-height: 0 !important; }
+  .bottle-part { transform: none !important; will-change: auto !important; }
+}
