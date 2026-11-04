@@ -1906,7 +1906,7 @@ body { position: relative; }
 }
 .bottle-scroll-story {
   position: relative;
-  height: 190svh !important;
+  height: 245svh !important;
   min-height: 0 !important;
   overflow: clip !important;
   contain: none !important;
@@ -1947,7 +1947,7 @@ body { position: relative; }
 }
 .bottle-part { transform-box: fill-box; transform-origin: center; }
 @media (max-width: 760px) {
-  .bottle-scroll-story { height: 190svh !important; }
+  .bottle-scroll-story { height: 220svh !important; }
   .bottle-scroll-sticky {
     grid-template-columns: minmax(0, 1fr);
     grid-template-rows: auto minmax(0, 1fr);
