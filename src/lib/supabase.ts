@@ -21,12 +21,10 @@ export async function listProducts(includeInactive=false):Promise<DbProduct[]>{r
 export async function saveProduct(input:Omit<DbProduct,"id"|"created_at"|"product_variants">&{id?:number;variants:Omit<DbVariant,"id"|"product_id">[]}){const{variants,...product}=input;return await api("/rest/v1/rpc/admin_save_product",{method:"POST",body:JSON.stringify({p_product:product,p_variants:variants})});}
 export async function setProductActive(id:number,active:boolean){await api(`/rest/v1/products?id=eq.${id}`,{method:"PATCH",body:JSON.stringify({active})});}
 export async function deleteProduct(id:number){
- const rows=await api(`/rest/v1/products?id=eq.${id}&select=id,image_url,image_urls`);
- const product=rows?.[0];
- if(!product)throw new Error("This product no longer exists.");
- // Product variants, linked cart items and product-image records are removed by database cascades.
- // Order items intentionally keep their historical product-name/price snapshots.
- await api(`/rest/v1/products?id=eq.${id}`,{method:"DELETE"});
+ // The database RPC verifies the admin role and performs the delete transactionally.
+ // Product variants, image rows and related cart entries cascade; order snapshots remain intact.
+ const product=await api("/rest/v1/rpc/admin_delete_product",{method:"POST",body:JSON.stringify({p_product_id:id})});
+ if(!product)throw new Error("The database did not confirm product deletion.");
  const marker="/storage/v1/object/public/product-images/";
  const paths=[...new Set([product.image_url,...(product.image_urls??[])].filter(Boolean).map((value:string)=>{try{const pathname=new URL(value).pathname;const index=pathname.indexOf(marker);return index>=0?decodeURIComponent(pathname.slice(index+marker.length)):null;}catch{return null;}}).filter((value):value is string=>Boolean(value)))];
  if(paths.length)await api("/storage/v1/object/product-images",{method:"DELETE",body:JSON.stringify({prefixes:paths})}).catch(()=>undefined);
