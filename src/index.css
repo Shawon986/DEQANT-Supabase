@@ -2080,3 +2080,59 @@ body { position: relative; }
     will-change: auto !important;
   }
 }
+
+/* Natural-flow bottle scene: no sticky pin, no pause, no scroll hijacking.
+   The section itself provides a controlled runway while the whole scene
+   moves with the document. Scroll progress is measured against viewport travel. */
+.bottle-scroll-story {
+  position: relative !important;
+  height: 165svh !important;
+  min-height: 0 !important;
+  overflow: clip !important;
+  contain: none !important;
+  content-visibility: visible !important;
+}
+.bottle-scroll-sticky {
+  position: relative !important;
+  inset: auto !important;
+  height: 165svh !important;
+  min-height: 165svh !important;
+  align-content: center;
+  contain: none !important;
+  backface-visibility: hidden;
+}
+.bottle-scroll-story.is-active .bottle-part {
+  will-change: transform !important;
+}
+@media (max-width: 760px) {
+  .bottle-scroll-story,
+  .bottle-scroll-sticky {
+    height: 155svh !important;
+    min-height: 155svh !important;
+  }
+  .bottle-scroll-sticky {
+    position: relative !important;
+    inset: auto !important;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto minmax(0, 1fr);
+    align-content: center;
+    padding: 20px 16px !important;
+  }
+  .bottle-exploded-stage {
+    min-height: 0 !important;
+    height: 82svh !important;
+    overflow: visible !important;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .bottle-scroll-story,
+  .bottle-scroll-sticky {
+    height: auto !important;
+    min-height: 0 !important;
+    content-visibility: visible !important;
+  }
+  .bottle-part {
+    transform: none !important;
+    will-change: auto !important;
+  }
+}
