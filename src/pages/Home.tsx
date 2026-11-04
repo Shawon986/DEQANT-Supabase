@@ -16,38 +16,34 @@ const moods = [
 
 function ScrollBottleExperience() {
   const sectionRef = useRef<HTMLElement>(null);
+
   useEffect(() => {
     const section = sectionRef.current;
-    if (!section) return;
-    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reducedMotion) return;
+    if (!section || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
+    const stage = section.querySelector<HTMLElement>(".bottle-scroll-sticky");
     let frame = 0;
-    let isVisible = false;
 
+    // Scrub every bottle component directly from the current scroll position.
+    // There is deliberately no observer/toggle animation: reversing the wheel,
+    // trackpad or touch scroll immediately reverses the exact same progress.
     const update = () => {
-      if (!isVisible || frame) return;
+      if (frame) return;
       frame = window.requestAnimationFrame(() => {
         frame = 0;
-        if (!isVisible) return;
-
         const rect = section.getBoundingClientRect();
-        // The bottle stage pins for the section's full scroll runway. Progress
-        // starts when the section reaches the top of the viewport and reaches
-        // 100% exactly as the section's bottom reaches the viewport bottom.
-        // The same value is used in both directions, so upward scrolling fully
-        // reassembles the bottle without direction-change jumps.
-        const runway = Math.max(1, section.offsetHeight - window.innerHeight);
-        const rawProgress = Math.max(0, Math.min(1, -rect.top / runway));
-        // Smoothstep eases both ends while remaining perfectly reversible.
-        const progress = rawProgress * rawProgress * (3 - 2 * rawProgress);
+        const stageHeight = stage?.getBoundingClientRect().height || window.innerHeight;
+        const scrollRunway = Math.max(1, section.offsetHeight - stageHeight);
+        const travelled = Math.max(0, Math.min(scrollRunway, -rect.top));
+        const progress = travelled / scrollRunway;
+
         const isMobile = window.matchMedia("(max-width: 760px)").matches;
-        // Restore the original, clearly visible separation distances. The
-        // longer section runway below makes this movement unfold gradually.
         const distance = isMobile
           ? { cap: 150, atomizer: 112, collar: 66, glass: 38, juice: 46, label: 54 }
           : { cap: 220, atomizer: 158, collar: 92, glass: 52, juice: 64, label: 78 };
 
+        section.style.setProperty("--bottle-progress", progress.toFixed(4));
+        section.style.setProperty("--explode-progress", progress.toFixed(4));
         section.style.setProperty("--cap-y", `${-distance.cap * progress}px`);
         section.style.setProperty("--cap-x", `${-10 * progress}px`);
         section.style.setProperty("--cap-rotate", `${-12 * progress}deg`);
@@ -62,34 +58,20 @@ function ScrollBottleExperience() {
         section.style.setProperty("--juice-y", `${distance.juice * progress}px`);
         section.style.setProperty("--label-y", `${distance.label * progress}px`);
         section.style.setProperty("--halo-scale", String(1 + progress * 0.16));
-        section.style.setProperty("--explode-progress", progress.toFixed(3));
       });
     };
 
-    const visibilityObserver = "IntersectionObserver" in window
-      ? new IntersectionObserver(([entry]) => {
-          isVisible = entry.isIntersecting;
-          section.classList.toggle("is-active", isVisible);
-          if (isVisible) update();
-          else {
-            window.cancelAnimationFrame(frame);
-            frame = 0;
-          }
-        }, { rootMargin: "100px 0px" })
-      : null;
-
-    if (visibilityObserver) visibilityObserver.observe(section);
-    else isVisible = true;
-
+    // Initialize immediately, then keep the animation tied to every scroll frame.
     update();
     window.addEventListener("scroll", update, { passive: true });
     window.addEventListener("resize", update);
+    window.visualViewport?.addEventListener("resize", update);
 
     return () => {
       window.cancelAnimationFrame(frame);
-      visibilityObserver?.disconnect();
       window.removeEventListener("scroll", update);
       window.removeEventListener("resize", update);
+      window.visualViewport?.removeEventListener("resize", update);
     };
   }, []);
 
@@ -133,7 +115,6 @@ function ScrollBottleExperience() {
     </div>
   </section>;
 }
-
 function ScentFinder() {
   const [mood, setMood] = useState(moods[0]);
   const { data, isLoading } = storeApi.store.catalog.useQuery({ q: mood.terms.split(" ")[0], sort: "popular" });
