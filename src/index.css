@@ -2136,3 +2136,80 @@ body { position: relative; }
     will-change: auto !important;
   }
 }
+
+
+/* Bottle-story editorial framing.
+   Decorative top/bottom details only: deliberately does not alter the bottle,
+   its SVG parts, scroll progress, section dimensions, or animation timing. */
+.bottle-scroll-story { position:relative; }
+.bottle-story-ornament {
+  position:absolute;
+  z-index:3;
+  left:clamp(22px,5vw,76px);
+  right:clamp(22px,5vw,76px);
+  display:flex;
+  align-items:center;
+  gap:22px;
+  color:rgba(231,207,184,.72);
+  pointer-events:none;
+  text-transform:uppercase;
+  font-size:9px;
+  letter-spacing:.2em;
+}
+.bottle-story-ornament-top { top:clamp(24px,5vh,58px); }
+.bottle-ornament-index,.bottle-ornament-edition { white-space:nowrap; }
+.bottle-ornament-rule {
+  height:1px;
+  flex:1;
+  background:linear-gradient(90deg,rgba(222,190,160,.48),rgba(222,190,160,.08));
+}
+.bottle-ornament-edition { color:rgba(231,207,184,.48); }
+.bottle-ornament-edition i { margin:0 8px;color:#c79a77;font-style:normal; }
+.bottle-story-ornament-bottom {
+  bottom:clamp(24px,5vh,58px);
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:24px;
+  padding-top:20px;
+  border-top:1px solid rgba(222,190,160,.17);
+}
+.bottle-bottom-note { display:grid;gap:7px; }
+.bottle-bottom-note span { color:#c79a77;font-size:8px;letter-spacing:.24em; }
+.bottle-bottom-note strong {
+  color:rgba(246,230,213,.86);
+  font-family:Georgia,serif;
+  font-size:clamp(15px,1.7vw,22px);
+  font-weight:400;
+  letter-spacing:.015em;
+}
+.bottle-bottom-notes { display:flex;gap:clamp(14px,3vw,42px); }
+.bottle-bottom-notes span { color:#c79a77;font-size:8px;letter-spacing:.12em; }
+.bottle-bottom-notes i { margin-left:5px;color:rgba(231,207,184,.62);font-style:normal; }
+.bottle-bottom-mark { color:rgba(231,207,184,.42);font-size:7px;letter-spacing:.18em;text-align:right; }
+.bottle-bottom-mark b { padding:0 5px;color:#c79a77;font-weight:400; }
+@media(max-width:760px) {
+  .bottle-story-ornament { left:18px;right:18px;gap:10px;font-size:6px;letter-spacing:.13em; }
+  .bottle-story-ornament-top { top:14px; }
+  .bottle-ornament-edition { font-size:5px; }
+  .bottle-story-ornament-bottom {
+    bottom:14px;
+    display:grid;
+    grid-template-columns:1fr auto;
+    align-items:end;
+    gap:9px 12px;
+    padding-top:12px;
+  }
+  .bottle-bottom-note { gap:4px; }
+  .bottle-bottom-note span,.bottle-bottom-notes span { font-size:6px; }
+  .bottle-bottom-note strong { font-size:14px; }
+  .bottle-bottom-notes { gap:9px; }
+  .bottle-bottom-notes i { margin-left:2px;font-size:6px; }
+  .bottle-bottom-mark { grid-column:1/-1;text-align:left;font-size:5px;letter-spacing:.15em; }
+}
+@media(max-width:380px) {
+  .bottle-story-ornament { left:12px;right:12px; }
+  .bottle-ornament-edition { letter-spacing:.08em; }
+  .bottle-bottom-notes { gap:6px; }
+  .bottle-bottom-notes span { font-size:5px; }
+  .bottle-bottom-notes i { font-size:5px; }
+}
