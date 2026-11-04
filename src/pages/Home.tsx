@@ -23,6 +23,7 @@ function ScrollBottleExperience() {
     if (reducedMotion) return;
 
     let frame = 0;
+    section.classList.add("is-active");
 
     // Measure the actual sticky stage, not the browser's changing visual
     // viewport. The section's extra height is the exact scroll distance over
@@ -70,6 +71,7 @@ function ScrollBottleExperience() {
       window.removeEventListener("scroll", update);
       window.removeEventListener("resize", update);
       window.removeEventListener("orientationchange", update);
+      section.classList.remove("is-active");
     };
   }, []);
 
