@@ -6,9 +6,12 @@ import { storeApi } from "@/providers/store";
 import type { CatalogEntry } from "@/lib/supabase";
 
 const moods = [
-  { name: "Warm", terms: "amber vanilla" }, { name: "Fresh", terms: "citrus bergamot" },
-  { name: "Floral", terms: "rose jasmine" }, { name: "Woody", terms: "oud sandalwood" },
-  { name: "Spicy", terms: "saffron cinnamon" }, { name: "Musk", terms: "musk iris" },
+  { name: "Warm", terms: "amber vanilla", description: "Soft amber, creamy vanilla and a golden, lingering warmth." },
+  { name: "Fresh", terms: "citrus bergamot", description: "Bright citrus, cool bergamot and the feeling of clean air." },
+  { name: "Floral", terms: "rose jasmine", description: "Velvety rose, luminous jasmine and a graceful floral trail." },
+  { name: "Woody", terms: "oud sandalwood", description: "Polished woods, smooth sandalwood and a quietly confident depth." },
+  { name: "Spicy", terms: "saffron cinnamon", description: "A little heat, aromatic spice and an unforgettable edge." },
+  { name: "Musk", terms: "musk iris", description: "Airy musk, soft iris and an intimate skin-like finish." },
 ];
 
 function ScrollBottleExperience() {
@@ -21,7 +24,6 @@ function ScrollBottleExperience() {
 
     let frame = 0;
     let isVisible = false;
-    let lastScrollY = window.scrollY;
 
     const update = () => {
       if (!isVisible || frame) return;
@@ -35,15 +37,11 @@ function ScrollBottleExperience() {
         // Progress reverses naturally when the visitor scrolls upward.
         const travel = Math.max(1, window.innerHeight + rect.height);
         const naturalProgress = Math.max(0, Math.min(1, (window.innerHeight - rect.top) / travel));
-        const currentScrollY = window.scrollY;
-        const scrollingUp = currentScrollY < lastScrollY;
-        lastScrollY = currentScrollY;
-        // Keep the opening animation unchanged. On the return journey, complete
-        // the final 3.5% of reassembly slightly sooner so the intact bottle is
-        // visible while the section is still comfortably in view.
-        const progress = scrollingUp
-          ? Math.max(0, Math.min(1, (naturalProgress - 0.07) / 0.93))
-          : naturalProgress;
+        // Use one continuous, direction-independent progress value. This avoids
+        // jumps when touch scrolling pauses or reverses direction: scrolling down
+        // separates every component, and scrolling up restores every component
+        // through the exact same complete animation path.
+        const progress = naturalProgress;
 
         section.style.setProperty("--cap-y", `${-220 * progress}px`);
         section.style.setProperty("--cap-x", `${-20 * progress}px`);
@@ -135,6 +133,7 @@ function ScentFinder() {
   const [mood, setMood] = useState(moods[0]);
   const { data, isLoading } = storeApi.store.catalog.useQuery({ q: mood.terms.split(" ")[0], sort: "popular" });
   const match = data?.[0];
+  const notes = mood.terms.split(" ");
   return <section className="scent-finder" id="scent-finder">
     <div className="scent-atmosphere" aria-hidden="true">
       <span className="scent-vapor scent-vapor-one" />
@@ -143,13 +142,32 @@ function ScentFinder() {
       <span className="scent-light-refraction" />
       <span className="scent-particle-field" />
     </div>
-    <div className="section-intro light"><p>AN OLFACTORY COMPASS</p><h2>What moves you<br /><em>today?</em></h2><span>Choose a mood. We’ll follow the notes.</span></div>
-    <div className="orbit-wrap">
-      <div className="orbit-center"><img src="/brand/emblem-ivory.png" alt="" /><span>{mood.name}</span></div>
-      {moods.map((item, index) => <button key={item.name} className={`orbit-node ${mood.name === item.name ? "active" : ""}`} style={{ "--angle": `${index * 60}deg` } as CSSProperties} onClick={() => setMood(item)} aria-pressed={mood.name === item.name}>{item.name}</button>)}
-    </div>
-    <div className="scent-result" aria-live="polite">
-      {isLoading ? <p>Finding your notes…</p> : match ? <><img src={match.product.imageUrl} alt={`${match.product.name} perfume bottle`} loading="lazy" /><div><p>YOUR {mood.name.toUpperCase()} MATCH</p><h3>{match.product.name}</h3><span>{match.product.notes.split(" · ").slice(0, 3).join(" · ")}</span><Link className="text-link light" to={`/product/${match.product.slug}`}>Meet your match <ArrowRight /></Link></div></> : <p>No exact match yet. Explore the complete collection.</p>}
+    <div className="scent-finder-inner">
+      <div className="scent-finder-heading">
+        <div className="section-intro light"><p>AN OLFACTORY COMPASS</p><h2>What moves you<br /><em>today?</em></h2><span>Choose a feeling. Discover the fragrance that speaks its language.</span></div>
+        <div className="scent-editorial-note"><span>THE DEQANT SCENT EDIT · 01—06</span><b>A feeling becomes a signature.</b><p>Six moods. Six different worlds of notes. Find the one that feels like you, right now.</p></div>
+      </div>
+      <div className="scent-finder-grid">
+        <div className="scent-selector-panel">
+          <div className="scent-panel-kicker"><span>01 / CHOOSE YOUR MOOD</span><span>SELECT ONE</span></div>
+          <div className="orbit-wrap">
+            <div className="orbit-center"><img src="/brand/emblem-ivory.png" alt="" /><span>{mood.name}</span></div>
+            {moods.map((item, index) => <button type="button" key={item.name} className={`orbit-node ${mood.name === item.name ? "active" : ""}`} style={{ "--angle": `${index * 60}deg` } as CSSProperties} onClick={() => setMood(item)} aria-pressed={mood.name === item.name}>{item.name}</button>)}
+          </div>
+          <div className="scent-mood-story" aria-live="polite">
+            <span>THE FEELING</span><p>{mood.description}</p>
+            <div className="scent-note-chips">{notes.map(note => <span key={note}>{note}</span>)}</div>
+          </div>
+        </div>
+        <div className="scent-result-panel" aria-live="polite">
+          <div className="scent-result-heading"><span>02 / YOUR PERSONAL SCENT EDIT</span><Sparkles size={17}/></div>
+          {isLoading ? <div className="scent-result-loading"><span className="scent-loading-orb"/><p>Finding a fragrance for your {mood.name.toLowerCase()} side…</p></div> : match ? <div className="scent-result">
+            <div className="scent-result-image"><img src={match.product.imageUrl} alt={`${match.product.name} perfume bottle`} loading="lazy"/><span>THE MATCH</span></div>
+            <div className="scent-result-copy"><p>YOUR {mood.name.toUpperCase()} MATCH</p><h3>{match.product.name}</h3><span>{match.product.notes?.split(" · ").slice(0, 3).join(" · ") || mood.terms}</span><Link className="text-link light" to={`/product/${match.product.slug}`}>Meet your match <ArrowRight size={15}/></Link></div>
+          </div> : <div className="scent-result-empty"><Sparkles size={22}/><p>No exact match in this mood just yet.</p><Link className="text-link light" to="/shop">Explore the complete collection <ArrowRight size={15}/></Link></div>}
+          <div className="scent-result-foot"><span>CURATED FOR YOUR MOMENT</span><span>DEQANT · DHAKA</span></div>
+        </div>
+      </div>
     </div>
   </section>;
 }
