@@ -33,10 +33,10 @@ function ScrollBottleExperience() {
       if (frame) return;
       frame = window.requestAnimationFrame(() => {
         frame = 0;
-        const stage = section.querySelector<HTMLElement>(".bottle-scroll-sticky");
-        const stageHeight = stage?.offsetHeight ?? window.innerHeight;
         const sectionTop = section.getBoundingClientRect().top + window.scrollY;
-        const runway = Math.max(1, section.offsetHeight - stageHeight);
+        // The bottle scene is in normal document flow (not pinned). Map the
+        // full open/close sequence to the section's natural viewport traversal.
+        const runway = Math.max(1, section.offsetHeight - window.innerHeight);
         const progress = Math.max(0, Math.min(1, (window.scrollY - sectionTop) / runway));
         const isMobile = window.matchMedia("(max-width: 760px)").matches;
         const distance = isMobile
