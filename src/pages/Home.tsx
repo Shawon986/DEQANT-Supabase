@@ -80,6 +80,11 @@ function ScrollBottleExperience() {
       <span className="bottle-ornament-index">DEQANT / THE ART OF FRAGRANCE</span>
       <span className="bottle-ornament-rule" />
       <span className="bottle-ornament-edition">ANATOMY OF A SIGNATURE <i>✳</i> VOL. 001</span>
+      <div className="bottle-ornament-topline">
+        <span className="bottle-ornament-seal">D<span>✳</span>Q</span>
+        <div className="bottle-ornament-heading"><span>THE SCENT ARCHIVE</span><strong>THE ART OF THE INVISIBLE.</strong></div>
+        <span className="bottle-ornament-subtitle">A STUDY IN FORM,<br/>FRAGRANCE & MEMORY</span>
+      </div>
     </div>
     <div className="bottle-scroll-sticky">
       <div className="bottle-story-copy">
@@ -119,6 +124,7 @@ function ScrollBottleExperience() {
       </div>
     </div>
     <div className="bottle-story-ornament bottle-story-ornament-bottom" aria-hidden="true">
+      <div className="bottle-bottom-epigraph"><span>THE INVISIBLE, MADE ICONIC.</span><strong>AN OBJECT OF DESIRE.</strong><i>✳</i></div>
       <div className="bottle-bottom-note"><span>THE CRAFT</span><strong>Designed to be discovered.</strong></div>
       <div className="bottle-bottom-notes"><span>01 <i>FORM</i></span><span>02 <i>ESSENCE</i></span><span>03 <i>MEMORY</i></span></div>
       <div className="bottle-bottom-mark">SCENT IS A FORM OF MEMORY <b>—</b> DEQANT, DHAKA</div>
