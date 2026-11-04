@@ -23,27 +23,21 @@ function ScrollBottleExperience() {
     if (reducedMotion) return;
 
     let frame = 0;
-    let isVisible = false;
 
+    // Measure the actual sticky stage, not the browser's changing visual
+    // viewport. The section's extra height is the exact scroll distance over
+    // which the bottle must separate. This keeps the animation 1:1 with scroll
+    // on desktop, mobile browser chrome changes, and in both directions.
     const update = () => {
-      if (!isVisible || frame) return;
+      if (frame) return;
       frame = window.requestAnimationFrame(() => {
         frame = 0;
-        if (!isVisible) return;
-
-        const rect = section.getBoundingClientRect();
-        // The bottle stage pins for the section's full scroll runway. Progress
-        // starts when the section reaches the top of the viewport and reaches
-        // 100% exactly as the section's bottom reaches the viewport bottom.
-        // The same value is used in both directions, so upward scrolling fully
-        // reassembles the bottle without direction-change jumps.
-        const runway = Math.max(1, section.offsetHeight - window.innerHeight);
-        const rawProgress = Math.max(0, Math.min(1, -rect.top / runway));
-        // Smoothstep eases both ends while remaining perfectly reversible.
-        const progress = rawProgress; // Linear scroll scrubbing: every scroll increment produces a proportional movement.
+        const stage = section.querySelector<HTMLElement>(".bottle-scroll-sticky");
+        const stageHeight = stage?.offsetHeight ?? window.innerHeight;
+        const sectionTop = section.getBoundingClientRect().top + window.scrollY;
+        const runway = Math.max(1, section.offsetHeight - stageHeight);
+        const progress = Math.max(0, Math.min(1, (window.scrollY - sectionTop) / runway));
         const isMobile = window.matchMedia("(max-width: 760px)").matches;
-        // Restore the original, clearly visible separation distances. The
-        // longer section runway below makes this movement unfold gradually.
         const distance = isMobile
           ? { cap: 150, atomizer: 112, collar: 66, glass: 38, juice: 46, label: 54 }
           : { cap: 220, atomizer: 158, collar: 92, glass: 52, juice: 64, label: 78 };
@@ -62,34 +56,20 @@ function ScrollBottleExperience() {
         section.style.setProperty("--juice-y", `${distance.juice * progress}px`);
         section.style.setProperty("--label-y", `${distance.label * progress}px`);
         section.style.setProperty("--halo-scale", String(1 + progress * 0.16));
-        section.style.setProperty("--explode-progress", progress.toFixed(3));
+        section.style.setProperty("--explode-progress", progress.toFixed(4));
       });
     };
-
-    const visibilityObserver = "IntersectionObserver" in window
-      ? new IntersectionObserver(([entry]) => {
-          isVisible = entry.isIntersecting;
-          section.classList.toggle("is-active", isVisible);
-          if (isVisible) update();
-          else {
-            window.cancelAnimationFrame(frame);
-            frame = 0;
-          }
-        }, { rootMargin: "100px 0px" })
-      : null;
-
-    if (visibilityObserver) visibilityObserver.observe(section);
-    else isVisible = true;
 
     update();
     window.addEventListener("scroll", update, { passive: true });
     window.addEventListener("resize", update);
+    window.addEventListener("orientationchange", update);
 
     return () => {
       window.cancelAnimationFrame(frame);
-      visibilityObserver?.disconnect();
       window.removeEventListener("scroll", update);
       window.removeEventListener("resize", update);
+      window.removeEventListener("orientationchange", update);
     };
   }, []);
 
