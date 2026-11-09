@@ -206,6 +206,24 @@ export default function Home() {
   const [typed, setTyped] = useState(() =>
     window.matchMedia("(prefers-reduced-motion: reduce)").matches ? line : ""
   );
+  // Pause decorative animations when their sections are outside the viewport.
+  // This keeps the visual treatment intact while avoiding off-screen GPU work.
+  useEffect(() => {
+    if (!("IntersectionObserver" in window)) return;
+    const targets = document.querySelectorAll<HTMLElement>(
+      ".hero-visual-cinematic, .scent-marquee, .bottle-scroll-story, .scent-finder"
+    );
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        entry.target.classList.toggle("motion-paused", !entry.isIntersecting);
+      });
+    }, { rootMargin: "120px 0px", threshold: 0 });
+    targets.forEach((target) => observer.observe(target));
+    return () => {
+      observer.disconnect();
+      targets.forEach((target) => target.classList.remove("motion-paused"));
+    };
+  }, []);
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     let index = 0;
