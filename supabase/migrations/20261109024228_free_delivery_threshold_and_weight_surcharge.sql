@@ -1,5 +1,6 @@
 -- Free delivery applies to merchandise subtotal >= ৳2,000. Under the threshold,
 -- add the zone fee and a ৳20 surcharge when total product weight exceeds 1,000g.
+drop function if exists public.place_order(uuid,uuid,text,text,text,text,text,text,text,bigint);
 create or replace function public.place_order(
  p_token uuid,p_idempotency_key uuid,p_customer_name text,p_phone text,p_email text,
  p_district text,p_area text,p_address text,p_instructions text,p_zone_id bigint,
