@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
 import { Link } from "react-router";
-import { ArrowDown, ArrowRight, PackageCheck, ShieldCheck, Sparkles } from "lucide-react";
+import { ArrowDown, ArrowRight, PackageCheck, ShieldCheck, ShoppingBag, Sparkles } from "lucide-react";
 import { PageShell, ProductCard, Reveal, LoadingState } from "@/components/Storefront";
 import { storeApi } from "@/providers/store";
 import type { CatalogEntry } from "@/lib/supabase";
