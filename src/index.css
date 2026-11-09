@@ -3163,3 +3163,5 @@ body { position: relative; }
 @keyframes deq-track-flow{from{background-position:0 100%}to{background-position:0 0}}
 @keyframes deq-track-pulse{0%,100%{box-shadow:0 0 0 4px rgba(77,2,32,.07),0 0 10px rgba(112,36,68,.12);transform:scale(1)}50%{box-shadow:0 0 0 8px rgba(77,2,32,.035),0 0 22px rgba(112,36,68,.22);transform:scale(1.045)}}
 @media(prefers-reduced-motion:reduce){.status-timeline>div.complete:before{animation:none}.status-timeline>div.current>span{animation:none}.status-timeline>div>span{transition:none}}
+
+.bkash-checkout-note .bkash-logo-image{width:64px;height:38px;padding:3px;border-radius:8px;background:#fff;object-fit:contain}
