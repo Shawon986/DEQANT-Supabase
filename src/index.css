@@ -3198,3 +3198,76 @@ body { position: relative; }
   .bottle-scroll-sticky { position: relative !important; top: auto !important; height: auto !important; min-height: 0 !important; }
   .bottle-part { transform: none !important; will-change: auto !important; }
 }
+
+
+/* Performance refinement: keep motion visible, but stop rendering decorative
+   loops when their section is off-screen and avoid animated CSS filters. */
+.motion-paused,
+.motion-paused * {
+  animation-play-state: paused !important;
+}
+@keyframes deq-aurora-drift-lite {
+  from { transform: translate3d(-1.2%, -0.8%, 0) scale(1); }
+  to { transform: translate3d(1.2%, 0.8%, 0) scale(1.035); }
+}
+.hero-aurora-layer {
+  animation-name: deq-aurora-drift-lite !important;
+  animation-duration: 18s !important;
+  transition: none !important;
+}
+@media (max-width: 760px), (hover: none) {
+  .hero-aurora-layer { opacity: .38 !important; }
+  .hero-scanline { opacity: .055 !important; }
+  .hero-orbit-a, .hero-orbit-b, .hero-orbit-c,
+  .hero-particles i, .hero-bottle-aura, .hero-bottle-reflection {
+    animation: none !important;
+  }
+  .hero-orbit-a, .hero-orbit-b, .hero-orbit-c { opacity: .55; }
+  .hero-bottle {
+    filter: drop-shadow(0 18px 16px rgba(0,0,0,.34)) !important;
+    animation-duration: 9s !important;
+  }
+  .hero-note-primary, .hero-note-secondary { animation-duration: 10s !important; }
+}
+
+/* Coupon/discount rows must never widen the checkout summary on narrow screens. */
+.order-summary,
+.checkout-summary,
+.coupon-entry,
+.coupon-entry > div {
+  box-sizing: border-box;
+  min-width: 0;
+  max-width: 100%;
+}
+.order-summary > div:not(.checkout-item):not(.payment-method) > span {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+.order-summary > div:not(.checkout-item):not(.payment-method) > strong {
+  flex: 0 0 auto;
+  min-width: 0;
+  text-align: right;
+}
+.coupon-entry > div { display: flex; align-items: stretch; gap: 8px; }
+.coupon-entry input {
+  flex: 1 1 0%;
+  width: 0;
+  min-width: 0 !important;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+.coupon-entry button { flex: 0 0 auto; white-space: nowrap; }
+.coupon-entry small {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  line-height: 1.5;
+}
+.checkout-page, .checkout-layout, .checkout-form { min-width: 0; max-width: 100%; }
+@media (max-width: 760px) {
+  .checkout-page { overflow-x: clip; }
+  .checkout-summary { width: 100%; padding: clamp(16px, 5vw, 24px); }
+  .coupon-entry > div { width: 100%; }
+  .coupon-entry button { padding-inline: 12px; }
+}
