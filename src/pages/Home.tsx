@@ -32,22 +32,25 @@ function ScrollBottleExperience() {
 
     let frame = 0;
     let sectionTop = 0;
+    let animationStart = 0;
     let runway = 1;
     let distances = { cap: 220, atomizer: 158, collar: 92, glass: 52, juice: 64, label: 78 };
 
     const measure = () => {
-      // Measure only on mount/resize. Scroll frames never trigger layout reads.
+      // Keep the page in ordinary document flow. Only cache geometry on resize;
+      // scroll frames update the bottle SVG parts and never read layout.
       sectionTop = section.getBoundingClientRect().top + window.scrollY;
       const viewportHeight = document.documentElement.clientHeight || window.innerHeight;
-      runway = Math.max(1, section.offsetHeight - viewportHeight);
+      animationStart = sectionTop - viewportHeight * 0.35;
+      runway = Math.max(1, section.offsetHeight + viewportHeight * 0.3);
       distances = window.matchMedia("(max-width: 760px)").matches
-        ? { cap: 150, atomizer: 112, collar: 66, glass: 38, juice: 46, label: 54 }
+        ? { cap: 118, atomizer: 88, collar: 54, glass: 30, juice: 36, label: 42 }
         : { cap: 220, atomizer: 158, collar: 92, glass: 52, juice: 64, label: 78 };
     };
 
     const render = () => {
       frame = 0;
-      const progress = Math.max(0, Math.min(1, (window.scrollY - sectionTop) / runway));
+      const progress = Math.max(0, Math.min(1, (window.scrollY - animationStart) / runway));
       const capY = -distances.cap * progress;
       const atomizerY = -distances.atomizer * progress;
       const collarY = -distances.collar * progress;
@@ -61,8 +64,6 @@ function ScrollBottleExperience() {
       glass!.style.transform = `translate3d(0, ${glassY}px, 0) scale(${1 - progress * 0.018})`;
       juice!.style.transform = `translate3d(0, ${juiceY}px, 0)`;
       label!.style.transform = `translate3d(0, ${labelY}px, 0)`;
-      section.style.setProperty("--explode-progress", progress.toFixed(4));
-      section.style.setProperty("--halo-scale", String(1 + progress * 0.16));
     };
 
     const schedule = () => {
