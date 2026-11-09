@@ -49,7 +49,7 @@ export function Header() {
         <NavLink to="/intact">Intact bottles</NavLink><NavLink to="/about">Our story</NavLink>
       </nav>
       <div className="header-actions">
-        <button className="icon-button desktop-only" type="button" onClick={() => setSearchOpen((value) => !value)} aria-label="Search perfumes" aria-expanded={searchOpen}><Search size={19} /></button>
+        <button className="icon-button" type="button" onClick={() => setSearchOpen((value) => !value)} aria-label="Search perfumes" aria-expanded={searchOpen}><Search size={19} /></button>
         <Link className={`icon-button account-trigger${profile ? " account-trigger-signed-in" : ""}`} to={accountPath} aria-label={profile ? `Account: ${profile.full_name || profile.email || "signed in"}` : "Sign in or create an account"} title={profile?.full_name || profile?.email || "Your account"}><span className="account-trigger-avatar"><UserRound size={18}/></span><span className="account-trigger-label">{profile?.full_name ? profile.full_name.split(" ")[0] : "Account"}</span></Link>
         <Link className="icon-button cart-link" to="/cart" aria-label={`Shopping bag with ${cart?.count ?? 0} items`}><ShoppingBag size={20} /><span>{cart?.count ?? 0}</span></Link>
         <button className="icon-button mobile-menu-button" onClick={() => setOpen(true)} aria-label="Open menu" aria-expanded={open}><Menu size={22} /></button>
