@@ -1,0 +1,3 @@
+-- admin_save_product now persists the shipping_weight_grams field submitted by the admin.
+-- cart_read includes product.shippingWeightGrams for the checkout's live weight estimate.
+-- order_by_phone returns couponCode and discountAmount for the order confirmation page.
