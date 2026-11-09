@@ -1,13 +1,83 @@
-import { useState } from 'react';
-import { useQueryClient } from '@tanstack/react-query';
-import { Link, useNavigate, useSearchParams } from 'react-router';
-import { ArrowLeft, LockKeyhole } from 'lucide-react';
-import { Logo } from '@/components/Storefront';
-import { signIn, signUp, supabaseConfigured, getProfile } from '@/lib/supabase';
+import { useRef, useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
+import { Link, useNavigate, useSearchParams } from "react-router";
+import { ArrowLeft, LockKeyhole } from "lucide-react";
+import { Logo } from "@/components/Storefront";
+import { signIn, signUp, supabaseConfigured, getProfile } from "@/lib/supabase";
 
 export default function Login() {
- const [params]=useSearchParams(); const navigate=useNavigate(); const queryClient=useQueryClient(); const [mode,setMode]=useState<'login'|'signup'>(params.get('mode')==='signup'?'signup':'login');
- const [email,setEmail]=useState(''); const [password,setPassword]=useState(''); const [name,setName]=useState(''); const [error,setError]=useState(''); const [busy,setBusy]=useState(false);
- const submit=async(e:React.FormEvent)=>{e.preventDefault();setError('');setBusy(true);try{if(mode==='signup'){const result=await signUp(email,password,name);if(result?.access_token){await queryClient.invalidateQueries();navigate('/account');}else{setError('Account created, but email confirmation is still enabled in Supabase. Turn off Confirm email in Authentication → Providers → Email to allow immediate sign-in.');}}else{await signIn(email,password);const profile=await getProfile();await queryClient.invalidateQueries();navigate(params.get('next')==='/admin'||profile?.role==='admin'?'/admin':'/account');}}catch(err){setError(err instanceof Error?err.message:'Authentication failed.');}finally{setBusy(false);}};
- return <main className="admin-login"><section><Link to="/"><Logo /></Link><div><p>DEQANT FRAGRANCE / PRIVATE ACCESS</p><h1>Find your<br/><em>signature.</em></h1><span>A considered fragrance experience, from discovery to delivery.</span></div><small>Secure account access powered by Supabase. No email confirmation is required when the store’s Auth setting is disabled.</small></section><section><Link className="text-link light" to="/"><ArrowLeft/> Back to storefront</Link><form className="login-card" onSubmit={submit}><LockKeyhole/><p>{mode==='login'?'YOUR DEQANT ACCOUNT':'JOIN DEQANT'}</p><h2>{mode==='login'?'Welcome back.':'Create an account.'}</h2><span>{mode==='login'?'Sign in to continue to your fragrance experience.':'Create your account and start discovering your next signature scent.'}</span>{!supabaseConfigured&&<div className="form-error">Supabase is not configured. Add the Vercel environment variables before using authentication.</div>}{mode==='signup'&&<label>Full name<input value={name} onChange={e=>setName(e.target.value)} required autoComplete="name"/></label>}<label>Email address<input type="email" value={email} onChange={e=>setEmail(e.target.value)} required autoComplete="email"/></label><label>Password<input type="password" value={password} onChange={e=>setPassword(e.target.value)} required minLength={8} autoComplete={mode==='login'?'current-password':'new-password'}/></label>{error&&<p className={error.startsWith('Account created')?'auth-success':'form-error'}>{error}</p>}<button className="button button-burgundy" disabled={busy||!supabaseConfigured}>{busy?'Please wait…':mode==='login'?'Sign in':'Create account'}</button><small>{mode==='login'?"Don't have an account?":"Already registered?"} <button type="button" className="auth-switch" onClick={()=>{setMode(mode==='login'?'signup':'login');setError('')}}>{mode==='login'?'Create one':'Sign in'}</button></small><small className="guest-login-note">Prefer not to create an account? <Link to="/shop">Continue as guest</Link></small></form></section></main>;
+  const [params] = useSearchParams();
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
+  const submitting = useRef(false);
+  const [mode, setMode] = useState<"login" | "signup">(params.get("mode") === "signup" ? "signup" : "login");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
+  const [error, setError] = useState("");
+  const [busy, setBusy] = useState(false);
+
+  const submit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    // A ref locks synchronously, so a fast double tap cannot start two auth requests
+    // before React has had a chance to render the disabled button.
+    if (submitting.current || !supabaseConfigured) return;
+    submitting.current = true;
+    setError("");
+    setBusy(true);
+    try {
+      const normalizedEmail = email.trim().toLowerCase();
+      if (mode === "signup") {
+        const result = await signUp(normalizedEmail, password, name.trim());
+        if (result?.access_token) {
+          await queryClient.invalidateQueries();
+          navigate("/account", { replace: true });
+        } else {
+          setError("Account created, but email confirmation is still enabled in Supabase. Turn off Confirm email in Authentication → Providers → Email to allow immediate sign-in.");
+        }
+      } else {
+        await signIn(normalizedEmail, password);
+        // Refresh cached auth/profile queries after the new session is stored.
+        await queryClient.invalidateQueries();
+        const profile = await getProfile();
+        navigate(params.get("next") === "/admin" || profile?.role === "admin" ? "/admin" : "/account", { replace: true });
+      }
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Authentication failed.");
+    } finally {
+      submitting.current = false;
+      setBusy(false);
+    }
+  };
+
+  const switchMode = () => {
+    setMode((current) => current === "login" ? "signup" : "login");
+    setError("");
+    setPassword("");
+  };
+
+  return <main className="admin-login">
+    <section>
+      <Link to="/"><Logo /></Link>
+      <div><p>DEQANT FRAGRANCE / PRIVATE ACCESS</p><h1>Find your<br/><em>signature.</em></h1><span>A considered fragrance experience, from discovery to delivery.</span></div>
+      <small>Secure account access powered by Supabase. No email confirmation is required when the store’s Auth setting is disabled.</small>
+    </section>
+    <section>
+      <Link className="text-link light" to="/"><ArrowLeft/> Back to storefront</Link>
+      <form className="login-card" onSubmit={submit} noValidate={false}>
+        <LockKeyhole/>
+        <p>{mode === "login" ? "YOUR DEQANT ACCOUNT" : "JOIN DEQANT"}</p>
+        <h2>{mode === "login" ? "Welcome back." : "Create an account."}</h2>
+        <span>{mode === "login" ? "Sign in to continue to your fragrance experience." : "Create your account and start discovering your next signature scent."}</span>
+        {!supabaseConfigured && <div className="form-error">Supabase is not configured. Add the Vercel environment variables before using authentication.</div>}
+        {mode === "signup" && <label>Full name<input name="name" value={name} onChange={(event) => setName(event.target.value)} required autoComplete="name"/></label>}
+        <label>Email address<input name="email" type="email" value={email} onChange={(event) => setEmail(event.target.value)} required autoComplete="username" inputMode="email" autoCapitalize="none" spellCheck={false}/></label>
+        <label>Password<input name="password" type="password" value={password} onChange={(event) => setPassword(event.target.value)} required minLength={8} autoComplete={mode === "login" ? "current-password" : "new-password"}/></label>
+        {error && <p className={error.startsWith("Account created") ? "auth-success" : "form-error"} role="alert">{error}</p>}
+        <button className="button button-burgundy" type="submit" disabled={busy || !supabaseConfigured}>{busy ? "Please wait…" : mode === "login" ? "Sign in" : "Create account"}</button>
+        <small>{mode === "login" ? "Don't have an account?" : "Already registered?"} <button type="button" className="auth-switch" onClick={switchMode}>{mode === "login" ? "Create one" : "Sign in"}</button></small>
+        <small className="guest-login-note">Prefer not to create an account? <Link to="/shop">Continue as guest</Link></small>
+      </form>
+    </section>
+  </main>;
 }
