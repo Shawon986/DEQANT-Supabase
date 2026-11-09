@@ -55,7 +55,7 @@ export default function Product() {
           brand: { "@type": "Brand", name: product.brand },
           mainEntityOfPage: { "@type": "WebPage", "@id": canonicalUrl },
           additionalProperty: [
-            { "@type": "PropertyValue", name: "Fragrance family", value: product.family },
+            
             { "@type": "PropertyValue", name: "Fragrance notes", value: product.notes }
           ],
           offers: {
@@ -93,19 +93,19 @@ export default function Product() {
   if (query.isLoading) return <PageShell><LoadingState /></PageShell>;
   if (query.error || !query.data) return <PageShell><ErrorState message={query.error?.message ?? "Fragrance not found."} /></PageShell>;
   const { product, variants } = query.data;
-  const selectedVariantId = variantId ?? variants.find((v: { id: number; stock: number }) => v.stock > 0)?.id;
+  const selectedVariantId = variantId ?? (variants.find((v: { id:number; stock:number; sizeMl:number }) => v.sizeMl === 3 && v.stock > 0)?.id ?? variants.find((v: { id: number; stock: number }) => v.stock > 0)?.id);
   const selected = variants.find((v: { id: number; price: number; originalPrice: number; stock: number; sizeMl: number }) => v.id === selectedVariantId) ?? variants[0];
   const discount = selected.originalPrice > selected.price ? Math.round((1 - selected.price / selected.originalPrice) * 100) : 0;
-  const related = relatedQuery.data?.filter((entry: CatalogEntry) => entry.product.id !== product.id && entry.product.family === product.family).slice(0, 2) ?? [];
+  const related = relatedQuery.data?.filter((entry: CatalogEntry) => entry.product.id !== product.id && entry.product.category === product.category).slice(0, 2) ?? [];
   return <PageShell>
     <div className="product-breadcrumb"><Link to="/shop"><ArrowLeft /> Collection</Link><span>/</span><span>{product.name}</span></div>
     <section className="product-detail">
       <div className="product-gallery"><div className="product-main-image"><img src={product.imageUrl} alt={`${product.name} by ${product.brand}`} width="900" height="1100" /><span>{product.category === "decant" ? "DEQANT DECANT" : "INTACT EDITION"}</span></div>{query.data.images?.length>1&&<div className="product-extra-images">{query.data.images.slice(1).map((image:any)=><img key={image.id} src={image.url} alt={image.alt||product.name} loading="lazy"/>)}</div>}</div>
       <div className="product-purchase">
-        <p className="eyebrow">{product.brand} / {product.family}</p><h1>{product.name}</h1>
+        <p className="eyebrow">{product.brand} / DEQANT FRAGRANCE</p><h1>{product.name}</h1>
         <div className="detail-price"><strong>{money(selected.price)}</strong>{selected.originalPrice > selected.price && <><del>{money(selected.originalPrice)}</del><span>Save {discount}%</span></>}</div>
         <p className="detail-description">{product.description}</p>
-        <fieldset className="size-selector"><legend>Select your size <span>{product.category === "decant" ? "Hand-prepared decant" : "Sealed intact bottle"}</span></legend><div>{variants.map((variant: {id:number;price:number;originalPrice:number;stock:number;sizeMl:number}) => <button key={variant.id} className={selected.id === variant.id ? "selected" : ""} onClick={() => { setVariantId(variant.id); setQuantity(1); }} disabled={variant.stock === 0} aria-pressed={selected.id === variant.id}><strong>{variant.sizeMl}ml</strong><span>{variant.stock === 0 ? "Sold out" : money(variant.price)}</span></button>)}</div></fieldset>
+        <fieldset className="size-selector"><legend>Select your size <span>{product.category === "decant" ? "Hand-prepared decant" : "Sealed intact bottle"}</span></legend><div>{variants.map((variant: {id:number;price:number;originalPrice:number;stock:number;sizeMl:number}) => <button key={variant.id} className={selected.id === variant.id ? "selected" : ""} onClick={() => { setVariantId(variant.id); setQuantity(1); }} disabled={variant.stock === 0} aria-pressed={selected.id === variant.id}><strong>{variant.sizeMl}ml</strong>{variant.sizeMl === 3 && <small className="size-pick-badge try-first">TRY FIRST</small>}{variant.sizeMl === 10 && <small className="size-pick-badge best-value">BEST VALUE</small>}<span>{variant.stock === 0 ? "Sold out" : money(variant.price)}</span></button>)}</div></fieldset>
         <div className="stock-note">{selected.stock > 0 ? <><span className="stock-dot" /> {selected.stock < 8 ? `Only ${selected.stock} left in this size` : "In stock, ready to prepare"}</> : "Currently unavailable"}</div>
         <div className="add-row"><div className="quantity"><button onClick={() => setQuantity(Math.max(1, quantity - 1))} disabled={quantity <= 1} aria-label="Decrease quantity"><Minus /></button><span>{quantity}</span><button onClick={() => setQuantity(Math.min(Math.min(10, selected.stock), quantity + 1))} disabled={quantity >= Math.min(10, selected.stock)} aria-label="Increase quantity"><Plus /></button></div><button className="button button-burgundy add-button" onClick={() => add(selected.id, quantity)} disabled={isMutating || selected.stock === 0}><ShoppingBag />{isMutating ? "Adding…" : "Add to cart"}</button></div>
         <p className="cod-note">Cash on delivery · Delivery calculated clearly at checkout</p>
