@@ -2799,3 +2799,28 @@ body { position: relative; }
 @media(max-width:600px){.header-search-panel{position:fixed;top:80px;left:12px;right:12px;width:auto}.deq-coupon-form{grid-template-columns:1fr}.deq-coupon-list article{flex-wrap:wrap}.product-main-image img{height:390px;padding:18px}}
 
 .deq-coupon-generate{justify-self:start;padding:6px 10px;border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.06);color:#f0d9c8;font-size:10px;cursor:pointer}.deq-coupon-generate:hover{background:rgba(255,255,255,.13)}
+
+
+/* DEQANT refinement pass — coupon controls, typography, marquees and mobile stability */
+.size-pick-badge.best-value { background: #f1dfc7; color: #6a3b2c; }
+.footer-main > div:first-child p { font-family: var(--serif); font-style: italic; font-size: clamp(18px, 2vw, 24px); line-height: 1.35; letter-spacing: .01em; opacity: .9; }
+.scent-marquee > div { width: max-content; margin-left: 100vw; display: flex; align-items: center; gap: 28px; animation: deq-scent-enter-loop 32s linear infinite; will-change: transform; }
+.scent-marquee > div > span { flex: 0 0 auto; display: inline-flex; align-items: center; gap: 28px; padding-right: 0; }
+.scent-marquee > div > :first-child { margin-left: 0; }
+@keyframes deq-scent-enter-loop { from { transform: translateX(0); } to { transform: translateX(-33.333333%); } }
+.deq-coupon-form, .deq-coupon-form label, .deq-coupon-form input { box-sizing: border-box; min-width: 0; }
+.deq-coupon-form input { max-width: 100%; }
+.deq-coupon-expiry-control { display: flex; align-items: center; gap: 8px; width: 100%; min-width: 0; }
+.deq-coupon-expiry-control input { flex: 1 1 auto; width: 0; min-width: 0; }
+.deq-coupon-expiry-control input::-webkit-calendar-picker-indicator { filter: invert(1); opacity: .9; cursor: pointer; }
+.deq-coupon-clear-expiry { flex: 0 0 auto; min-height: 42px; padding: 0 10px; border: 1px solid rgba(255,255,255,.2); background: rgba(255,255,255,.06); color: #f3e8df; font-size: 10px; white-space: nowrap; }
+.deq-coupon-clear-expiry:disabled { opacity: .38; }
+.deq-admin select { color-scheme: dark; }
+.bottle-ornament-seal { display: grid; place-items: center; overflow: hidden; }
+.bottle-ornament-seal img { display: block; width: 100%; height: 100%; object-fit: contain; }
+@media (max-width: 760px) {
+  .bottle-scroll-story { height: 155vh !important; }
+  .bottle-scroll-sticky { height: 155vh !important; padding-top: clamp(145px, 19vh, 180px) !important; padding-bottom: clamp(145px, 19vh, 180px) !important; }
+  .exploded-perfume { height: min(54vh, 430px) !important; }
+}
+@media (max-width: 390px) { .exploded-perfume { height: min(49vh, 360px) !important; } }
