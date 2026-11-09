@@ -65,6 +65,7 @@ export function OrderSuccess() {
   const paymentSettings = storeApi.store.settings.useQuery();
   const payment = storeApi.store.submitBkashPayment.useMutation({ onSuccess: async () => { setTrxId(""); await query.refetch(); } });
   const bkashNumber = String(paymentSettings.data?.bkashNumber ?? "").trim();
+  const bkashPaymentType = paymentSettings.data?.bkashPaymentType === "merchant" ? "merchant" : "personal";
   const order = query.data?.order;
   const paymentStatus = order?.advancePaymentStatus;
   const submitPayment = (event: FormEvent) => {
@@ -85,7 +86,7 @@ export function OrderSuccess() {
         {paymentStatus === "verified" ? <div className="bkash-state bkash-state-success"><Check /><div><strong>Advance payment verified</strong><p>Your ৳200 advance has been approved. Remaining cash on delivery: {money(Math.max(0,Number(order.total)-200))}.</p></div></div>
         : paymentStatus === "submitted" ? <div className="bkash-state bkash-state-pending"><Clock3 /><div><strong>Transaction submitted · awaiting review</strong><p>Our team will compare your TrxID with the bKash transaction record. Your order will move forward after approval.</p><small>Transaction ID: {order.bkashTrxId}</small><small>Sender: {order.bkashSenderPhone}</small></div></div>
         : <>
-          <div className="bkash-instructions"><div className="bkash-step"><span>01</span><div><strong>Open your bKash app</strong><p>Choose <b>Send Money</b> and send exactly ৳200 to the number below.</p></div></div>
+          <div className="bkash-instructions"><div className="bkash-step"><span>01</span><div><strong>Open your bKash app</strong><p>Choose <b>{bkashPaymentType === "merchant" ? "Payment" : "Send Money"}</b> and send exactly ৳200 to the number below.</p></div></div>
             <div className="bkash-receiver"><span>PAYMENT NUMBER</span><strong>{bkashNumber || "Store payment number not configured"}</strong>{bkashNumber && <button type="button" onClick={() => void navigator.clipboard?.writeText(bkashNumber)}>Copy number</button>}</div>
             <div className="bkash-step"><span>02</span><div><strong>Keep your transaction ID</strong><p>After the payment succeeds, copy the TrxID from your bKash confirmation.</p></div></div>
             <div className="bkash-step"><span>03</span><div><strong>Submit your payment details</strong><p>Enter the TrxID and the mobile number you paid from. We verify every payment manually.</p></div></div>
