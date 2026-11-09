@@ -26,6 +26,9 @@ export function Logo({ dark = false, className = "" }: { dark?: boolean; classNa
 
 export function Header() {
   const [open, setOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [searchText, setSearchText] = useState("");
+  const { data: searchResults, isLoading: searchLoading } = storeApi.store.catalog.useQuery({ q: searchText.trim() }, { enabled: searchOpen && searchText.trim().length > 1 });
   const { cart } = useCart();
   const location = useLocation();
   const { data: settings } = storeApi.store.settings.useQuery();
@@ -38,7 +41,7 @@ export function Header() {
     return () => window.removeEventListener("keydown", close);
   }, []);
   return <>
-    <div className="announcement">{settings?.announcement ?? "DISCOVER YOUR SIGNATURE SCENT"}</div>
+    <div className="announcement" aria-label={settings?.announcement ?? "Free delivery on orders ৳2,000 and above"}><div><span>{settings?.announcement ?? "FREE DELIVERY ON ORDERS ৳2,000+ · MONEY BACK IF NOT ORIGINAL · CASH ON DELIVERY · FREE REPLACEMENT FOR GLASS ATOMIZER LEAK OR BREAK"}</span><span aria-hidden="true">{settings?.announcement ?? "FREE DELIVERY ON ORDERS ৳2,000+ · MONEY BACK IF NOT ORIGINAL · CASH ON DELIVERY · FREE REPLACEMENT FOR GLASS ATOMIZER LEAK OR BREAK"}</span></div></div>
     <header className="site-header">
       <Link to="/" aria-label="DEQANT home"><Logo /></Link>
       <nav className="desktop-nav" aria-label="Main navigation">
@@ -46,12 +49,13 @@ export function Header() {
         <NavLink to="/intact">Intact bottles</NavLink><NavLink to="/about">Our story</NavLink>
       </nav>
       <div className="header-actions">
-        <Link className="icon-button desktop-only" to="/shop?focus=search" aria-label="Search perfumes"><Search size={19} /></Link>
+        <button className="icon-button desktop-only" type="button" onClick={() => setSearchOpen((value) => !value)} aria-label="Search perfumes" aria-expanded={searchOpen}><Search size={19} /></button>
         <Link className={`icon-button account-trigger${profile ? " account-trigger-signed-in" : ""}`} to={accountPath} aria-label={profile ? `Account: ${profile.full_name || profile.email || "signed in"}` : "Sign in or create an account"} title={profile?.full_name || profile?.email || "Your account"}><span className="account-trigger-avatar"><UserRound size={18}/></span><span className="account-trigger-label">{profile?.full_name ? profile.full_name.split(" ")[0] : "Account"}</span></Link>
         <Link className="icon-button cart-link" to="/cart" aria-label={`Shopping bag with ${cart?.count ?? 0} items`}><ShoppingBag size={20} /><span>{cart?.count ?? 0}</span></Link>
         <button className="icon-button mobile-menu-button" onClick={() => setOpen(true)} aria-label="Open menu" aria-expanded={open}><Menu size={22} /></button>
       </div>
     </header>
+    {searchOpen && <div className="header-search-panel"><label htmlFor="header-fragrance-search">Find your fragrance</label><input id="header-fragrance-search" autoFocus value={searchText} onChange={(event) => setSearchText(event.target.value)} placeholder="Search perfume, brand or notes…" onKeyDown={(event) => { if (event.key === "Escape") setSearchOpen(false); }} /><button type="button" className="header-search-close" onClick={() => { setSearchOpen(false); setSearchText(""); }} aria-label="Close search"><X size={18}/></button>{searchText.trim().length > 1 && <div className="header-search-results">{searchLoading ? <p>Searching fragrances…</p> : searchResults?.length ? searchResults.slice(0,5).map((entry:any) => <Link key={entry.product.id} to={"/product/"+entry.product.slug} onClick={() => setSearchOpen(false)}><img src={entry.product.imageUrl} alt=""/><span><b>{entry.product.name}</b><small>{entry.product.brand} · {entry.product.notes?.split(" · ").slice(0,2).join(" · ")}</small></span><ArrowRight size={15}/></Link>) : <p>No matching fragrance found.</p>}</div>}</div>}
     {open && <div className="mobile-menu" role="dialog" aria-modal="true" aria-label="Navigation menu">
       <button className="icon-button menu-close" onClick={() => setOpen(false)} aria-label="Close menu"><X /></button>
       <Logo />
@@ -67,12 +71,12 @@ export function Footer() {
   const { data: settings } = storeApi.store.settings.useQuery();
   return <footer className="site-footer">
     <div className="footer-main">
-      <div><Logo /><p>{settings?.footerText ?? "Independent fragrance, thoughtfully decanted and delivered across Bangladesh."}</p></div>
+      <div><Logo /><p>{settings?.footerText ?? "A scent of sunnah in every bottle. So, spread the fragrance."}</p></div>
       <div><h3>Collections</h3><Link to="/decants">Perfume decants</Link><Link to="/intact">Intact bottles</Link><Link to="/best-sellers">Best sellers</Link><Link to="/offers">Special offers</Link></div>
       <div><h3>Client care</h3><Link to="/orders">My orders</Link><Link to="/track">Track your order</Link><Link to="/delivery-policy">Delivery & returns</Link><Link to="/privacy">Privacy</Link><Link to="/terms">Terms</Link></div>
-      <div><h3>Concierge</h3><a href={`mailto:${settings?.contactEmail ?? "concierge@deqant.com"}`}>{settings?.contactEmail ?? "concierge@deqant.com"}</a><a href={`tel:${settings?.contactPhone ?? "+8801700000000"}`}>{settings?.contactPhone ?? "+880 1700 000000"}</a><Link to="/contact">Send an enquiry</Link></div>
+      <div><h3>Concierge</h3><a href={`mailto:${settings?.contactEmail ?? "deqantfragrance@gmail.com"}`}>{settings?.contactEmail ?? "concierge@deqant.com"}</a><a href={`tel:${settings?.contactPhone ?? "+8801716686282"}`}>{settings?.contactPhone ?? "+8801716686282"}</a><Link to="/contact">Send an enquiry</Link></div>
     </div>
-    <div className="footer-bottom"><span>© {new Date().getFullYear()} DEQANT FRAGRANCE</span><span>DHAKA · BANGLADESH</span><Link to="/login">Your account / Owner portal</Link></div>
+    <div className="footer-bottom"><span>© {new Date().getFullYear()} DEQANT FRAGRANCE</span><span>RAJSHAHI · BANGLADESH</span><Link to="/login">Your account / Owner portal</Link></div>
   </footer>;
 }
 
@@ -103,6 +107,6 @@ export function ProductCard({ entry, index = 0 }: { entry: ProductEntry; index?:
       <div className="product-badges">{product.bestSeller && <span>Best seller</span>}{original > price && <span>Private offer</span>}</div>
       <span className="product-view">Discover <ArrowRight size={16} /></span>
     </Link>
-    <div className="product-meta"><div><p>{product.brand} · {product.category === "decant" ? "Decant" : "Intact bottle"}</p><Link to={`/product/${product.slug}`}><h3>{product.name}</h3></Link><span>{product.family}</span></div><div className="product-price"><strong>{money(price)}</strong>{original > price && <del>{money(original)}</del>}<small>from {Math.min(...variants.map((v) => v.sizeMl))}ml</small></div></div>
+    <div className="product-meta"><div><p>{product.brand} · {product.category === "decant" ? "Decant" : "Intact bottle"}</p><Link to={`/product/${product.slug}`}><h3>{product.name}</h3></Link></div><div className="product-price"><strong>{money(price)}</strong>{original > price && <del>{money(original)}</del>}<small>from {Math.min(...variants.map((v) => v.sizeMl))}ml</small></div></div>
   </article>;
 }
