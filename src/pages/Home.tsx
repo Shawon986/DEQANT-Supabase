@@ -70,6 +70,14 @@ function ScrollBottleExperience() {
       if (!frame) frame = window.requestAnimationFrame(render);
     };
     const handleResize = () => { measure(); schedule(); };
+    // Product content above this scene can resize after async loading. Keep the
+    // cached section offset accurate so fast scrolling never uses stale geometry.
+    const layoutObserver = typeof ResizeObserver !== "undefined" ? new ResizeObserver(() => {
+      measure();
+      schedule();
+    }) : null;
+    if (section.parentElement) layoutObserver?.observe(section.parentElement);
+    layoutObserver?.observe(section);
 
     section.classList.add("is-active");
     measure();
@@ -80,6 +88,7 @@ function ScrollBottleExperience() {
 
     return () => {
       window.cancelAnimationFrame(frame);
+      layoutObserver?.disconnect();
       window.removeEventListener("scroll", schedule);
       window.removeEventListener("resize", handleResize);
       window.removeEventListener("orientationchange", handleResize);
