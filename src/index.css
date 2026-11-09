@@ -2797,3 +2797,5 @@ body { position: relative; }
 .deq-coupon-list article small{font-size:10px;color:#ad9d96}
 .deq-coupon-list article button{border:1px solid rgba(255,255,255,.18);background:transparent;color:#f3e8df;padding:8px 12px;cursor:pointer}
 @media(max-width:600px){.header-search-panel{position:fixed;top:80px;left:12px;right:12px;width:auto}.deq-coupon-form{grid-template-columns:1fr}.deq-coupon-list article{flex-wrap:wrap}.product-main-image img{height:390px;padding:18px}}
+
+.deq-coupon-generate{justify-self:start;padding:6px 10px;border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.06);color:#f0d9c8;font-size:10px;cursor:pointer}.deq-coupon-generate:hover{background:rgba(255,255,255,.13)}
