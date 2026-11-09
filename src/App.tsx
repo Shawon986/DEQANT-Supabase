@@ -48,7 +48,15 @@ function Experience() {
   const [loading, setLoading] = useState(true);
   useEffect(() => { const timer = window.setTimeout(() => setLoading(false), 650); return () => window.clearTimeout(timer); }, []);
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "instant" });
+    // Reset immediately on route changes; don't let mobile smooth scrolling
+    // continue toward the previous page's focused input near the footer.
+    const root = document.documentElement;
+    const previousScrollBehavior = root.style.scrollBehavior;
+    root.style.scrollBehavior = "auto";
+    window.scrollTo(0, 0);
+    root.scrollTop = 0;
+    document.body.scrollTop = 0;
+    requestAnimationFrame(() => { root.style.scrollBehavior = previousScrollBehavior; });
     const path = location.pathname.replace(/\/+$/, "") || "/";
     const isProduct = path.startsWith("/product/");
     const isPrivate = /^\/(admin|login|account|orders|cart|checkout|order|track)(\/|$)/.test(path);
@@ -67,6 +75,23 @@ function Experience() {
     canonical.href = `https://deqant-perfume.vercel.app${path === "/" ? "/" : path}`;
     setMeta('meta[property="og:url"]', "content", canonical.href);
   }, [location.pathname]);
+  useEffect(() => {
+    // Blur submitted fields to release mobile visual-viewport zoom. If the form
+    // stays on the same route, preserve the reader's current scroll position.
+    const handleSubmit = (event: Event) => {
+      const form = event.target;
+      if (!(form instanceof HTMLFormElement)) return;
+      const submittedPath = window.location.pathname;
+      const submittedScrollY = window.scrollY;
+      const active = document.activeElement;
+      if (active instanceof HTMLElement && form.contains(active)) active.blur();
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        if (window.location.pathname === submittedPath) window.scrollTo(0, submittedScrollY);
+      }));
+    };
+    document.addEventListener("submit", handleSubmit, true);
+    return () => document.removeEventListener("submit", handleSubmit, true);
+  }, []);
   useEffect(() => {
     if (!window.matchMedia("(pointer:fine)").matches) return;
     const cursor = document.querySelector<HTMLDivElement>(".custom-cursor");
