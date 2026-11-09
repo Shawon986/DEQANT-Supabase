@@ -96,7 +96,7 @@ function ScrollBottleExperience() {
       </div>
       <div className="bottle-exploded-stage">
         <div className="bottle-stage-orbit orbit-one" /><div className="bottle-stage-orbit orbit-two" />
-        <div className="bottle-stage-caption"><span>DEQANT / OBJECT 001</span><span>A SCENT THAT STAYS</span></div>
+        <div className="bottle-stage-caption"><span>DEQANT / OBJECT 001</span><span>FRAGRANCE, FELT NOT SEEN</span></div>
         <svg className="exploded-perfume" viewBox="0 0 420 620" role="img" aria-label="A perfume bottle separating into its cap, atomizer, collar, glass body, fragrance and label">
           <defs>
             <linearGradient id="deq-cap" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stopColor="#e8d4bd"/><stop offset=".42" stopColor="#9e796d"/><stop offset="1" stopColor="#39212a"/></linearGradient>
@@ -117,7 +117,7 @@ function ScrollBottleExperience() {
             <path d="M135 495 Q210 508 285 495" fill="none" stroke="#f4dcc5" strokeOpacity=".38" strokeWidth="3"/>
           </g>
           <g className="bottle-part bottle-juice" clipPath="url(#deq-bottle-clip)"><path d="M132 345 Q210 333 288 345 V525 H132 Z" fill="url(#deq-liquid)"/><path d="M136 348 Q210 336 284 348" fill="none" stroke="#f8d6a6" strokeOpacity=".58" strokeWidth="3"/></g>
-          <g className="bottle-part bottle-label"><rect x="157" y="365" width="106" height="92" rx="3" fill="#3c1425" fillOpacity=".91" stroke="#d8b994" strokeWidth="1.5"/><path d="M168 377 H252" stroke="#d8b994" strokeOpacity=".7"/><text x="210" y="405" textAnchor="middle" fill="#f4e5d2" fontSize="17" letterSpacing="3" fontFamily="Georgia,serif">DEQANT</text><text x="210" y="425" textAnchor="middle" fill="#d8b994" fontSize="7" letterSpacing="2">FRAGRANCE</text><text x="210" y="442" textAnchor="middle" fill="#d8b994" fontSize="6" letterSpacing="1.5">A SCENT THAT STAYS</text></g>
+          <g className="bottle-part bottle-label"><rect x="157" y="365" width="106" height="92" rx="3" fill="#3c1425" fillOpacity=".91" stroke="#d8b994" strokeWidth="1.5"/><path d="M168 377 H252" stroke="#d8b994" strokeOpacity=".7"/><text x="210" y="405" textAnchor="middle" fill="#f4e5d2" fontSize="17" letterSpacing="3" fontFamily="Georgia,serif">DEQANT</text><text x="210" y="425" textAnchor="middle" fill="#d8b994" fontSize="7" letterSpacing="2">FRAGRANCE</text><text x="210" y="442" textAnchor="middle" fill="#d8b994" fontSize="6" letterSpacing="1.5">A MEMORY IN EVERY NOTE</text></g>
         </svg>
         <div className="bottle-stage-footer"><span>01 — FORM</span><span>02 — ESSENCE</span><span>03 — SIGNATURE</span></div>
         <div className="bottle-stage-number">01<span>/</span>03</div>
@@ -223,7 +223,7 @@ export default function Home() {
       </div>
       <div
         className="hero-visual hero-visual-cinematic"
-        aria-label="Rouge Amber eau de parfum"
+        aria-label="Rouge Amber fragrance bottle"
         onPointerMove={(event) => {
           if (event.pointerType !== "mouse" || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
           const rect = event.currentTarget.getBoundingClientRect();
@@ -261,7 +261,7 @@ export default function Home() {
         <div className="hero-note glass hero-note-primary"><span><i /> THE OPENING</span><strong>Saffron / Almond</strong><small>Bright. Textural. Unexpected.</small></div>
         <div className="hero-note glass hero-note-secondary"><span>THE SIGNATURE</span><strong>Warm. Distinctive.</strong></div>
         <div className="hero-edition">OLFACTORY<br /><b>EDITION 03</b><i /></div>
-        <div className="hero-visual-index"><span>A SCENT THAT STAYS</span><b>01</b><span>EXTRAIT OF CHARACTER</span></div>
+        <div className="hero-visual-index"><span>THE ART OF A LASTING SCENT</span><b>01</b><span>EXTRAIT OF CHARACTER</span></div>
       </div>
       <a className="scroll-cue" href="#collection"><ArrowDown /><span>Scroll to discover</span></a>
     </section>
