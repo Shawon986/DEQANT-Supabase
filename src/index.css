@@ -2751,3 +2751,49 @@ body { position: relative; }
   }
   .bottle-part { transform: none !important; will-change: auto !important; }
 }
+
+
+/* DEQANT Rajshahi launch refinements */
+.announcement{overflow:hidden;white-space:nowrap;justify-content:flex-start;padding-inline:0}
+.announcement>div{display:flex;align-items:center;gap:5rem;width:max-content;min-width:max-content;animation:deq-announcement-rtl 32s linear infinite}
+.announcement>div>span{flex:0 0 auto;padding-right:5rem}
+.announcement:hover>div{animation-play-state:paused}
+@keyframes deq-announcement-rtl{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.scent-marquee>div{width:max-content;display:flex;animation:marquee 30s linear infinite}
+.scent-marquee>div>span{display:inline-flex;align-items:center;gap:28px;flex:0 0 auto;padding-right:28px}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.header-search-panel{position:absolute;z-index:60;top:calc(var(--header-height) + 30px);right:var(--gutter);width:min(440px,calc(100vw - 32px));padding:20px;background:rgba(248,243,235,.98);border:1px solid rgba(77,2,32,.14);box-shadow:0 20px 60px rgba(31,12,20,.2);color:var(--brand-burgundy)}
+.header-search-panel>label{display:block;margin-bottom:8px;font-size:9px;letter-spacing:.16em;text-transform:uppercase}
+.header-search-panel>input{width:100%;height:46px;padding:0 42px 0 13px;border:1px solid var(--line);background:#fff;color:var(--brand-night);outline-offset:2px}
+.header-search-close{position:absolute;right:28px;top:48px;background:transparent;border:0;color:var(--brand-burgundy);cursor:pointer}
+.header-search-results{margin-top:12px;max-height:320px;overflow:auto}
+.header-search-results>a{display:flex;align-items:center;gap:12px;padding:9px 0;border-top:1px solid var(--line);color:inherit;text-decoration:none}
+.header-search-results>a img{width:46px;height:54px;object-fit:contain;background:#eee6dd}
+.header-search-results>a span{display:grid;gap:3px;flex:1;min-width:0}
+.header-search-results>a b{font-family:var(--serif);font-size:17px;font-weight:500}
+.header-search-results>a small,.header-search-results>p{font-size:10px;opacity:.7}
+.header-search-results>p{padding:8px 0}
+.product-main-image{max-width:520px;margin-inline:auto}
+.product-main-image img{width:100%;height:clamp(380px,58vw,620px);object-fit:contain;padding:34px}
+.product-gallery{align-self:start}
+.size-selector button{position:relative;display:flex;flex-direction:column;align-items:center;gap:6px;padding:15px 10px 12px}
+.size-pick-badge{font-family:var(--sans);font-size:8px;letter-spacing:.1em;font-weight:700;padding:4px 6px;border-radius:20px}
+.size-pick-badge.try-first{background:#f1dfc7;color:#6a3b2c}
+.size-pick-badge.best-value{background:#4d0220;color:#fff1df}
+.coupon-entry{padding:12px 0;border-top:1px solid var(--line)}
+.coupon-entry>label{display:block;font-size:11px;margin-bottom:7px}
+.coupon-entry>div{display:flex;gap:8px}
+.coupon-entry input{min-width:0;flex:1;padding:10px;border:1px solid var(--line);background:transparent}
+.coupon-entry button{padding:0 14px;background:var(--brand-burgundy);color:#fff;border:0;cursor:pointer}
+.coupon-entry small{display:block;margin-top:7px;font-size:10px}
+.coupon-success{color:#32734a}.coupon-error{color:#a32d42}
+.deq-coupon-form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;padding:20px 0;border-bottom:1px solid rgba(255,255,255,.12)}
+.deq-coupon-form label{display:grid;gap:7px;font-size:11px;color:#e9dcd2}
+.deq-coupon-form label small{display:inline;color:#aa9a94}
+.deq-coupon-form input{width:100%;min-height:42px;padding:10px;border:1px solid rgba(255,255,255,.16);background:rgba(0,0,0,.18);color:#fff}
+.deq-coupon-form button{align-self:end;min-height:42px}
+.deq-coupon-list article{display:flex;align-items:center;gap:14px;padding:14px 0;border-bottom:1px solid rgba(255,255,255,.1)}
+.deq-coupon-list article>div{display:grid;gap:5px;flex:1}
+.deq-coupon-list article small{font-size:10px;color:#ad9d96}
+.deq-coupon-list article button{border:1px solid rgba(255,255,255,.18);background:transparent;color:#f3e8df;padding:8px 12px;cursor:pointer}
+@media(max-width:600px){.header-search-panel{position:fixed;top:80px;left:12px;right:12px;width:auto}.deq-coupon-form{grid-template-columns:1fr}.deq-coupon-list article{flex-wrap:wrap}.product-main-image img{height:390px;padding:18px}}
