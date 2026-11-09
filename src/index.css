@@ -2758,7 +2758,7 @@ body { position: relative; }
 .announcement>div{display:flex;align-items:center;gap:5rem;width:max-content;min-width:max-content;animation:deq-announcement-rtl 32s linear infinite}
 .announcement>div>span{flex:0 0 auto;padding-right:5rem}
 .announcement:hover>div{animation-play-state:paused}
-@keyframes deq-announcement-rtl{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@keyframes deq-announcement-rtl{from{transform:translateX(-50%)}to{transform:translateX(0)}}
 .scent-marquee>div{width:max-content;display:flex;animation:marquee 30s linear infinite}
 .scent-marquee>div>span{display:inline-flex;align-items:center;gap:28px;flex:0 0 auto;padding-right:28px}
 @keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
