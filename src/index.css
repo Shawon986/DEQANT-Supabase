@@ -2824,3 +2824,67 @@ body { position: relative; }
   .exploded-perfume { height: min(54vh, 430px) !important; }
 }
 @media (max-width: 390px) { .exploded-perfume { height: min(49vh, 360px) !important; } }
+
+
+/* DEQANT bottle scroll — stable viewport geometry and compositor-friendly motion */
+.bottle-scroll-story {
+  height: 180svh !important;
+  min-height: 0 !important;
+  overflow: clip !important;
+  content-visibility: visible !important;
+  contain: none !important;
+}
+.bottle-scroll-sticky {
+  position: sticky !important;
+  top: 0 !important;
+  height: 100svh !important;
+  min-height: 100svh !important;
+  contain: none !important;
+  box-sizing: border-box;
+}
+.bottle-scroll-story.is-active .bottle-part {
+  will-change: transform !important;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.bottle-exploded-stage { height: min(82svh, 760px); }
+.exploded-perfume { filter: none !important; }
+.best-seller-card { min-width: 0; }
+.best-seller-add { width: 100%; min-height: 46px; margin-top: 12px; justify-content: center; gap: 9px; font-size: 10px; letter-spacing: .1em; text-transform: uppercase; }
+.bottle-ornament-seal img { width: 46px; height: 46px; object-fit: contain; }
+@media (max-width: 760px) {
+  .bottle-scroll-story { height: 180svh !important; }
+  .bottle-scroll-sticky {
+    position: sticky !important;
+    top: 0 !important;
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    grid-template-rows: auto minmax(0, 1fr) !important;
+    align-content: stretch !important;
+    gap: 0 !important;
+    height: 100svh !important;
+    min-height: 100svh !important;
+    padding: max(14px, env(safe-area-inset-top)) 16px max(10px, env(safe-area-inset-bottom)) !important;
+  }
+  .bottle-story-copy { max-width: 620px; }
+  .bottle-story-copy h2 { margin: 10px 0; font-size: clamp(40px, 9vw, 58px); }
+  .bottle-story-description { max-width: 440px; margin: 0; font-size: 11px; line-height: 1.55; }
+  .bottle-scroll-instruction { margin-top: 12px; gap: 6px; font-size: 8px; }
+  .bottle-scroll-instruction small { font-size: 9px; }
+  .bottle-progress-track { margin-top: 9px; max-width: 220px; }
+  .bottle-exploded-stage { height: 100% !important; min-height: 0 !important; margin-top: 0 !important; }
+  .exploded-perfume { width: min(76vw, 330px) !important; height: min(45svh, 360px) !important; }
+  .bottle-stage-caption { top: 1%; font-size: 7px; }
+  .bottle-stage-footer { bottom: 1%; font-size: 7px; }
+  .bottle-stage-number { bottom: 8%; right: 1%; font-size: 17px; }
+}
+@media (max-width: 390px) {
+  .bottle-scroll-sticky { padding-left: 14px !important; padding-right: 14px !important; }
+  .bottle-story-copy h2 { font-size: 39px; }
+  .exploded-perfume { height: min(42svh, 330px) !important; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .bottle-scroll-story { height: auto !important; min-height: 0 !important; }
+  .bottle-scroll-sticky { position: relative !important; height: auto !important; min-height: 0 !important; }
+  .bottle-part { will-change: auto !important; transform: none !important; }
+}
