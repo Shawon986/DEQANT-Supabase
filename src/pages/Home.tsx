@@ -23,6 +23,7 @@ function ScrollBottleExperience() {
     if (reducedMotion) return;
 
     let frame = 0;
+    let layoutViewportHeight = document.documentElement.clientHeight || window.innerHeight;
     section.classList.add("is-active");
 
     // Measure the actual sticky stage, not the browser's changing visual
@@ -36,7 +37,7 @@ function ScrollBottleExperience() {
         const sectionTop = section.getBoundingClientRect().top + window.scrollY;
         // The bottle scene is in normal document flow (not pinned). Map the
         // full open/close sequence to the section's natural viewport traversal.
-        const runway = Math.max(1, section.offsetHeight - window.innerHeight);
+        const runway = Math.max(1, section.offsetHeight - layoutViewportHeight);
         const progress = Math.max(0, Math.min(1, (window.scrollY - sectionTop) / runway));
         const isMobile = window.matchMedia("(max-width: 760px)").matches;
         const distance = isMobile
@@ -64,13 +65,14 @@ function ScrollBottleExperience() {
     update();
     window.addEventListener("scroll", update, { passive: true });
     window.addEventListener("resize", update);
-    window.addEventListener("orientationchange", update);
+    const handleOrientationChange = () => { layoutViewportHeight = document.documentElement.clientHeight || window.innerHeight; update(); };
+    window.addEventListener("orientationchange", handleOrientationChange);
 
     return () => {
       window.cancelAnimationFrame(frame);
       window.removeEventListener("scroll", update);
       window.removeEventListener("resize", update);
-      window.removeEventListener("orientationchange", update);
+      window.removeEventListener("orientationchange", handleOrientationChange);
       section.classList.remove("is-active");
     };
   }, []);
@@ -79,9 +81,9 @@ function ScrollBottleExperience() {
     <div className="bottle-story-ornament bottle-story-ornament-top" aria-hidden="true">
       <span className="bottle-ornament-index">DEQANT / THE ART OF FRAGRANCE</span>
       <span className="bottle-ornament-rule" />
-      <span className="bottle-ornament-edition">ANATOMY OF A SIGNATURE <i>✳</i> VOL. 001</span>
+      <span className="bottle-ornament-edition">ANATOMY OF A SIGNATURE · VOL. 001</span>
       <div className="bottle-ornament-topline">
-        <span className="bottle-ornament-seal">D<span>✳</span>Q</span>
+        <span className="bottle-ornament-seal"><img src="/brand/logo-ivory.png" alt="DEQANT" /></span>
         <div className="bottle-ornament-heading"><span>THE SCENT ARCHIVE</span><strong>THE ART OF THE INVISIBLE.</strong></div>
         <span className="bottle-ornament-subtitle">A STUDY IN FORM,<br/>FRAGRANCE & MEMORY</span>
       </div>
@@ -124,7 +126,7 @@ function ScrollBottleExperience() {
       </div>
     </div>
     <div className="bottle-story-ornament bottle-story-ornament-bottom" aria-hidden="true">
-      <div className="bottle-bottom-epigraph"><span>THE INVISIBLE, MADE ICONIC.</span><strong>AN OBJECT OF DESIRE.</strong><i>✳</i></div>
+      <div className="bottle-bottom-epigraph"><span>THE INVISIBLE, MADE ICONIC.</span><strong>AN OBJECT OF DESIRE.</strong></div>
       <div className="bottle-bottom-note"><span>THE CRAFT</span><strong>Designed to be discovered.</strong></div>
       <div className="bottle-bottom-notes"><span>01 <i>FORM</i></span><span>02 <i>ESSENCE</i></span><span>03 <i>MEMORY</i></span></div>
       <div className="bottle-bottom-mark">SCENT IS A FORM OF MEMORY <b>—</b> DEQANT, RAJSHAHI</div>
@@ -268,7 +270,7 @@ export default function Home() {
 
     <ScrollBottleExperience />
 
-    <div className="scent-marquee" aria-hidden="true"><div><span>EXTRAITS OF CHARACTER <Sparkles /> DECANTS, DONE BEAUTIFULLY <Sparkles /> SO SPREAD THE FRAGRANCE <Sparkles /></span><span aria-hidden="true">EXTRAITS OF CHARACTER <Sparkles /> DECANTS, DONE BEAUTIFULLY <Sparkles /> SO SPREAD THE FRAGRANCE <Sparkles /></span></div></div>
+    <div className="scent-marquee" aria-hidden="true"><div><span>EXTRAITS OF CHARACTER <Sparkles /> DECANTS, DONE BEAUTIFULLY <Sparkles /> SO SPREAD THE FRAGRANCE <Sparkles /></span><span>EXTRAITS OF CHARACTER <Sparkles /> DECANTS, DONE BEAUTIFULLY <Sparkles /> SO SPREAD THE FRAGRANCE <Sparkles /></span><span>EXTRAITS OF CHARACTER <Sparkles /> DECANTS, DONE BEAUTIFULLY <Sparkles /> SO SPREAD THE FRAGRANCE <Sparkles /></span></div></div>
 
     <section className="home-collection" id="collection">
       <Reveal><div className="section-intro"><p>THE DEQANT EDIT</p><h2>Signatures in<br /><em>the making.</em></h2><Link className="text-link" to="/shop">View the complete collection <ArrowRight /></Link></div></Reveal>
