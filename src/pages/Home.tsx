@@ -4,6 +4,7 @@ import { ArrowDown, ArrowRight, PackageCheck, ShieldCheck, Sparkles } from "luci
 import { PageShell, ProductCard, Reveal, LoadingState } from "@/components/Storefront";
 import { storeApi } from "@/providers/store";
 import type { CatalogEntry } from "@/lib/supabase";
+import { useCart } from "@/providers/cart";
 
 const moods = [
   { name: "Warm", terms: "amber vanilla", description: "Soft amber, creamy vanilla and a golden, lingering warmth." },
@@ -18,62 +19,71 @@ function ScrollBottleExperience() {
   const sectionRef = useRef<HTMLElement>(null);
   useEffect(() => {
     const section = sectionRef.current;
-    if (!section) return;
-    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reducedMotion) return;
+    if (!section || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    const cap = section.querySelector<SVGGElement>(".bottle-cap");
+    const atomizer = section.querySelector<SVGGElement>(".bottle-atomizer");
+    const collar = section.querySelector<SVGGElement>(".bottle-collar");
+    const glass = section.querySelector<SVGGElement>(".bottle-glass");
+    const juice = section.querySelector<SVGGElement>(".bottle-juice");
+    const label = section.querySelector<SVGGElement>(".bottle-label");
+    const parts = [cap, atomizer, collar, glass, juice, label];
+    if (parts.some((part) => !part)) return;
 
     let frame = 0;
-    let layoutViewportHeight = document.documentElement.clientHeight || window.innerHeight;
-    section.classList.add("is-active");
+    let sectionTop = 0;
+    let runway = 1;
+    let distances = { cap: 220, atomizer: 158, collar: 92, glass: 52, juice: 64, label: 78 };
 
-    // Measure the actual sticky stage, not the browser's changing visual
-    // viewport. The section's extra height is the exact scroll distance over
-    // which the bottle must separate. This keeps the animation 1:1 with scroll
-    // on desktop, mobile browser chrome changes, and in both directions.
-    const update = () => {
-      if (frame) return;
-      frame = window.requestAnimationFrame(() => {
-        frame = 0;
-        const sectionTop = section.getBoundingClientRect().top + window.scrollY;
-        // The bottle scene is in normal document flow (not pinned). Map the
-        // full open/close sequence to the section's natural viewport traversal.
-        const runway = Math.max(1, section.offsetHeight - layoutViewportHeight);
-        const progress = Math.max(0, Math.min(1, (window.scrollY - sectionTop) / runway));
-        const isMobile = window.matchMedia("(max-width: 760px)").matches;
-        const distance = isMobile
-          ? { cap: 150, atomizer: 112, collar: 66, glass: 38, juice: 46, label: 54 }
-          : { cap: 220, atomizer: 158, collar: 92, glass: 52, juice: 64, label: 78 };
-
-        section.style.setProperty("--cap-y", `${-distance.cap * progress}px`);
-        section.style.setProperty("--cap-x", `${-10 * progress}px`);
-        section.style.setProperty("--cap-rotate", `${-12 * progress}deg`);
-        section.style.setProperty("--atomizer-y", `${-distance.atomizer * progress}px`);
-        section.style.setProperty("--atomizer-x", `${14 * progress}px`);
-        section.style.setProperty("--atomizer-rotate", `${8 * progress}deg`);
-        section.style.setProperty("--collar-y", `${-distance.collar * progress}px`);
-        section.style.setProperty("--collar-x", `${-9 * progress}px`);
-        section.style.setProperty("--collar-rotate", `${-8 * progress}deg`);
-        section.style.setProperty("--glass-y", `${distance.glass * progress}px`);
-        section.style.setProperty("--glass-scale", String(1 - progress * 0.018));
-        section.style.setProperty("--juice-y", `${distance.juice * progress}px`);
-        section.style.setProperty("--label-y", `${distance.label * progress}px`);
-        section.style.setProperty("--halo-scale", String(1 + progress * 0.16));
-        section.style.setProperty("--explode-progress", progress.toFixed(4));
-      });
+    const measure = () => {
+      // Measure only on mount/resize. Scroll frames never trigger layout reads.
+      sectionTop = section.getBoundingClientRect().top + window.scrollY;
+      const viewportHeight = document.documentElement.clientHeight || window.innerHeight;
+      runway = Math.max(1, section.offsetHeight - viewportHeight);
+      distances = window.matchMedia("(max-width: 760px)").matches
+        ? { cap: 150, atomizer: 112, collar: 66, glass: 38, juice: 46, label: 54 }
+        : { cap: 220, atomizer: 158, collar: 92, glass: 52, juice: 64, label: 78 };
     };
 
-    update();
-    window.addEventListener("scroll", update, { passive: true });
-    window.addEventListener("resize", update);
-    const handleOrientationChange = () => { layoutViewportHeight = document.documentElement.clientHeight || window.innerHeight; update(); };
-    window.addEventListener("orientationchange", handleOrientationChange);
+    const render = () => {
+      frame = 0;
+      const progress = Math.max(0, Math.min(1, (window.scrollY - sectionTop) / runway));
+      const capY = -distances.cap * progress;
+      const atomizerY = -distances.atomizer * progress;
+      const collarY = -distances.collar * progress;
+      const glassY = distances.glass * progress;
+      const juiceY = distances.juice * progress;
+      const labelY = distances.label * progress;
+
+      cap!.style.transform = `translate3d(${-10 * progress}px, ${capY}px, 0) rotate(${-12 * progress}deg)`;
+      atomizer!.style.transform = `translate3d(${14 * progress}px, ${atomizerY}px, 0) rotate(${8 * progress}deg)`;
+      collar!.style.transform = `translate3d(${-9 * progress}px, ${collarY}px, 0) rotate(${-8 * progress}deg)`;
+      glass!.style.transform = `translate3d(0, ${glassY}px, 0) scale(${1 - progress * 0.018})`;
+      juice!.style.transform = `translate3d(0, ${juiceY}px, 0)`;
+      label!.style.transform = `translate3d(0, ${labelY}px, 0)`;
+      section.style.setProperty("--explode-progress", progress.toFixed(4));
+      section.style.setProperty("--halo-scale", String(1 + progress * 0.16));
+    };
+
+    const schedule = () => {
+      if (!frame) frame = window.requestAnimationFrame(render);
+    };
+    const handleResize = () => { measure(); schedule(); };
+
+    section.classList.add("is-active");
+    measure();
+    render();
+    window.addEventListener("scroll", schedule, { passive: true });
+    window.addEventListener("resize", handleResize, { passive: true });
+    window.addEventListener("orientationchange", handleResize);
 
     return () => {
       window.cancelAnimationFrame(frame);
-      window.removeEventListener("scroll", update);
-      window.removeEventListener("resize", update);
-      window.removeEventListener("orientationchange", handleOrientationChange);
+      window.removeEventListener("scroll", schedule);
+      window.removeEventListener("resize", handleResize);
+      window.removeEventListener("orientationchange", handleResize);
       section.classList.remove("is-active");
+      parts.forEach((part) => { if (part) part.style.transform = ""; });
     };
   }, []);
 
@@ -83,7 +93,7 @@ function ScrollBottleExperience() {
       <span className="bottle-ornament-rule" />
       <span className="bottle-ornament-edition">ANATOMY OF A SIGNATURE · VOL. 001</span>
       <div className="bottle-ornament-topline">
-        <span className="bottle-ornament-seal"><img src="/brand/logo-ivory.png" alt="DEQANT" /></span>
+        <span className="bottle-ornament-seal"><img src="/brand/emblem-ivory.png" alt="" /></span>
         <div className="bottle-ornament-heading"><span>THE SCENT ARCHIVE</span><strong>THE ART OF THE INVISIBLE.</strong></div>
         <span className="bottle-ornament-subtitle">A STUDY IN FORM,<br/>FRAGRANCE & MEMORY</span>
       </div>
@@ -179,8 +189,9 @@ function ScentFinder() {
 
 export default function Home() {
   const { data: settings } = storeApi.store.settings.useQuery();
-  const { data: catalogue, isLoading } = storeApi.store.catalog.useQuery({ sort: "featured" });
-  const featured = useMemo(() => catalogue?.filter((entry: CatalogEntry) => entry.product.featured).slice(0, 4) ?? [], [catalogue]);
+  const { data: catalogue, isLoading } = storeApi.store.catalog.useQuery({ sort: "popular" });
+  const bestSellers = useMemo(() => catalogue?.filter((entry: CatalogEntry) => entry.product.bestSeller).slice(0, 4) ?? [], [catalogue]);
+  const { add, isMutating } = useCart();
   const line = "FEEL THE FRAGRANCE · RAJSHAHI · 2026";
   const [typed, setTyped] = useState(() =>
     window.matchMedia("(prefers-reduced-motion: reduce)").matches ? line : ""
@@ -273,8 +284,11 @@ export default function Home() {
     <div className="scent-marquee" aria-hidden="true"><div><span>EXTRAITS OF CHARACTER <Sparkles /> DECANTS, DONE BEAUTIFULLY <Sparkles /> SO SPREAD THE FRAGRANCE <Sparkles /></span><span>EXTRAITS OF CHARACTER <Sparkles /> DECANTS, DONE BEAUTIFULLY <Sparkles /> SO SPREAD THE FRAGRANCE <Sparkles /></span><span>EXTRAITS OF CHARACTER <Sparkles /> DECANTS, DONE BEAUTIFULLY <Sparkles /> SO SPREAD THE FRAGRANCE <Sparkles /></span></div></div>
 
     <section className="home-collection" id="collection">
-      <Reveal><div className="section-intro"><p>THE DEQANT EDIT</p><h2>Signatures in<br /><em>the making.</em></h2><Link className="text-link" to="/shop">View the complete collection <ArrowRight /></Link></div></Reveal>
-      {isLoading ? <LoadingState /> : <div className="editorial-grid">{featured.map((entry: CatalogEntry, index: number) => <Reveal key={entry.product.id}><ProductCard entry={entry} index={index} /></Reveal>)}</div>}
+      <Reveal><div className="section-intro"><p>THE DEQANT EDIT</p><h2>Our<br /><em>best sellers.</em></h2><Link className="text-link" to="/best-sellers">View all best sellers <ArrowRight /></Link></div></Reveal>
+      {isLoading ? <LoadingState /> : bestSellers.length ? <div className="editorial-grid">{bestSellers.map((entry: CatalogEntry, index: number) => {
+        const purchasable = entry.variants.find((variant) => variant.sizeMl === 3 && variant.stock > 0) ?? entry.variants.find((variant) => variant.stock > 0);
+        return <Reveal key={entry.product.id}><div className="best-seller-card"><ProductCard entry={entry} index={index} /><button type="button" className="button button-burgundy best-seller-add" onClick={() => purchasable && add(purchasable.id, 1)} disabled={!purchasable || isMutating}><ShoppingBag size={16} />{isMutating ? "Adding…" : purchasable ? `Add ${purchasable.sizeMl}ml to cart` : "Sold out"}</button></div></Reveal>;
+      })}</div> : <div className="empty-state"><p>Our best sellers are being curated. Explore the complete collection.</p><Link className="text-link" to="/shop">Shop all fragrances <ArrowRight /></Link></div>}
     </section>
 
     <ScentFinder />
