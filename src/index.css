@@ -3123,3 +3123,43 @@ body { position: relative; }
 .bkash-admin-actions{display:flex;gap:8px}.bkash-admin-actions button{padding:9px 13px;border:1px solid rgba(128,198,151,.3);border-radius:8px;background:rgba(55,132,83,.16);color:#b9e5c7;font-size:10px;font-weight:700}.bkash-admin-actions button.reject{border-color:rgba(231,111,123,.28);background:rgba(173,47,62,.14);color:#f2b2ba}
 @media(max-width:680px){.bkash-payment-panel{margin:22px auto 0;padding:19px 15px;border-radius:17px}.bkash-panel-top{padding-bottom:16px}.bkash-brand-lockup .bkash-mark{width:42px;height:42px}.bkash-brand-lockup strong{font-size:22px}.bkash-submit-form{grid-template-columns:1fr}.bkash-submit-form .button,.bkash-submit-form>small,.bkash-submit-form .form-error{grid-column:auto}.bkash-receiver{gap:9px}.bkash-receiver button{margin-left:0}.bkash-admin-settings{grid-template-columns:1fr}.bkash-admin-settings>label{flex-wrap:wrap}.bkash-admin-settings>label .deq-primary{width:100%;justify-content:center}.bkash-admin-order{grid-template-columns:minmax(0,1fr) auto}.bkash-admin-order>select{grid-column:1/-1;width:100%}.bkash-admin-review{align-items:stretch}.bkash-admin-actions{width:100%}.bkash-admin-actions button{flex:1}.bkash-cod-note>strong{font-size:24px}}
 @media(prefers-reduced-motion:no-preference){.bkash-payment-panel{animation:bkash-panel-enter .65s cubic-bezier(.2,.75,.2,1) both}.bkash-mark{animation:bkash-mark-glow 3s ease-in-out infinite}@keyframes bkash-panel-enter{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}@keyframes bkash-mark-glow{0%,100%{box-shadow:0 6px 18px rgba(226,19,58,.18)}50%{box-shadow:0 9px 28px rgba(226,19,58,.34)}}}
+
+
+/* DEQANT bKash refinement: authentic wordmark, clear transaction references and stacked mobile controls */
+.bkash-logo-image{display:block;width:88px;height:42px;object-fit:contain;object-position:left center;flex:0 0 auto}
+.bkash-brand-lockup .bkash-logo-image{width:112px;height:48px}
+.bkash-mini-logo{display:block;flex:0 0 72px;width:72px;height:42px;object-fit:contain;object-position:center;background:#fff;border-radius:8px;padding:5px}
+.bkash-admin-settings>label{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.9fr) auto;align-items:center;gap:9px;min-width:0}
+.bkash-admin-settings>label input,.bkash-admin-settings>label select,.bkash-admin-settings>label .deq-primary{width:100%;min-width:0;height:48px}
+.bkash-admin-settings>label select{padding:0 12px;border:1px solid rgba(77,2,32,.2);border-radius:9px;background:#fff;color:#32121f;font-size:12px}
+.bkash-admin-settings .deq-primary.is-saved{border-color:rgba(94,155,111,.35);background:rgba(73,125,88,.18);color:#c5e5cb;cursor:default}
+.bkash-admin-review>div:first-child{align-items:flex-start}
+.bkash-admin-transaction{display:grid;gap:4px;margin-top:3px;padding:8px 11px;border:1px solid rgba(240,211,191,.22);border-radius:9px;background:rgba(0,0,0,.17);width:max-content;max-width:100%}
+.bkash-admin-transaction small{font-size:8px!important;letter-spacing:.14em;color:#d8b9a9!important}
+.bkash-admin-transaction code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:15px;font-weight:800;letter-spacing:.09em;line-height:1.35;color:#fff4eb;overflow-wrap:anywhere;user-select:text}
+.bkash-admin-sender{font-size:11px!important;color:#e4d2c8!important}
+@media(max-width:680px){
+ .bkash-admin-settings>label{display:grid;grid-template-columns:minmax(0,1fr);gap:10px;width:100%}
+ .bkash-admin-settings>label input,.bkash-admin-settings>label select,.bkash-admin-settings>label .deq-primary{width:100%;min-height:48px}
+ .bkash-admin-settings>label .deq-primary{justify-content:center}
+ .bkash-admin-settings>div>strong{font-size:21px}
+ .bkash-admin-review>div:first-child{align-items:flex-start}
+ .bkash-mini-logo{width:62px;height:38px;flex-basis:62px}
+ .bkash-admin-transaction{width:100%;max-width:100%}
+ .bkash-admin-transaction code{font-size:16px}
+ .bkash-brand-lockup .bkash-logo-image{width:96px;height:42px}
+ .bkash-logo-image{width:78px;height:38px}
+}
+
+/* Order tracking: animated, accessible progress rail with a subtle moving highlight. */
+.status-timeline{position:relative;isolation:isolate;gap:0}
+.status-timeline>div:before{z-index:0;background:rgba(77,2,32,.16);width:2px;left:15px}
+.status-timeline>div.complete:before{background:linear-gradient(180deg,#4d0220,#9a4567 55%,rgba(77,2,32,.35));box-shadow:0 0 9px rgba(128,39,75,.2)}
+.status-timeline>div>span{z-index:1;background:var(--background);transition:background .35s ease,box-shadow .35s ease,border-color .35s ease,transform .35s ease}
+.status-timeline>div.complete>span{border-color:var(--brand-burgundy);box-shadow:0 0 0 5px rgba(77,2,32,.07),0 0 18px rgba(112,36,68,.15)}
+.status-timeline>div.current>span{animation:deq-track-pulse 2.2s ease-in-out infinite;}
+.status-timeline>div.current>strong{color:var(--brand-burgundy);font-weight:800}
+.status-timeline>div.complete:before{background-size:100% 220%;animation:deq-track-flow 2.8s linear infinite}
+@keyframes deq-track-flow{from{background-position:0 100%}to{background-position:0 0}}
+@keyframes deq-track-pulse{0%,100%{box-shadow:0 0 0 4px rgba(77,2,32,.07),0 0 10px rgba(112,36,68,.12);transform:scale(1)}50%{box-shadow:0 0 0 8px rgba(77,2,32,.035),0 0 22px rgba(112,36,68,.22);transform:scale(1.045)}}
+@media(prefers-reduced-motion:reduce){.status-timeline>div.complete:before{animation:none}.status-timeline>div.current>span{animation:none}.status-timeline>div>span{transition:none}}
