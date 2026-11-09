@@ -100,7 +100,7 @@ export default function Product() {
   return <PageShell>
     <div className="product-breadcrumb"><Link to="/shop"><ArrowLeft /> Collection</Link><span>/</span><span>{product.name}</span></div>
     <section className="product-detail">
-      <div className="product-gallery"><div className="product-main-image"><img src={product.imageUrl} alt={`${product.name} by ${product.brand}`} width="900" height="1100" /><span>{product.category === "decant" ? "DEQANT DECANT" : "INTACT EDITION"}</span></div>{query.data.images?.length>1&&<div className="product-extra-images">{query.data.images.slice(1).map((image:any)=><img key={image.id} src={image.url} alt={image.alt||product.name} loading="lazy"/>)}</div>}</div>
+      <div className="product-gallery"><div className="product-main-image"><img src={product.imageUrl} alt={`${product.name} by ${product.brand}`} width="900" height="1100" /></div>{query.data.images?.length>1&&<div className="product-extra-images">{query.data.images.slice(1).map((image:any)=><img key={image.id} src={image.url} alt={image.alt||product.name} loading="lazy"/>)}</div>}</div>
       <div className="product-purchase">
         <p className="eyebrow">{product.brand} / DEQANT FRAGRANCE</p><h1>{product.name}</h1>
         <div className="detail-price"><strong>{money(selected.price)}</strong>{selected.originalPrice > selected.price && <><del>{money(selected.originalPrice)}</del><span>Save {discount}%</span></>}</div>
