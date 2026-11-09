@@ -1,6 +1,6 @@
 import { useRef, useState, type FormEvent } from "react";
 import { Link, useLocation, useNavigate, useParams } from "react-router";
-import { ArrowLeft, ArrowRight, Check, LockKeyhole, PackageCheck } from "lucide-react";
+import { ArrowLeft, ArrowRight, Check, Clock3, LockKeyhole, PackageCheck } from "lucide-react";
 import { ErrorState, LoadingState, money, PageShell } from "@/components/Storefront";
 import { useCart } from "@/providers/cart";
 import { validateCoupon } from "@/lib/supabase";
