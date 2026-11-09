@@ -81,7 +81,7 @@ export function OrderSuccess() {
         <div className="success-actions"><Link className="button button-burgundy" to="/track">Track this order <ArrowRight /></Link><Link className="text-link" to="/shop">Continue exploring <ArrowRight /></Link></div>
       </div>
       {order.advancePaymentRequired && <section className="bkash-payment-panel" aria-labelledby="bkash-payment-title">
-        <div className="bkash-panel-top"><span className="bkash-brand-lockup"><span className="bkash-mark">b</span><span><small>SECURE MANUAL PAYMENT</small><strong>bKash advance</strong></span></span><span className="bkash-amount">৳{Number(order.advancePaymentAmount||200).toLocaleString("en-BD")}</span></div>
+        <div className="bkash-panel-top"><span className="bkash-brand-lockup"><span className="bkash-mark">b</span><span><small>SECURE MANUAL PAYMENT</small><strong id="bkash-payment-title">bKash advance</strong></span></span><span className="bkash-amount">৳{Number(order.advancePaymentAmount||200).toLocaleString("en-BD")}</span></div>
         {paymentStatus === "verified" ? <div className="bkash-state bkash-state-success"><Check /><div><strong>Advance payment verified</strong><p>Your ৳200 advance has been approved. Remaining cash on delivery: {money(Math.max(0,Number(order.total)-200))}.</p></div></div>
         : paymentStatus === "submitted" ? <div className="bkash-state bkash-state-pending"><Clock3 /><div><strong>Transaction submitted · awaiting review</strong><p>Our team will compare your TrxID with the bKash transaction record. Your order will move forward after approval.</p><small>Transaction ID: {order.bkashTrxId}</small><small>Sender: {order.bkashSenderPhone}</small></div></div>
         : <>
