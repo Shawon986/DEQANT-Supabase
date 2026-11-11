@@ -57,3 +57,5 @@ begin
  from jsonb_to_recordset(p_variants) as v(size_ml integer,price integer,original_price integer,stock integer,sku text,active boolean);
  return to_jsonb(saved);
 end; $function$;
+
+create index if not exists product_ratings_user_idx on public.product_ratings(user_id);
