@@ -95,8 +95,8 @@ begin
   return jsonb_build_object(
     'order',jsonb_build_object(
       'id',o.id,'orderNumber',o.order_number,'customerName',o.customer_name,'phone',o.phone,
-      'email',o.email,'district',o.district,'area',o.area,'address',o.address,
-      'instructions',o.instructions,'subtotal',o.subtotal,'deliveryFee',o.delivery_fee,
+      'district',o.district,'area',o.area,'address',o.address,
+      'subtotal',o.subtotal,'deliveryFee',o.delivery_fee,
       'discountAmount',o.discount_amount,'couponCode',o.coupon_code,'total',o.total,
       'status',o.status,'created_at',o.created_at,
       'advancePaymentRequired',o.advance_payment_required,
