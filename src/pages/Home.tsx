@@ -361,43 +361,31 @@ export default function Home() {
       <a className="scroll-cue" href="#collection"><ArrowDown /><span>Scroll to discover</span></a>
     </section>
 
-    <section className="deq-promise-ledger" aria-labelledby="promise-ledger-title">
-      <div className="promise-ledger-inner">
-        <div className="promise-ledger-feature">
-          <div className="promise-ledger-topline"><span>DEQANT / OUR STANDARD</span><span>EST. WITH CARE</span></div>
-          <div className="promise-ledger-art" aria-hidden="true">
-            <span className="promise-ledger-orbit promise-ledger-orbit-a"/><span className="promise-ledger-orbit promise-ledger-orbit-b"/>
-            <span className="promise-ledger-star promise-ledger-star-a">✳</span><span className="promise-ledger-star promise-ledger-star-b">✦</span>
-            <div className="promise-ledger-vessel"><i/><b>D</b><small>DEQANT</small></div>
-            <span className="promise-ledger-art-caption">A SIGNATURE OF TRUST · 001</span>
-          </div>
-          <div className="promise-ledger-feature-copy">
-            <p>MORE THAN A FRAGRANCE.<br/><span>A STANDARD OF CARE.</span></p>
-            <h2 id="promise-ledger-title">We mean<br/><em>every word.</em></h2>
-            <span className="promise-ledger-note">The little details matter. So does the way we look after you.</span>
-          </div>
-          <div className="promise-ledger-feature-foot"><span>FOUR PROMISES</span><i/><span>ONE DEQANT STANDARD</span></div>
+    <section className="deq-promise-ledger promise-immersion" aria-labelledby="promise-ledger-title">
+      <div className="promise-immersion-backdrop" aria-hidden="true">
+        <div className="promise-ink-wash"/><div className="promise-liquid-ribbon ribbon-one"/><div className="promise-liquid-ribbon ribbon-two"/><div className="promise-liquid-ribbon ribbon-three"/>
+        <div className="promise-grain"/><div className="promise-lightwell"/><div className="promise-starfield"><i/><i/><i/><i/><i/><i/><i/><i/><i/><i/><i/><i/></div>
+      </div>
+      <div className="promise-immersion-inner">
+        <div className="promise-immersion-topline"><span>DEQANT <i>✳</i> THE HOUSE PROMISE</span><span>AN EXPERIENCE, NOT JUST AN ORDER <b>— 001</b></span></div>
+        <div className="promise-immersion-heading">
+          <p>BEAUTY IS IN THE DETAILS</p>
+          <h2 id="promise-ledger-title">A feeling that<br/><em>stays with you.</em></h2>
+          <span>From the first note to the final delivery, every detail carries our signature of care.</span>
         </div>
-        <div className="promise-ledger-list">
-          <div className="promise-ledger-list-head"><span>THE DEQANT EXPERIENCE</span><span>01 — 04</span></div>
-          <article className="promise-ledger-row">
-            <span className="promise-ledger-number">01</span><div className="promise-ledger-icon"><PackageCheck size={22}/></div>
-            <div className="promise-ledger-copy"><span>DELIVERY, ON US</span><h3>Good things<br/><em>come to you.</em></h3><p>Enjoy free delivery when your order reaches <strong>৳2,000.</strong></p></div><span className="promise-ledger-mark">✳</span>
-          </article>
-          <article className="promise-ledger-row">
-            <span className="promise-ledger-number">02</span><div className="promise-ledger-icon"><ShieldCheck size={22}/></div>
-            <div className="promise-ledger-copy"><span>AUTHENTICITY, ALWAYS</span><h3>Only the<br/><em>real thing.</em></h3><p>100% authenticity. If it's not genuine, <strong>your money back.</strong></p></div><span className="promise-ledger-mark">✳</span>
-          </article>
-          <article className="promise-ledger-row">
-            <span className="promise-ledger-number">03</span><div className="promise-ledger-icon"><ShoppingBag size={22}/></div>
-            <div className="promise-ledger-copy"><span>PAYMENT, YOUR WAY</span><h3>Pay when<br/><em>it arrives.</em></h3><p>Choose cash on delivery. <strong>No advance needed for COD.</strong></p></div><span className="promise-ledger-mark">✳</span>
-          </article>
-          <article className="promise-ledger-row">
-            <span className="promise-ledger-number">04</span><div className="promise-ledger-icon"><Sparkles size={22}/></div>
-            <div className="promise-ledger-copy"><span>CARE, BEYOND THE ORDER</span><h3>We'll make<br/><em>it right.</em></h3><p>Leaking or broken on arrival? <strong>Free replacement.</strong></p></div><span className="promise-ledger-mark">✳</span>
-          </article>
-          <div className="promise-ledger-list-foot"><span>THOUGHTFUL BY DESIGN</span><span>MADE TO BE TRUSTED <b>✦</b></span></div>
+        <div className="promise-immersion-stage" aria-hidden="true">
+          <div className="promise-stage-halo halo-one"/><div className="promise-stage-halo halo-two"/>
+          <div className="promise-stage-liquid"><span/><i/><b/></div>
+          <div className="promise-stage-orbit orbit-a"/><div className="promise-stage-orbit orbit-b"/>
+          <div className="promise-stage-core"><span>THE</span><strong>D</strong><small>DEQANT</small></div>
+          <div className="promise-stage-coordinate coordinate-a">23° 42' N<br/>90° 21' E</div><div className="promise-stage-coordinate coordinate-b">CRAFTED WITH INTENTION<br/>EST. 2024</div>
+          <div className="promise-stage-cross cross-a">✳</div><div className="promise-stage-cross cross-b">✦</div>
         </div>
+        <div className="promise-immersion-promise promise-one"><span>01 <i>— DELIVERY</i></span><strong>Good things<br/><em>come to you.</em></strong><p>Free delivery when your order reaches <b>৳2,000.</b></p></div>
+        <div className="promise-immersion-promise promise-two"><span>02 <i>— AUTHENTICITY</i></span><strong>Only the<br/><em>real thing.</em></strong><p>100% authenticity. If it's not genuine, <b>your money back.</b></p></div>
+        <div className="promise-immersion-promise promise-three"><span>03 <i>— PAYMENT</i></span><strong>Pay when<br/><em>it arrives.</em></strong><p>Choose cash on delivery. <b>No advance needed for COD.</b></p></div>
+        <div className="promise-immersion-promise promise-four"><span>04 <i>— AFTERCARE</i></span><strong>We'll make<br/><em>it right.</em></strong><p>Leaking or broken on arrival? <b>Free replacement.</b></p></div>
+        <div className="promise-immersion-bottom"><span>THE DEQANT STANDARD</span><span>THOUGHTFUL BY DESIGN <i>✳</i> MADE TO BE TRUSTED</span></div>
       </div>
     </section>
 
