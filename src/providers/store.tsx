@@ -14,4 +14,22 @@ export const storeApi:any={
   checkout:mutation(db.checkout,["cart"]),validateCoupon:mutation(db.validateCoupon),submitProductRating:mutation((i)=>db.submitProductRating(i.productId,i.rating),["product-rating","catalog","product"]),submitBkashPayment:mutation(db.submitBkashPayment),orderSuccess:query("order-success",async(i)=>{const d=await db.orderByPhone(i);return{order:{...d.order,createdAt:new Date(d.order.created_at)},items:d.items};}),track:query("track",async(i)=>{const d=await db.trackOrder(i);return{...d,createdAt:new Date(d.created_at)};}),cancelOrder:mutation(db.cancelOrder,["track","my-orders"]),contact:mutation(db.sendContact)
  }
 };
-export function SupabaseProvider({children}:{children:ReactNode}){return <QueryClientProvider client={client}>{children}</QueryClientProvider>;}
+function RealtimeSync(){
+ const qc=useQueryClient();
+ useEffect(()=>{
+  let active=true;let cleanup:(()=>void)|undefined;
+  void import("@/lib/realtime").then(({subscribeStoreChanges})=>{
+   if(!active)return;
+   cleanup=subscribeStoreChanges((table)=>{
+    if(table==="products"||table==="product_variants"){void qc.invalidateQueries({queryKey:["supabase","catalog"]});void qc.invalidateQueries({queryKey:["supabase","product"]});}
+    if(table==="product_ratings"){void qc.invalidateQueries({queryKey:["supabase","catalog"]});void qc.invalidateQueries({queryKey:["supabase","product-rating"]});void qc.invalidateQueries({queryKey:["supabase","product"]});}
+    if(table==="website_settings")void qc.invalidateQueries({queryKey:["supabase","settings"]});
+    if(table==="orders")void qc.invalidateQueries({queryKey:["supabase","my-orders"]});
+    window.dispatchEvent(new CustomEvent("deqant:database-change",{detail:{table}}));
+   });
+  }).catch(()=>undefined);
+  return()=>{active=false;cleanup?.();};
+ },[qc]);
+ return null;
+}
+export function SupabaseProvider({children}:{children:ReactNode}){return <QueryClientProvider client={client}><RealtimeSync/>{children}</QueryClientProvider>;}
