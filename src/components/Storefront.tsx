@@ -28,7 +28,12 @@ export function Header() {
   const [open, setOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchText, setSearchText] = useState("");
-  const { data: searchResults, isLoading: searchLoading } = storeApi.store.catalog.useQuery({ q: searchText.trim() }, { enabled: searchOpen && searchText.trim().length > 1 });
+  const [debouncedSearchText, setDebouncedSearchText] = useState("");
+  useEffect(() => {
+    const timer = window.setTimeout(() => setDebouncedSearchText(searchText.trim()), 280);
+    return () => window.clearTimeout(timer);
+  }, [searchText]);
+  const { data: searchResults, isLoading: searchLoading } = storeApi.store.catalog.useQuery({ q: debouncedSearchText }, { enabled: searchOpen && debouncedSearchText.length > 1 });
   const { cart } = useCart();
   const location = useLocation();
   const { data: settings } = storeApi.store.settings.useQuery();
@@ -103,7 +108,7 @@ export function ProductCard({ entry, index = 0 }: { entry: ProductEntry; index?:
   const original = variants.find((variant) => variant.price === price)?.originalPrice ?? price;
   return <article className={`product-card product-card-${index % 4}`}>
     <Link to={`/product/${product.slug}`} className="product-image-wrap" aria-label={`View ${product.name}`}>
-      <img src={product.imageUrl} alt={`${product.name} by ${product.brand}`} loading="lazy" width="900" height="1100" />
+      <img src={product.imageUrl} alt={`${product.name} by ${product.brand}`} loading="lazy" decoding="async" fetchPriority={index === 0 ? "high" : "auto"} width="900" height="1100" />
       <div className="product-badges">{product.bestSeller && <span>Best seller</span>}{original > price && <span>Private offer</span>}</div>
       <span className="product-view">Discover <ArrowRight size={16} /></span>
     </Link>
