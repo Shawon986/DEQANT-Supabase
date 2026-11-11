@@ -1,0 +1,54 @@
+/* Dedicated DEQANT promise section styles. Imported after global styles so these rules cannot be swallowed by an earlier stylesheet comment. */
+.deq-promise-ledger{position:relative!important;display:block!important;isolation:isolate;overflow:hidden;padding:clamp(42px,6vw,84px) clamp(14px,3.5vw,52px)!important;background:#e9e2d6!important;color:#4d0220!important}
+.deq-promise-ledger *{box-sizing:border-box}
+.deq-promise-ledger:before{content:"";position:absolute;z-index:-1;left:-220px;top:10%;width:470px;height:470px;border:1px solid rgba(77,2,32,.12);border-radius:50%;box-shadow:0 0 0 28px rgba(77,2,32,.025),0 0 0 68px rgba(77,2,32,.018);pointer-events:none}
+.deq-promise-ledger .promise-ledger-inner{display:grid!important;grid-template-columns:minmax(0,.88fr) minmax(0,1.12fr);width:100%;max-width:1400px;min-height:680px;margin:0 auto;background:#f7f2e9;box-shadow:0 25px 75px rgba(77,2,32,.14)}
+.deq-promise-ledger .promise-ledger-feature{position:relative;display:flex!important;flex-direction:column;min-width:0;overflow:hidden;padding:clamp(24px,3.2vw,48px);background:radial-gradient(ellipse at 55% 34%,#76223f 0%,#4d0220 48%,#310015 100%)!important;color:#f5eee4!important}
+.deq-promise-ledger .promise-ledger-feature:before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.16;background-image:radial-gradient(rgba(230,210,178,.7) .7px,transparent .7px);background-size:17px 17px}
+.deq-promise-ledger .promise-ledger-topline,.deq-promise-ledger .promise-ledger-feature-foot,.deq-promise-ledger .promise-ledger-list-head,.deq-promise-ledger .promise-ledger-list-foot{position:relative;z-index:2;display:flex!important;justify-content:space-between;align-items:center;gap:12px;font-size:8px;font-weight:800;letter-spacing:.16em}
+.deq-promise-ledger .promise-ledger-topline{color:#d9c19c}
+.deq-promise-ledger .promise-ledger-art{position:relative;display:grid!important;place-items:center;width:min(100%,390px);aspect-ratio:1;margin:12px auto -6px}
+.deq-promise-ledger .promise-ledger-orbit{position:absolute;display:block;width:82%;height:82%;border:1px solid rgba(218,193,156,.52);border-radius:50%;transform:rotate(-28deg) scaleY(.55)}
+.deq-promise-ledger .promise-ledger-orbit-a{animation:deq-ledger-spin 34s linear infinite}
+.deq-promise-ledger .promise-ledger-orbit-b{width:67%;height:67%;transform:rotate(48deg) scaleY(.55);border-style:dashed;border-color:rgba(218,193,156,.38);animation:deq-ledger-spin 46s linear infinite reverse}
+.deq-promise-ledger .promise-ledger-star{position:absolute;color:#ead3ad;text-shadow:0 0 18px rgba(234,211,173,.75)}
+.deq-promise-ledger .promise-ledger-star-a{top:14%;right:18%;font-size:19px;animation:deq-ledger-pulse 3s ease-in-out infinite}
+.deq-promise-ledger .promise-ledger-star-b{left:16%;bottom:22%;font-size:13px;animation:deq-ledger-pulse 3.8s ease-in-out infinite -1.4s}
+.deq-promise-ledger .promise-ledger-vessel{position:relative;display:flex!important;flex-direction:column;align-items:center;justify-content:center;width:35%;height:47%;border:1px solid rgba(245,224,193,.85);border-radius:43% 43% 35% 35%/26% 26% 16% 16%;background:linear-gradient(110deg,rgba(255,255,255,.23),rgba(198,177,142,.12) 38%,rgba(255,255,255,.18) 58%,rgba(0,0,0,.2));box-shadow:inset 10px 0 22px rgba(255,255,255,.12),inset -10px 0 20px rgba(0,0,0,.2),0 0 58px rgba(198,177,142,.2);animation:deq-ledger-float 5.5s ease-in-out infinite}
+.deq-promise-ledger .promise-ledger-vessel:before{content:"";position:absolute;top:-13%;width:38%;height:15%;border:1px solid rgba(245,224,193,.8);border-radius:3px 3px 1px 1px;background:linear-gradient(90deg,rgba(255,255,255,.22),rgba(198,177,142,.35),rgba(255,255,255,.16))}
+.deq-promise-ledger .promise-ledger-vessel:after{content:"";position:absolute;inset:8px;border:1px solid rgba(242,238,229,.2);border-radius:inherit}
+.deq-promise-ledger .promise-ledger-vessel i{position:absolute;top:12%;left:17%;width:12%;height:57%;border-radius:50%;background:linear-gradient(180deg,transparent,rgba(255,255,255,.38),transparent);filter:blur(3px);transform:rotate(12deg)}
+.deq-promise-ledger .promise-ledger-vessel b{margin:0;color:#fff8ed;font:300 clamp(64px,8vw,108px)/.8 "Cormorant",Georgia,serif}
+.deq-promise-ledger .promise-ledger-vessel small{margin-top:12px;color:#f0d9b9;font-size:7px;font-weight:800;letter-spacing:.25em}
+.deq-promise-ledger .promise-ledger-art-caption{position:absolute;bottom:4%;color:rgba(218,193,156,.9);font-size:7px;font-weight:800;letter-spacing:.2em}
+.deq-promise-ledger .promise-ledger-feature-copy{position:relative;z-index:2;margin-top:auto}
+.deq-promise-ledger .promise-ledger-feature-copy>p{margin:0 0 17px;color:#d9c19c;font-size:9px;font-weight:800;line-height:1.8;letter-spacing:.17em}
+.deq-promise-ledger .promise-ledger-feature-copy>p span{color:rgba(245,238,228,.72)}
+.deq-promise-ledger .promise-ledger-feature-copy h2{margin:0;color:#fff8ed;font:300 clamp(58px,6.4vw,92px)/.82 "Cormorant",Georgia,serif;letter-spacing:-.055em}
+.deq-promise-ledger .promise-ledger-feature-copy h2 em{color:#d9c19c;font-weight:300}
+.deq-promise-ledger .promise-ledger-note{display:block;max-width:340px;margin-top:24px;color:rgba(245,238,228,.78);font-size:12px;line-height:1.7}
+.deq-promise-ledger .promise-ledger-feature-foot{margin-top:34px;padding-top:16px;border-top:1px solid rgba(245,238,228,.25);color:rgba(245,238,228,.7);font-size:7px}
+.deq-promise-ledger .promise-ledger-feature-foot i{display:block;flex:1;height:1px;background:rgba(218,193,156,.55)}
+.deq-promise-ledger .promise-ledger-list{display:flex!important;flex-direction:column;min-width:0;padding:clamp(26px,3.6vw,52px) clamp(20px,4vw,58px);background:#f7f2e9!important;color:#4d0220}
+.deq-promise-ledger .promise-ledger-list-head{padding-bottom:20px;border-bottom:1px solid rgba(77,2,32,.22);color:#8c6d62}
+.deq-promise-ledger .promise-ledger-row{position:relative;display:grid!important;grid-template-columns:36px 38px minmax(0,1fr) 18px;align-items:start;column-gap:clamp(10px,1.5vw,22px);padding:clamp(23px,2.8vw,39px) 0;border-bottom:1px solid rgba(77,2,32,.18);transition:padding .3s ease}
+.deq-promise-ledger .promise-ledger-row:hover{padding-left:8px;padding-right:8px}
+.deq-promise-ledger .promise-ledger-number{padding-top:3px;color:#9c7b6b;font:italic 15px Georgia,serif}
+.deq-promise-ledger .promise-ledger-icon{display:grid!important;place-items:center;width:36px;height:36px;border:1px solid rgba(77,2,32,.24);border-radius:50%;color:#805346}
+.deq-promise-ledger .promise-ledger-copy{min-width:0}
+.deq-promise-ledger .promise-ledger-copy>span{display:block;margin:0 0 10px;color:#9c7b6b;font-size:7px;font-weight:800;letter-spacing:.17em}
+.deq-promise-ledger .promise-ledger-copy h3{margin:0;color:#4d0220;font:400 clamp(29px,3.1vw,43px)/.9 "Cormorant",Georgia,serif;letter-spacing:-.035em}
+.deq-promise-ledger .promise-ledger-copy h3 em{color:#9b7568;font-weight:400}
+.deq-promise-ledger .promise-ledger-copy p{max-width:340px;margin:12px 0 0;color:#765f59;font-size:10px;line-height:1.65}
+.deq-promise-ledger .promise-ledger-copy p strong{color:#4d0220;font-weight:700}
+.deq-promise-ledger .promise-ledger-mark{padding-top:2px;color:#b99c79;font-size:13px;opacity:.8;transition:transform .3s ease,opacity .3s ease}
+.deq-promise-ledger .promise-ledger-row:hover .promise-ledger-mark{transform:rotate(45deg);opacity:1}
+.deq-promise-ledger .promise-ledger-list-foot{margin-top:auto;padding-top:20px;color:#9c7b6b;font-size:7px}
+.deq-promise-ledger .promise-ledger-list-foot b{padding-left:5px;color:#b99c79}
+@keyframes deq-ledger-spin{to{rotate:360deg}}
+@keyframes deq-ledger-pulse{0%,100%{opacity:.5;scale:.85}50%{opacity:1;scale:1.15}}
+@keyframes deq-ledger-float{0%,100%{translate:0 0}50%{translate:0 -7px}}
+@media(max-width:900px){.deq-promise-ledger .promise-ledger-inner{grid-template-columns:minmax(0,.82fr) minmax(0,1.18fr);min-height:620px}.deq-promise-ledger .promise-ledger-feature{padding:25px 22px}.deq-promise-ledger .promise-ledger-art{width:112%;max-width:340px;margin:18px -6% 0}.deq-promise-ledger .promise-ledger-feature-copy h2{font-size:clamp(55px,7vw,72px)}.deq-promise-ledger .promise-ledger-list{padding:28px 24px}.deq-promise-ledger .promise-ledger-row{grid-template-columns:25px 32px minmax(0,1fr) 12px;column-gap:10px;padding:25px 0}.deq-promise-ledger .promise-ledger-icon{width:31px;height:31px}.deq-promise-ledger .promise-ledger-copy h3{font-size:clamp(27px,3.7vw,36px)}}
+@media(max-width:680px){.deq-promise-ledger{padding:28px 10px!important}.deq-promise-ledger .promise-ledger-inner{display:flex!important;flex-direction:column;min-height:0}.deq-promise-ledger .promise-ledger-feature{padding:24px 21px 20px}.deq-promise-ledger .promise-ledger-topline{font-size:7px}.deq-promise-ledger .promise-ledger-art{width:min(100%,300px);margin:8px auto -2px}.deq-promise-ledger .promise-ledger-feature-copy h2{font-size:clamp(64px,13vw,88px)}.deq-promise-ledger .promise-ledger-note{margin-top:17px;font-size:11px}.deq-promise-ledger .promise-ledger-feature-foot{margin-top:25px}.deq-promise-ledger .promise-ledger-list{padding:25px 21px 23px}.deq-promise-ledger .promise-ledger-list-head{padding-bottom:16px}.deq-promise-ledger .promise-ledger-row{grid-template-columns:26px 34px minmax(0,1fr) 12px;column-gap:10px;padding:24px 0}.deq-promise-ledger .promise-ledger-copy h3{font-size:clamp(32px,8vw,43px)}.deq-promise-ledger .promise-ledger-copy p{font-size:10px}.deq-promise-ledger .promise-ledger-list-foot{margin-top:20px}}
+@media(max-width:380px){.deq-promise-ledger .promise-ledger-feature{padding:21px 17px 18px}.deq-promise-ledger .promise-ledger-feature-copy h2{font-size:61px}.deq-promise-ledger .promise-ledger-list{padding:22px 16px}.deq-promise-ledger .promise-ledger-row{grid-template-columns:21px 30px minmax(0,1fr) 10px;column-gap:8px}.deq-promise-ledger .promise-ledger-icon{width:29px;height:29px}.deq-promise-ledger .promise-ledger-copy h3{font-size:30px}.deq-promise-ledger .promise-ledger-copy p{font-size:9px}.deq-promise-ledger .promise-ledger-copy>span{font-size:6px}}
+@media(prefers-reduced-motion:reduce){.deq-promise-ledger .promise-ledger-orbit,.deq-promise-ledger .promise-ledger-star,.deq-promise-ledger .promise-ledger-vessel{animation:none!important}.deq-promise-ledger .promise-ledger-row,.deq-promise-ledger .promise-ledger-mark{transition:none!important}.deq-promise-ledger .promise-ledger-row:hover{padding-left:0;padding-right:0}}
