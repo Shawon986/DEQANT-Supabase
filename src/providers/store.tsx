@@ -1,5 +1,5 @@
 import { QueryClient, QueryClientProvider, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import type { ReactNode } from "react";
+import { useEffect, type ReactNode } from "react";
 import * as db from "@/lib/supabase";
 const client = new QueryClient({defaultOptions:{queries:{staleTime:20_000,retry:1,refetchOnWindowFocus:true},mutations:{retry:0}}});
 const key=(name:string,input?:unknown)=>["supabase",name,input];
