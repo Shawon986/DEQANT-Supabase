@@ -361,31 +361,34 @@ export default function Home() {
       <a className="scroll-cue" href="#collection"><ArrowDown /><span>Scroll to discover</span></a>
     </section>
 
-    <section className="deq-promise-atelier" aria-labelledby="deq-promise-title">
-      <div className="promise-atelier-grain" aria-hidden="true"/>
-      <div className="promise-atelier-orbit promise-orbit-a" aria-hidden="true"/>
-      <div className="promise-atelier-orbit promise-orbit-b" aria-hidden="true"/>
-      <div className="promise-atelier-shell">
-        <div className="promise-atelier-topline"><span>DEQANT / THE HOUSE STANDARD</span><span>FOUR PROMISES. EVERY ORDER.</span></div>
-        <div className="promise-atelier-layout">
-          <div className="promise-atelier-editorial">
-            <p className="promise-atelier-kicker"><i/> THE DEQANT DIFFERENCE <i/></p>
-            <h2 id="deq-promise-title">Good taste.<br/><em>Better care.</em></h2>
-            <p className="promise-atelier-lede">Beautiful fragrance should come with an experience just as considered. Here is what comes with every DEQANT order.</p>
-            <div className="promise-atelier-stamp" aria-label="The DEQANT standard, care in every detail">
-              <span className="promise-stamp-top">THE DEQANT STANDARD</span><b>D</b><span className="promise-stamp-bottom">CARE IN EVERY DETAIL</span><i>✳</i>
-            </div>
-            <div className="promise-atelier-footnote"><span>01—04</span><span>CONSIDERED FROM CART TO DOOR</span></div>
+    <section className="deq-promise-universe" aria-labelledby="deq-promise-title">
+      <div className="promise-universe-noise" aria-hidden="true"/>
+      <div className="promise-universe-glow promise-glow-one" aria-hidden="true"/>
+      <div className="promise-universe-glow promise-glow-two" aria-hidden="true"/>
+      <div className="promise-universe-orbit" aria-hidden="true"><i/><i/><i/></div>
+      <div className="promise-universe-shell">
+        <div className="promise-universe-top"><span><i/> DEQANT / THE EXPERIENCE</span><span>NOT JUST A FRAGRANCE. THE FULL FEELING.</span></div>
+        <div className="promise-universe-hero">
+          <div className="promise-universe-title">
+            <p className="promise-universe-kicker">THE DEQANT PROMISE <span>✳</span> VOL. 01</p>
+            <h2 id="deq-promise-title">Extraordinary<br/><em>from every</em><br/><b>angle.</b></h2>
+            <p className="promise-universe-lede">A little more magic in the details. Four thoughtful promises that make every DEQANT delivery feel like an occasion.</p>
+            <div className="promise-universe-signature"><span className="promise-signature-orb">D</span><span>THE ART OF GIVING<br/><b>A LITTLE MORE.</b></span></div>
           </div>
-          <div className="promise-atelier-benefits">
-            <div className="promise-benefits-heading"><span>THE CARE PROTOCOL</span><span>ALWAYS INCLUDED <i>✳</i></span></div>
-            <article className="promise-benefit promise-benefit-delivery"><span className="promise-benefit-number">01</span><span className="promise-benefit-icon"><PackageCheck size={22}/></span><div><small>YOUR ORDER, ON US</small><h3>Delivery is<br/><em>our treat.</em></h3><p>Complimentary delivery on orders ৳2,000 and above.</p></div><span className="promise-benefit-aside">৳ 0<br/>DELIVERY</span></article>
-            <article className="promise-benefit promise-benefit-authentic"><span className="promise-benefit-number">02</span><span className="promise-benefit-icon"><ShieldCheck size={22}/></span><div><small>NO DOUBTS. JUST THE REAL THING.</small><h3>Authenticity,<br/><em>guaranteed.</em></h3><p>If a fragrance is not original, your money comes back.</p></div><span className="promise-benefit-aside">100%<br/>ASSURANCE</span></article>
-            <article className="promise-benefit promise-benefit-payment"><span className="promise-benefit-number">03</span><span className="promise-benefit-icon"><ShoppingBag size={22}/></span><div><small>TAKE YOUR TIME</small><h3>Pay when<br/><em>it arrives.</em></h3><p>Cash on delivery. Your order, your peace of mind.</p></div><span className="promise-benefit-aside">PAY<br/>LATER</span></article>
-            <article className="promise-benefit promise-benefit-care"><span className="promise-benefit-number">04</span><span className="promise-benefit-icon"><Sparkles size={22}/></span><div><small>FRAGILE, NEVER FORGOTTEN</small><h3>Handled with<br/><em>extra care.</em></h3><p>Free replacement if a glass atomizer leaks or breaks.</p></div><span className="promise-benefit-aside">CARE<br/>IN EVERY DROP</span></article>
+          <div className="promise-universe-art" aria-hidden="true">
+            <div className="promise-art-halo"/><div className="promise-art-disc"><span>THE DEQANT</span><b>D</b><small>EXPERIENCE</small></div>
+            <div className="promise-art-orbit orbit-one"/><div className="promise-art-orbit orbit-two"/>
+            <span className="promise-art-star star-one">✳</span><span className="promise-art-star star-two">✦</span><span className="promise-art-star star-three">✧</span>
+            <span className="promise-art-caption">SCENT IS AN EXPERIENCE<br/>MAKE EVERY DETAIL COUNT</span>
           </div>
         </div>
-        <div className="promise-atelier-bottom"><span>THE DETAILS ARE NEVER SMALL.</span><span>DEQANT <i>✳</i> FRAGRANCE, WITH INTENTION</span></div>
+        <div className="promise-universe-grid">
+          <article className="promise-universe-card promise-card-lime"><span className="promise-card-index">01 / THE DELIVERY</span><div className="promise-card-symbol"><PackageCheck size={26}/></div><div className="promise-card-copy"><small>GOOD THINGS COME TO YOU</small><h3>Delivery?<br/><em>It's on us.</em></h3><p>Free delivery on every order of ৳2,000 or more.</p></div><span className="promise-card-stamp">৳ 0 <small>DELIVERY FEE</small></span><span className="promise-card-arrow">↗</span></article>
+          <article className="promise-universe-card promise-card-pink"><span className="promise-card-index">02 / THE REAL DEAL</span><div className="promise-card-symbol"><ShieldCheck size={26}/></div><div className="promise-card-copy"><small>REAL SCENTS. ZERO DOUBT.</small><h3>Only the<br/><em>real thing.</em></h3><p>Not original? Get your money back. That's our word.</p></div><span className="promise-card-stamp">100% <small>ASSURED</small></span><span className="promise-card-arrow">↗</span></article>
+          <article className="promise-universe-card promise-card-blue"><span className="promise-card-index">03 / YOUR CALL</span><div className="promise-card-symbol"><ShoppingBag size={26}/></div><div className="promise-card-copy"><small>LOVE IT WHEN IT ARRIVES</small><h3>Pay later.<br/><em>Feel good.</em></h3><p>Cash on delivery. No need to pay before it reaches you.</p></div><span className="promise-card-stamp">COD <small>YOUR WAY</small></span><span className="promise-card-arrow">↗</span></article>
+          <article className="promise-universe-card promise-card-orange"><span className="promise-card-index">04 / THE EXTRA CARE</span><div className="promise-card-symbol"><Sparkles size={26}/></div><div className="promise-card-copy"><small>WE'VE GOT THE FRAGILE BITS</small><h3>Every drop<br/><em>deserves care.</em></h3><p>Free replacement if your glass atomizer leaks or breaks.</p></div><span className="promise-card-stamp">CARE <small>GUARANTEED</small></span><span className="promise-card-arrow">↗</span></article>
+        </div>
+        <div className="promise-universe-footer"><span>FEEL THE DIFFERENCE IN EVERY DETAIL.</span><span>DEQANT <i>✳</i> MADE TO BE REMEMBERED</span></div>
       </div>
     </section>
 
