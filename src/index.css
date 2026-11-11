@@ -4501,3 +4501,124 @@ main,
     will-change: auto !important;
   }
 }
+
+
+/* Bottle story — text alignment only. Keep the bottle artwork, dimensions,
+   scroll animation, colors and existing section styling unchanged. */
+.bottle-story-copy {
+  align-self: center !important;
+  justify-self: start !important;
+  min-width: 0 !important;
+  max-width: 470px !important;
+  text-align: left !important;
+}
+.bottle-story-copy h2 {
+  max-width: 10ch;
+  text-wrap: balance;
+}
+.bottle-story-description {
+  max-width: 40ch !important;
+  text-wrap: pretty;
+}
+.bottle-bottom-epigraph {
+  align-items: center !important;
+}
+.bottle-bottom-epigraph span {
+  text-align: left !important;
+  overflow-wrap: anywhere;
+}
+.bottle-bottom-epigraph strong {
+  top: 60px !important;
+  max-width: 100%;
+  text-wrap: balance;
+}
+@media (max-width: 760px) {
+  .bottle-story-copy {
+    grid-row: 1 !important;
+    align-self: start !important;
+    justify-self: stretch !important;
+    width: 100% !important;
+    max-width: none !important;
+    padding: 18px 16px !important;
+    text-align: left !important;
+  }
+  .bottle-story-copy h2 {
+    max-width: 12ch !important;
+    margin: 0 0 12px !important;
+    font-size: clamp(38px, 9.5vw, 52px) !important;
+    line-height: .96 !important;
+    text-wrap: balance;
+  }
+  .bottle-story-description {
+    max-width: 36ch !important;
+    font-size: clamp(11px, 3.1vw, 13px) !important;
+    line-height: 1.55 !important;
+    text-wrap: pretty;
+  }
+  .bottle-scroll-instruction {
+    align-items: flex-start !important;
+    gap: 5px 8px !important;
+    margin-top: 13px !important;
+  }
+  .bottle-scroll-instruction small {
+    display: block !important;
+    max-width: 100% !important;
+    line-height: 1.45 !important;
+    white-space: normal !important;
+  }
+  .bottle-stage-caption,
+  .bottle-stage-footer {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 7px 12px !important;
+    width: auto !important;
+    max-width: none !important;
+    white-space: normal !important;
+    text-align: left !important;
+  }
+  .bottle-stage-caption span,
+  .bottle-stage-footer span {
+    min-width: 0 !important;
+    overflow-wrap: anywhere;
+  }
+  .bottle-bottom-epigraph {
+    grid-template-columns: minmax(0, .78fr) minmax(0, 1.22fr) !important;
+    align-items: center !important;
+    column-gap: 9px !important;
+  }
+  .bottle-bottom-epigraph span {
+    font-size: clamp(5px, 1.35vw, 7px) !important;
+    line-height: 1.55 !important;
+    letter-spacing: .09em !important;
+  }
+  .bottle-bottom-epigraph strong {
+    position: relative !important;
+    top: 0 !important;
+    justify-self: end !important;
+    max-width: 100% !important;
+    font-size: clamp(14px, 4.3vw, 19px) !important;
+    line-height: 1.08 !important;
+    text-align: right !important;
+    overflow-wrap: normal !important;
+    word-break: normal !important;
+  }
+}
+@media (max-width: 390px) {
+  .bottle-story-copy {
+    padding: 16px 14px !important;
+  }
+  .bottle-story-copy h2 {
+    font-size: clamp(36px, 9.2vw, 42px) !important;
+  }
+  .bottle-story-description {
+    font-size: 11px !important;
+  }
+  .bottle-bottom-epigraph {
+    grid-template-columns: minmax(0, .72fr) minmax(0, 1.28fr) !important;
+    column-gap: 7px !important;
+  }
+  .bottle-bottom-epigraph strong {
+    font-size: clamp(13px, 4vw, 15px) !important;
+  }
+}
