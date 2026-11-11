@@ -361,6 +361,20 @@ export default function Home() {
       <a className="scroll-cue" href="#collection"><ArrowDown /><span>Scroll to discover</span></a>
     </section>
 
+    <section className="deq-promise-ribbon" aria-label="DEQANT shopping promises">
+      <div className="deq-promise-glow" aria-hidden="true"/><div className="deq-promise-orbit" aria-hidden="true"/>
+      <div className="deq-promise-inner">
+        <div className="deq-promise-heading"><span>THE DEQANT PROMISE</span><i/><small>CONSIDERED FROM ORDER TO DELIVERY</small></div>
+        <div className="deq-promise-grid">
+          <article className="deq-promise-item"><span className="deq-promise-index">01</span><span className="deq-promise-icon"><PackageCheck size={21}/></span><div><small>COMPLIMENTARY DELIVERY</small><strong>Free delivery</strong><p>On orders ৳2,000+</p></div><ArrowUpRight className="deq-promise-arrow" size={17}/></article>
+          <article className="deq-promise-item"><span className="deq-promise-index">02</span><span className="deq-promise-icon"><ShieldCheck size={21}/></span><div><small>AUTHENTICITY, ALWAYS</small><strong>Money back</strong><p>If not original</p></div><ArrowUpRight className="deq-promise-arrow" size={17}/></article>
+          <article className="deq-promise-item"><span className="deq-promise-index">03</span><span className="deq-promise-icon"><ShoppingBag size={21}/></span><div><small>PAY WITH CONFIDENCE</small><strong>Cash on delivery</strong><p>Pay when it arrives</p></div><ArrowUpRight className="deq-promise-arrow" size={17}/></article>
+          <article className="deq-promise-item"><span className="deq-promise-index">04</span><span className="deq-promise-icon"><Sparkles size={21}/></span><div><small>PACKED WITH CARE</small><strong>Free replacement</strong><p>For glass atomizer leak or break</p></div><ArrowUpRight className="deq-promise-arrow" size={17}/></article>
+        </div>
+        <div className="deq-promise-footer"><span>THE DETAILS MATTER.</span><span>DEQANT <i>✳</i> FRAGRANCE, WITH ASSURANCE.</span></div>
+      </div>
+    </section>
+
     <ScrollBottleExperience />
 
     <div className="scent-marquee" aria-hidden="true"><div><span>EXTRAITS OF CHARACTER <Sparkles /> DECANTS, DONE BEAUTIFULLY <Sparkles /> SO SPREAD THE FRAGRANCE <Sparkles /></span><span>EXTRAITS OF CHARACTER <Sparkles /> DECANTS, DONE BEAUTIFULLY <Sparkles /> SO SPREAD THE FRAGRANCE <Sparkles /></span><span>EXTRAITS OF CHARACTER <Sparkles /> DECANTS, DONE BEAUTIFULLY <Sparkles /> SO SPREAD THE FRAGRANCE <Sparkles /></span></div></div>
