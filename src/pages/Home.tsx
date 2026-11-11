@@ -62,7 +62,7 @@ function WeatherAtelier({catalogue}:{catalogue?:CatalogEntry[]}) {
      {recommendations.length?<div className="weather-product-list">{recommendations.map(({entry,curatedFallback},index)=><Link to={`/product/${entry.product.slug}`} className="weather-product-pick" key={entry.product.id}><span className="weather-pick-number">0{index+1}</span><img src={entry.product.imageUrl} alt={entry.product.name} loading="lazy"/><span className="weather-pick-info"><small>{entry.product.brand}</small><strong>{entry.product.name}</strong><em>{curatedFallback?"A popular DEQANT pick":`Matched to ${climate.title.toLowerCase()}`}</em></span><ArrowUpRight size={17}/></Link>)}</div>:<div className="weather-no-products">Your climate edit is being prepared. Check back soon.</div>}
      <div className="weather-result-foot"><span>NOTE-LED DISCOVERY</span><span>NOT A ONE-SCENT RULE · FIND YOUR SIGNATURE</span></div>
     </div>
-   </div><div className="weather-atlas-footer"><span>THE RIGHT SCENT, IN THE RIGHT AIR.</span><span>DEQANT FRAGRANCE <i>✳</i> RAJSHAHI</span></div>
+   </div><div className="weather-atlas-footer"><span>THE RIGHT SCENT, IN THE RIGHT AIR.</span><span>DEQANT FRAGRANCE <Sparkles size={12} strokeWidth={1.4} aria-hidden="true" /> RAJSHAHI</span></div>
   </div>
  </section>;
 }
@@ -154,7 +154,7 @@ function ScrollBottleExperience() {
 
   return <section className="bottle-scroll-story" ref={sectionRef} aria-label="Interactive perfume bottle story">
     <div className="bottle-story-ornament bottle-story-ornament-top" aria-hidden="true">
-      <span className="bottle-ornament-index">DEQANT / THE ART OF FRAGRANCE</span>
+      <span className="bottle-ornament-index"><Sparkles size={11} strokeWidth={1.3} aria-hidden="true" /> DEQANT / THE ART OF FRAGRANCE</span>
       <span className="bottle-ornament-rule" />
       <span className="bottle-ornament-edition">ANATOMY OF A SIGNATURE · VOL. 001</span>
       <div className="bottle-ornament-topline">
@@ -370,7 +370,7 @@ export default function Home() {
       <div className="promise-atmosphere-orbit promise-atmosphere-orbit-two" aria-hidden="true" />
       <div className="promise-atmosphere-inner">
         <div className="promise-atmosphere-topline">
-          <span>DEQANT <i>✳</i> THE HOUSE PROMISE</span>
+          <span>DEQANT <Sparkles size={12} strokeWidth={1.4} aria-hidden="true" /> THE HOUSE PROMISE</span>
           <span>THOUGHTFUL BY DESIGN <b>— 001</b></span>
         </div>
         <div className="promise-atmosphere-heading">
@@ -428,26 +428,26 @@ export default function Home() {
             <article className="promise-benefit-card">
               <div className="promise-benefit-top"><span>01 / DELIVERY</span><PackageCheck size={23} strokeWidth={1.3} /></div>
               <div><h3>Good things<br /><em>come to you.</em></h3><p>Complimentary delivery when your order reaches <strong>৳2,000.</strong></p></div>
-              <span className="promise-benefit-foot">DELIVERED WITH CARE <i>↗</i></span>
+              <span className="promise-benefit-foot">DELIVERED WITH CARE <ArrowUpRight size={12} strokeWidth={1.5} aria-hidden="true" /></span>
             </article>
             <article className="promise-benefit-card">
               <div className="promise-benefit-top"><span>02 / AUTHENTICITY</span><ShieldCheck size={23} strokeWidth={1.3} /></div>
               <div><h3>Only the<br /><em>real thing.</em></h3><p>Authentic fragrances, carefully sourced and honestly presented.</p></div>
-              <span className="promise-benefit-foot">GENUINE BY PROMISE <i>↗</i></span>
+              <span className="promise-benefit-foot">GENUINE BY PROMISE <ArrowUpRight size={12} strokeWidth={1.5} aria-hidden="true" /></span>
             </article>
             <article className="promise-benefit-card promise-benefit-featured">
               <div className="promise-benefit-top"><span>03 / THE ATOMIZER</span><Droplets size={23} strokeWidth={1.3} /></div>
               <div><h3>Real glass<br /><em>atomizer.</em></h3><p>Every decant is presented in a real glass atomizer, chosen for a more considered fragrance ritual.</p></div>
-              <span className="promise-benefit-foot">FEEL THE DIFFERENCE <i>↗</i></span>
+              <span className="promise-benefit-foot">FEEL THE DIFFERENCE <ArrowUpRight size={12} strokeWidth={1.5} aria-hidden="true" /></span>
             </article>
             <article className="promise-benefit-card">
               <div className="promise-benefit-top"><span>04 / ARRIVAL CARE</span><Sparkles size={23} strokeWidth={1.3} /></div>
               <div><h3>We'll make<br /><em>it right.</em></h3><p>Leaking or damaged on arrival? <strong>We'll arrange a replacement.</strong></p></div>
-              <span className="promise-benefit-foot">CARE AFTER CHECKOUT <i>↗</i></span>
+              <span className="promise-benefit-foot">CARE AFTER CHECKOUT <ArrowUpRight size={12} strokeWidth={1.5} aria-hidden="true" /></span>
             </article>
           </div>
         </div>
-        <div className="promise-atmosphere-footer"><span>THE DEQANT STANDARD</span><span>THOUGHTFUL BY DESIGN <i>✳</i> MADE TO BE TRUSTED</span></div>
+        <div className="promise-atmosphere-footer"><span>THE DEQANT STANDARD</span><span>THOUGHTFUL BY DESIGN <Sparkles size={12} strokeWidth={1.4} aria-hidden="true" /> MADE TO BE TRUSTED</span></div>
       </div>
     </section>
 
@@ -470,7 +470,7 @@ export default function Home() {
  <div className="shop-by-atlas-heading"><div><p>DISCOVER BY CHARACTER</p><h2 id="shop-by-heading">A world of<br/><em>your own.</em></h2></div><div className="shop-by-atlas-intro"><span>THE COLLECTION INDEX · 08 PATHWAYS</span><p>Not sure what you love yet? Start with a point of view. Explore fragrance through identity, origin, artistry and discovery.</p><Link to="/shop">VIEW THE COMPLETE COLLECTION <ArrowUpRight size={15}/></Link></div></div>
  <div className="shop-by-atlas-grid">
  {[{key:"for-him",label:"For him",sub:"BOLD BY NATURE",note:"Confident signatures",index:"01",symbol:"H",tone:"ink"},{key:"for-her",label:"For her",sub:"SOFTLY UNFORGETTABLE",note:"Expressive elegance",index:"02",symbol:"F",tone:"rose"},{key:"unisex",label:"Unisex",sub:"BEYOND THE LABEL",note:"Made to be shared",index:"03",symbol:"U",tone:"sage"},{key:"middle-eastern",label:"Middle Eastern",sub:"A LEGACY IN EVERY NOTE",note:"Oud, amber & heritage",index:"04",symbol:"م",tone:"noir"},{key:"designer",label:"Designer",sub:"ICONS OF MODERNITY",note:"The houses you know",index:"05",symbol:"D",tone:"sand"},{key:"niche",label:"Niche",sub:"ART WITHOUT COMPROMISE",note:"Rare olfactory art",index:"06",symbol:"N",tone:"plum"},{key:"new-drops",label:"New drops",sub:"FRESH FROM THE ATELIER",note:"Just arrived",index:"07",symbol:<Sparkles aria-hidden="true" strokeWidth={1.1}/>,tone:"blue"},{key:"all-brands",label:"All brands",sub:"THE COMPLETE ARCHIVE",note:"Every house, one place",index:"08",symbol:"∞",tone:"gold"}].map(item=><Link key={item.key} to={`/shop?shopCategory=${item.key}`} className={`shop-atlas-tile shop-atlas-${item.tone}`}><span className="shop-atlas-topline"><small>{item.index} / 08</small><small>{item.sub}</small></span><span className="shop-atlas-symbol" aria-hidden="true">{item.symbol}</span><span className="shop-atlas-bottom"><span><strong>{item.label}</strong><small>{item.note}</small></span><span className="shop-atlas-go"><ArrowUpRight size={19}/></span></span></Link>)}
- </div><div className="shop-by-atlas-bottom"><span>FOLLOW YOUR INSTINCT. DISCOVER YOUR SIGNATURE.</span><span>08 COLLECTIONS <i>✳</i> ENDLESS POSSIBILITIES</span></div>
+ </div><div className="shop-by-atlas-bottom"><span>FOLLOW YOUR INSTINCT. DISCOVER YOUR SIGNATURE.</span><span>08 COLLECTIONS <Sparkles size={12} strokeWidth={1.4} aria-hidden="true" /> ENDLESS POSSIBILITIES</span></div>
 </section>
 
 <WeatherAtelier catalogue={catalogue} />
