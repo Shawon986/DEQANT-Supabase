@@ -10,7 +10,7 @@ export function subscribeStoreChanges(onChange:(table:string)=>void){
   auth:{persistSession:false,autoRefreshToken:false,detectSessionInUrl:false},
   accessToken:async()=>await getAccessToken()??key,
  });
- const tables=["products","product_variants","product_ratings","website_settings","orders","coupons"] as const;
+ const tables=["products","product_variants","product_ratings","website_settings","orders","coupons","contact_messages"] as const;
  let channel=client.channel("deqant-store-live");
  for(const table of tables){
   channel=channel.on("postgres_changes",{event:"*",schema:"public",table},()=>onChange(table));

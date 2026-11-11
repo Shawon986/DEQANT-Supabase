@@ -19,7 +19,7 @@ export async function signOut(){if(getSession())await api("/auth/v1/logout",{met
 export async function currentUser(){const s=await validSession();if(!s)return null;try{return await api("/auth/v1/user");}catch{saveSession(null);return null;}}
 export async function getProfile(){const u=await currentUser();if(!u)return null;const rows=await api(`/rest/v1/profiles?id=eq.${encodeURIComponent(u.id)}&select=id,full_name,role,email`);return rows?.[0]??null;}
 export async function listProducts(includeInactive=false):Promise<DbProduct[]>{return await api(`/rest/v1/products?select=*,product_variants(*)&order=created_at.desc${includeInactive?"":"&active=eq.true"}`)??[];}
-export async function saveProduct(input:Omit<DbProduct,"id"|"created_at"|"product_variants">&{id?:number;variants:Omit<DbVariant,"id"|"product_id">[]}){const{variants,...product}=input;return await api("/rest/v1/rpc/admin_save_product",{method:"POST",body:JSON.stringify({p_product:product,p_variants:variants})});}
+export async function saveProduct(input:Omit<DbProduct,"id"|"created_at"|"product_variants">&{id?:number;variants:Array<Omit<DbVariant,"id"|"product_id">&{id?:number}>}){const{variants,...product}=input;return await api("/rest/v1/rpc/admin_save_product",{method:"POST",body:JSON.stringify({p_product:product,p_variants:variants})});}
 export async function setProductActive(id:number,active:boolean){await api(`/rest/v1/products?id=eq.${id}`,{method:"PATCH",body:JSON.stringify({active})});}
 export async function deleteProduct(id:number){
  // The database RPC verifies the admin role and performs the delete transactionally.
@@ -44,7 +44,7 @@ async function cachedPublicProducts(){
 }
 async function cachedPublicRatings(){
  if(!publicRatingsPromise||Date.now()>=publicRatingsExpiresAt){
-  const pending=api("/rest/v1/product_rating_summary?select=product_id,average_rating,rating_count",{},false);
+  const pending=api("/rest/v1/rpc/get_product_rating_summary",{method:"POST",body:JSON.stringify({p_product_id:null})},false);
   publicRatingsPromise=pending;publicRatingsExpiresAt=Date.now()+60_000;
   try{return await pending;}catch(error){if(publicRatingsPromise===pending)publicRatingsPromise=null;throw error;}
  }
@@ -56,6 +56,8 @@ function entry(p:DbProduct,rating={averageRating:0,ratingCount:0}){const variant
 export type CatalogEntry = ReturnType<typeof entry>;
 export async function productBySlug(slug:string){const rows=await api(`/rest/v1/products?slug=eq.${encodeURIComponent(slug)}&active=eq.true&select=*,product_variants(*)&limit=1`,{},false);if(!rows?.[0])throw new Error("This fragrance is no longer available.");const p=rows[0];const ratingRows=await api(`/rest/v1/product_rating_summary?product_id=eq.${p.id}&select=average_rating,rating_count`,{},false);const rating=ratingRows?.[0]?{averageRating:Number(ratingRows[0].average_rating)||0,ratingCount:Number(ratingRows[0].rating_count)||0}:{averageRating:0,ratingCount:0};return{...entry(p,rating),ratingSummary:rating,images:(p.image_urls??[]).map((url:string,index:number)=>({id:index,url,alt:p.name,sortOrder:index}))};}
 
+export async function listAdminMessages(){return await api("/rest/v1/contact_messages?select=id,name,email,message,status,created_at&order=created_at.desc&limit=200");}
+export async function markAdminMessageRead(id:number){return await api(`/rest/v1/contact_messages?id=eq.${id}`,{method:"PATCH",body:JSON.stringify({status:"read"})});}
 export async function listAdminRatings(){
  const rows=await api("/rest/v1/product_ratings?select=id,product_id,user_id,rating,created_at,updated_at,products(name,brand)&order=updated_at.desc&limit=150");
  const ids: string[] = Array.from(new Set<string>((rows ?? []).map((row: any): string => String(row.user_id)).filter((id: string) => Boolean(id))));
@@ -63,7 +65,7 @@ export async function listAdminRatings(){
  const profileMap=new Map((profiles??[]).map((profile:any)=>[String(profile.id),profile]));
  return (rows??[]).map((row:any)=>({...row,customer:profileMap.get(String(row.user_id))??{full_name:"Customer",email:""}}));
 }
-export async function productRating(productId:number){const summaryRows=await api(`/rest/v1/product_rating_summary?product_id=eq.${productId}&select=average_rating,rating_count`,{},false);const user=await currentUser();let myRating:number|null=null;if(user){const own=await api(`/rest/v1/product_ratings?product_id=eq.${productId}&user_id=eq.${encodeURIComponent(user.id)}&select=rating&limit=1`);myRating=own?.[0]?.rating?Number(own[0].rating):null;}const row=summaryRows?.[0];return{averageRating:Number(row?.average_rating)||0,ratingCount:Number(row?.rating_count)||0,myRating,canRate:Boolean(user)};}
+export async function productRating(productId:number){const summaryRows=await api("/rest/v1/rpc/get_product_rating_summary",{method:"POST",body:JSON.stringify({p_product_id:productId})},false);const user=await currentUser();let myRating:number|null=null;if(user){const own=await api(`/rest/v1/product_ratings?product_id=eq.${productId}&user_id=eq.${encodeURIComponent(user.id)}&select=rating&limit=1`);myRating=own?.[0]?.rating?Number(own[0].rating):null;}const row=summaryRows?.[0];return{averageRating:Number(row?.average_rating)||0,ratingCount:Number(row?.rating_count)||0,myRating,canRate:Boolean(user)};}
 export async function submitProductRating(productId:number,rating:number){if(!Number.isInteger(rating)||rating<1||rating>5)throw new Error("Choose a rating from 1 to 5 stars.");const user=await currentUser();if(!user)throw new Error("Please sign in to rate this perfume.");await api(`/rest/v1/product_ratings?on_conflict=product_id,user_id`,{method:"POST",headers:{Prefer:"resolution=merge-duplicates,return=representation"},body:JSON.stringify({product_id:productId,user_id:user.id,rating,updated_at:new Date().toISOString()})});return productRating(productId);}
 export async function settings(){const rows=await api("/rest/v1/website_settings?select=setting_key,setting_value",{},false);return Object.fromEntries((rows??[]).map((r:any)=>[r.setting_key,r.setting_value]));}
 export async function listCoupons(){return await api("/rest/v1/coupons?select=*&order=created_at.desc");}
@@ -84,6 +86,6 @@ export async function cancelOrder(i:{orderNumber:string;phone:string}){return aw
 export async function orderByPhone(i:{orderNumber:string;phone:string}){return await api("/rest/v1/rpc/order_by_phone",{method:"POST",body:JSON.stringify({p_order_number:i.orderNumber,p_phone:i.phone})},false);}
 export async function sendContact(i:{name:string;email:string;message:string}){return await api("/rest/v1/rpc/submit_contact",{method:"POST",body:JSON.stringify({p_name:i.name,p_email:i.email,p_message:i.message})},false);}
 
-export async function listMyOrders(){const user=await currentUser();if(!user)return [];return await api("/rest/v1/orders?select=id,order_number,customer_name,phone,district,area,address,subtotal,delivery_fee,total,payment_method,status,created_at,order_items(id,product_name,size_ml,quantity,line_total)&order=created_at.desc&limit=50");}
+export async function listMyOrders(){const user=await currentUser();if(!user)return [];return await api("/rest/v1/orders?select=id,order_number,customer_name,phone,district,area,address,subtotal,discount_amount,coupon_code,delivery_fee,total,payment_method,status,advance_payment_required,advance_payment_amount,advance_payment_status,created_at,order_items(id,product_name,size_ml,quantity,line_total)&order=created_at.desc&limit=50");}
 export async function listAdminOrders(){return await api("/rest/v1/orders?select=*,order_items(*)&order=created_at.desc&limit=200");}
-export async function updateAdminOrder(id:number,status:string,internalNotes?:string){await api(`/rest/v1/orders?id=eq.${id}`,{method:"PATCH",body:JSON.stringify({status,internal_notes:internalNotes})});}
+export async function updateAdminOrder(id:number,status:string,internalNotes?:string){return await api("/rest/v1/rpc/admin_update_order",{method:"POST",body:JSON.stringify({p_order_id:id,p_status:status,p_internal_notes:internalNotes??null})});}
