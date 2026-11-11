@@ -361,36 +361,42 @@ export default function Home() {
       <a className="scroll-cue" href="#collection"><ArrowDown /><span>Scroll to discover</span></a>
     </section>
 
-    <section className="deq-promise-v2" aria-labelledby="deq-promise-v2-title">
-      <div className="promise-v2-shell">
-        <div className="promise-v2-topline"><span><i/> THE DEQANT STANDARD</span><span>GOOD FRAGRANCE. BETTER SERVICE. <b>✳</b></span></div>
-        <div className="promise-v2-heading">
-          <div><p>OUR PROMISE TO YOU</p><h2 id="deq-promise-v2-title">Consider it<br/><em>taken care of.</em></h2></div>
-          <div className="promise-v2-intro"><span className="promise-v2-seal"><b>D</b><i>THE DEQANT PROMISE</i></span><p>From the moment you order to the moment your fragrance arrives, every detail is considered. No fine print. Just promises we stand behind.</p></div>
+    <section className="deq-promise-orbit" aria-labelledby="promise-orbit-title">
+      <div className="promise-orbit-stage">
+        <div className="promise-orbit-header"><span><i/> A DIFFERENT KIND OF PROMISE</span><span>THE DEQANT EXPERIENCE <b>✳</b></span></div>
+        <div className="promise-orbit-title-row">
+          <p>MORE THAN A FRAGRANCE.<br/><em>A STANDARD OF CARE.</em></p>
+          <h2 id="promise-orbit-title">We mean<br/><em>every word.</em></h2>
         </div>
-        <div className="promise-v2-list">
-          <article className="promise-v2-card">
-            <div className="promise-v2-card-top"><span>01</span><PackageCheck size={25}/><small>DELIVERY, ON US</small></div>
-            <div className="promise-v2-card-main"><h3>Free<br/><em>delivery.</em></h3><p>On every order of <strong>৳2,000 or more.</strong></p></div>
-            <div className="promise-v2-card-foot"><span>WE'LL TAKE CARE OF THE SHIPPING</span><ArrowUpRight size={17}/></div>
+        <div className="promise-orbit-universe">
+          <div className="promise-orbit-lines" aria-hidden="true"><i/><i/><i/><i/><b/><b/><b/><b/></div>
+          <article className="promise-orbit-point promise-orbit-delivery">
+            <span className="promise-orbit-index">01 / DELIVERY</span><PackageCheck size={23}/>
+            <h3>Shipping?<br/><em>On us.</em></h3><p>Free delivery when your order reaches <strong>৳2,000.</strong></p>
+            <span className="promise-orbit-caption">A LITTLE SOMETHING EXTRA</span>
           </article>
-          <article className="promise-v2-card">
-            <div className="promise-v2-card-top"><span>02</span><ShieldCheck size={25}/><small>AUTHENTICITY, ALWAYS</small></div>
-            <div className="promise-v2-card-main"><h3>100%<br/><em>authentic.</em></h3><p>Not genuine? <strong>Your money back.</strong></p></div>
-            <div className="promise-v2-card-foot"><span>YOUR TRUST IS NON-NEGOTIABLE</span><ArrowUpRight size={17}/></div>
+          <article className="promise-orbit-point promise-orbit-authentic">
+            <span className="promise-orbit-index">02 / AUTHENTICITY</span><ShieldCheck size={23}/>
+            <h3>Only the<br/><em>real thing.</em></h3><p>100% authenticity. If it's not genuine, <strong>your money back.</strong></p>
+            <span className="promise-orbit-caption">ALWAYS THE ORIGINAL</span>
           </article>
-          <article className="promise-v2-card">
-            <div className="promise-v2-card-top"><span>03</span><ShoppingBag size={25}/><small>PAYMENT, YOUR WAY</small></div>
-            <div className="promise-v2-card-main"><h3>Cash on<br/><em>delivery.</em></h3><p>Pay only when your order <strong>reaches you.</strong></p></div>
-            <div className="promise-v2-card-foot"><span>NO ADVANCE REQUIRED FOR COD</span><ArrowUpRight size={17}/></div>
+          <div className="promise-orbit-core" aria-hidden="true">
+            <div className="promise-orbit-halo"><i/><i/><i/></div>
+            <div className="promise-orbit-glass"><span className="promise-orbit-glint"/><b>D</b><small>DEQANT</small></div>
+            <span className="promise-orbit-core-label">THE PROMISE IS IN THE DETAIL</span>
+          </div>
+          <article className="promise-orbit-point promise-orbit-payment">
+            <span className="promise-orbit-index">03 / PAYMENT</span><ShoppingBag size={23}/>
+            <h3>Pay when<br/><em>it arrives.</em></h3><p>Choose cash on delivery. <strong>No advance needed for COD.</strong></p>
+            <span className="promise-orbit-caption">SIMPLE. SECURE. YOURS.</span>
           </article>
-          <article className="promise-v2-card">
-            <div className="promise-v2-card-top"><span>04</span><Sparkles size={25}/><small>CARE THAT CONTINUES</small></div>
-            <div className="promise-v2-card-main"><h3>Free<br/><em>replacement.</em></h3><p>Leaking or broken on arrival? <strong>We'll replace it.</strong></p></div>
-            <div className="promise-v2-card-foot"><span>WE'LL MAKE IT RIGHT</span><ArrowUpRight size={17}/></div>
+          <article className="promise-orbit-point promise-orbit-care">
+            <span className="promise-orbit-index">04 / EXTRA CARE</span><Sparkles size={23}/>
+            <h3>We'll make<br/><em>it right.</em></h3><p>Leaking or broken on arrival? <strong>Free replacement.</strong></p>
+            <span className="promise-orbit-caption">CARE THAT GOES FURTHER</span>
           </article>
         </div>
-        <div className="promise-v2-bottom"><span>THE LITTLE DETAILS. THE BIG DIFFERENCE.</span><span>DEQANT <i>✳</i> MADE TO BE TRUSTED</span></div>
+        <div className="promise-orbit-footer"><span>FOUR PROMISES. ONE DEQANT STANDARD.</span><span>MADE TO BE TRUSTED <i>✳</i></span></div>
       </div>
     </section>
 
