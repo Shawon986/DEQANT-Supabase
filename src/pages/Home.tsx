@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
+import "@/deq-promise-ledger.css";
 import { Link } from "react-router";
 import { ArrowDown, ArrowRight, ArrowUpRight, CloudRain, Droplets, PackageCheck, ShieldCheck, ShoppingBag, Snowflake, Sparkles, Star, Sun, Wind } from "lucide-react";
 import { PageShell, ProductCard, Reveal, LoadingState } from "@/components/Storefront";
