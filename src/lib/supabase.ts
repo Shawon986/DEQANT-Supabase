@@ -56,6 +56,8 @@ function entry(p:DbProduct,rating={averageRating:0,ratingCount:0}){const variant
 export type CatalogEntry = ReturnType<typeof entry>;
 export async function productBySlug(slug:string){const rows=await api(`/rest/v1/products?slug=eq.${encodeURIComponent(slug)}&active=eq.true&select=*,product_variants(*)&limit=1`,{},false);if(!rows?.[0])throw new Error("This fragrance is no longer available.");const p=rows[0];const ratingRows=await api(`/rest/v1/product_rating_summary?product_id=eq.${p.id}&select=average_rating,rating_count`,{},false);const rating=ratingRows?.[0]?{averageRating:Number(ratingRows[0].average_rating)||0,ratingCount:Number(ratingRows[0].rating_count)||0}:{averageRating:0,ratingCount:0};return{...entry(p,rating),ratingSummary:rating,images:(p.image_urls??[]).map((url:string,index:number)=>({id:index,url,alt:p.name,sortOrder:index}))};}
 
+export async function listAdminMessages(){return await api("/rest/v1/contact_messages?select=id,name,email,message,status,created_at&order=created_at.desc&limit=200");}
+export async function markAdminMessageRead(id:number){return await api(`/rest/v1/contact_messages?id=eq.${id}`,{method:"PATCH",body:JSON.stringify({status:"read"})});}
 export async function listAdminRatings(){
  const rows=await api("/rest/v1/product_ratings?select=id,product_id,user_id,rating,created_at,updated_at,products(name,brand)&order=updated_at.desc&limit=150");
  const ids: string[] = Array.from(new Set<string>((rows ?? []).map((row: any): string => String(row.user_id)).filter((id: string) => Boolean(id))));
