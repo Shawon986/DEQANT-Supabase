@@ -31,7 +31,11 @@ function WeatherAtelier({catalogue}:{catalogue?:CatalogEntry[]}) {
   // Every published perfume is evaluated from its saved catalogue data.
   // Notes and fragrance family carry the strongest signal; descriptions provide
   // a useful secondary signal when an admin has entered richer product details.
-  const normalise=(value:unknown)=>String(value??"").normalize("NFD").replace(/[\\u0300-\\u036f]/g,"").toLowerCase().replace(/[^a-z0-9]+/g," ").trim();
+  // Match complete fragrance terms (including multi-word notes) rather than
+  // arbitrary substrings, so "oud" cannot match unrelated words such as "cloud".
+  // Unicode combining marks are removed correctly, preserving meaningful letters.
+  const normalise=(value:unknown)=>String(value??"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/[^a-z0-9]+/g," ").trim();
+  const containsTerm=(source:string,term:string)=>Boolean(term)&&(` ${source} `).includes(` ${term} `);
   const scored=catalogue.map(entry=>{
    const notes=normalise(entry.product.notes);
    const family=normalise(entry.product.family);
@@ -40,9 +44,9 @@ function WeatherAtelier({catalogue}:{catalogue?:CatalogEntry[]}) {
    const score=climate.terms.reduce((total,term)=>{
     const needle=normalise(term);
     if(!needle)return total;
-    return total+(notes.includes(needle)?5:0)+(family.includes(needle)?4:0)+(description.includes(needle)?2:0)+(identity.includes(needle)?1:0);
+    return total+(containsTerm(notes,needle)?6:0)+(containsTerm(family,needle)?5:0)+(containsTerm(description,needle)?2:0)+(containsTerm(identity,needle)?1:0);
    },0);
-   return {entry,score,matchedByNotes:climate.terms.some(term=>notes.includes(normalise(term))||family.includes(normalise(term)))};
+   return {entry,score};
   }).sort((a,b)=>b.score-a.score||(b.entry.product.popularity??0)-(a.entry.product.popularity??0));
   const matches=scored.filter(item=>item.score>0).slice(0,3);
   return (matches.length?matches:scored.slice(0,3)).map(item=>({...item,curatedFallback:item.score===0}));
