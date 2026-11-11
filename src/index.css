@@ -4123,3 +4123,50 @@ main,
     font-size: 14px !important;
   }
 }
+
+
+/* Final targeted correction: give the bottle-story epigraph a dedicated footer
+   zone below the animated stage. Keep the bottle stage and motion runway intact. */
+html {
+  scroll-behavior: auto !important;
+}
+html,
+body,
+#root,
+main,
+.page-shell,
+.bottle-scroll-story,
+.bottle-scroll-sticky {
+  overflow-anchor: none !important;
+}
+.bottle-scroll-story {
+  height: calc(100svh + 150px) !important;
+  min-height: calc(100svh + 150px) !important;
+  overflow: visible !important;
+}
+.bottle-scroll-sticky {
+  height: 100svh !important;
+  min-height: 100svh !important;
+}
+.bottle-story-ornament-bottom {
+  bottom: 16px !important;
+}
+@media (max-width: 760px) {
+  .bottle-scroll-story {
+    height: calc(100svh + 132px) !important;
+    min-height: calc(100svh + 132px) !important;
+  }
+  .bottle-scroll-sticky {
+    height: 100svh !important;
+    min-height: 100svh !important;
+  }
+  .bottle-story-ornament-bottom {
+    bottom: 12px !important;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .bottle-scroll-story {
+    height: auto !important;
+    min-height: 0 !important;
+  }
+}
