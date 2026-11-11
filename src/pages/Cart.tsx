@@ -5,11 +5,11 @@ import { useCart } from "@/providers/cart";
 type CartLine = { id:number; product:{slug:string;imageUrl:string;name:string;brand:string;category:"decant"|"intact"}; variant:{sizeMl:number;price:number;originalPrice:number;stock:number}; quantity:number; lineTotal:number };
 
 export default function Cart() {
-  const { cart, isLoading, update, remove, isMutating } = useCart();
+  const { cart, isLoading, error, update, remove, isMutating } = useCart();
   return <PageShell>
     <section className="cart-page">
       <div className="cart-heading"><p>YOUR FRAGRANCE WARDROBE</p><h1>Shopping bag</h1><span>{cart?.count ?? 0} {cart?.count === 1 ? "item" : "items"}, each chosen by you.</span></div>
-      {isLoading ? <LoadingState label="Opening your fragrance wardrobe…" /> : !cart?.items.length ? <div className="empty-state cart-empty"><ShoppingBag /><h2>Your bag is waiting for a signature.</h2><p>Begin with a decant, or choose an intact bottle from our collection.</p><Link className="button button-burgundy" to="/shop">Explore fragrances <ArrowRight /></Link></div> : <div className="cart-layout">
+      {isLoading ? <LoadingState label="Opening your fragrance wardrobe…" /> : error ? <div className="empty-state"><h2>Your bag could not be loaded.</h2><p>{error instanceof Error ? error.message : "Please check your connection and try again."}</p><button className="button button-burgundy" onClick={() => window.location.reload()}>Try again</button></div> : !cart?.items.length ? <div className="empty-state cart-empty"><ShoppingBag /><h2>Your bag is waiting for a signature.</h2><p>Begin with a decant, or choose an intact bottle from our collection.</p><Link className="button button-burgundy" to="/shop">Explore fragrances <ArrowRight /></Link></div> : <div className="cart-layout">
         <div className="cart-items">{cart.items.map((item: CartLine) => <article className="cart-item" key={item.id}>
           <Link to={`/product/${item.product.slug}`}><img src={item.product.imageUrl} alt={item.product.name} /></Link>
           <div className="cart-item-info"><p>{item.product.brand} · {item.product.category === "decant" ? "Decant" : "Intact bottle"}</p><Link to={`/product/${item.product.slug}`}><h2>{item.product.name}</h2></Link><span>{item.variant.sizeMl}ml · {money(item.variant.price)} each</span>{item.variant.originalPrice > item.variant.price && <small>You save {money((item.variant.originalPrice - item.variant.price) * item.quantity)}</small>}
