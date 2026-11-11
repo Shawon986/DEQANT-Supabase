@@ -1,4 +1,5 @@
 import { useEffect, useState, type FormEvent } from "react";
+import { useLocation } from "react-router";
 import { Check, Clock3, Package, Search, XCircle } from "lucide-react";
 import { PageShell, money } from "@/components/Storefront";
 import { storeApi } from "@/providers/store";
@@ -16,10 +17,20 @@ function formatRemaining(ms: number) {
 }
 
 export default function Track() {
-  const [orderNumber, setOrderNumber] = useState(() => typeof window !== "undefined" ? localStorage.getItem("deqant.lastOrderNumber") ?? "" : "");
-  const [phone, setPhone] = useState("");
-  const [search, setSearch] = useState<{ orderNumber: string; phone: string } | null>(null);
+  const location = useLocation();
+  const routeOrder = location.state as { orderNumber?: string; phone?: string } | null;
+  const [orderNumber, setOrderNumber] = useState(() => routeOrder?.orderNumber ?? (typeof window !== "undefined" ? localStorage.getItem("deqant.lastOrderNumber") ?? "" : ""));
+  const [phone, setPhone] = useState(() => routeOrder?.phone ?? "");
+  const [search, setSearch] = useState<{ orderNumber: string; phone: string } | null>(() => routeOrder?.orderNumber && routeOrder?.phone ? { orderNumber: routeOrder.orderNumber, phone: routeOrder.phone } : null);
   const [now, setNow] = useState(() => Date.now());
+  useEffect(() => {
+    const state = location.state as { orderNumber?: string; phone?: string } | null;
+    if (state?.orderNumber && state?.phone) {
+      setOrderNumber(state.orderNumber);
+      setPhone(state.phone);
+      setSearch({ orderNumber: state.orderNumber, phone: state.phone });
+    }
+  }, [location.key]);
   const query = storeApi.store.track.useQuery(search!, { enabled: Boolean(search), retry: false });
   const cancelMutation = storeApi.store.cancelOrder.useMutation();
   useEffect(() => {
