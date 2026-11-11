@@ -33,7 +33,8 @@ export default function Checkout() {
   const deliveryFee=orderSubtotal>=2000?0:(zone?(Number(zone.fee)||0)+(totalWeight>1000?20:0):0);
   const safeCouponPercent=Math.min(100,Math.max(0,Number(couponPercent)||0));
   const discountAmount=Math.min(orderSubtotal,Math.floor(orderSubtotal*safeCouponPercent/100));
-  const total=Math.max(0,orderSubtotal-discountAmount+deliveryFee);\n  const advancePaymentAmount=Math.min(200,total);
+  const total=Math.max(0,orderSubtotal-discountAmount+deliveryFee);
+  const advancePaymentAmount=Math.min(200,total);
   const applyCoupon=async()=>{setCouponBusy(true);setCouponMessage("");try{const result:any=await validateCoupon(couponCode);setCouponPercent(Number(result.discountPercent)||0);setCouponCode(String(result.code||couponCode).toUpperCase());setCouponMessage(`${result.discountPercent}% discount applied.`);}catch(error){setCouponPercent(0);setCouponMessage(error instanceof Error?error.message:"Could not validate this coupon.");}finally{setCouponBusy(false);}};
   const update = (key: keyof typeof initialForm, value: string) => setForm((current) => ({ ...current, [key]: value }));
   const submit = (event: FormEvent) => {
