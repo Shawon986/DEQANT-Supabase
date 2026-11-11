@@ -361,28 +361,31 @@ export default function Home() {
       <a className="scroll-cue" href="#collection"><ArrowDown /><span>Scroll to discover</span></a>
     </section>
 
-    <section className="deq-promise-ribbon" aria-label="DEQANT shopping promises">
-      <div className="deq-promise-glow" aria-hidden="true"/><div className="deq-promise-orbit" aria-hidden="true"/>
-      <div className="deq-promise-inner">
-        <div className="deq-promise-main">
-          <div className="deq-promise-intro">
-            <div className="deq-promise-heading"><span>THE DEQANT PROMISE</span><i/><small>01 — 04 / ALWAYS INCLUDED</small></div>
-            <div className="deq-promise-seal" aria-hidden="true"><span>THE DEQANT STANDARD</span><b>D</b><i>✳</i><small>CARE IN EVERY DETAIL</small></div>
-            <p className="deq-promise-eyebrow">A BETTER WAY TO DISCOVER FRAGRANCE</p>
-            <h2>Confidence,<br/><em>beautifully delivered.</em></h2>
-            <p className="deq-promise-description">From the first click to the final note, every order comes with a little more care.</p>
-            <span className="deq-promise-signature">THE DETAILS MATTER. <b>✳</b> DEQANT</span>
+    <section className="deq-promise-atelier" aria-labelledby="deq-promise-title">
+      <div className="promise-atelier-grain" aria-hidden="true"/>
+      <div className="promise-atelier-orbit promise-orbit-a" aria-hidden="true"/>
+      <div className="promise-atelier-orbit promise-orbit-b" aria-hidden="true"/>
+      <div className="promise-atelier-shell">
+        <div className="promise-atelier-topline"><span>DEQANT / THE HOUSE STANDARD</span><span>FOUR PROMISES. EVERY ORDER.</span></div>
+        <div className="promise-atelier-layout">
+          <div className="promise-atelier-editorial">
+            <p className="promise-atelier-kicker"><i/> THE DEQANT DIFFERENCE <i/></p>
+            <h2 id="deq-promise-title">Good taste.<br/><em>Better care.</em></h2>
+            <p className="promise-atelier-lede">Beautiful fragrance should come with an experience just as considered. Here is what comes with every DEQANT order.</p>
+            <div className="promise-atelier-stamp" aria-label="The DEQANT standard, care in every detail">
+              <span className="promise-stamp-top">THE DEQANT STANDARD</span><b>D</b><span className="promise-stamp-bottom">CARE IN EVERY DETAIL</span><i>✳</i>
+            </div>
+            <div className="promise-atelier-footnote"><span>01—04</span><span>CONSIDERED FROM CART TO DOOR</span></div>
           </div>
-          <div className="deq-promise-grid">
-            <article className="deq-promise-item"><span className="deq-promise-index">01</span><span className="deq-promise-icon"><PackageCheck size={21}/></span><div><small>COMPLIMENTARY DELIVERY</small><strong>Free delivery</strong><p>On orders ৳2,000+</p></div></article>
-            <article className="deq-promise-item"><span className="deq-promise-index">02</span><span className="deq-promise-icon"><ShieldCheck size={21}/></span><div><small>AUTHENTICITY, ALWAYS</small><strong>Money back</strong><p>If not original</p></div></article>
-            <article className="deq-promise-item"><span className="deq-promise-index">03</span><span className="deq-promise-icon"><ShoppingBag size={21}/></span><div><small>PAY WITH CONFIDENCE</small><strong>Cash on delivery</strong><p>Pay when it arrives</p></div></article>
-            <article className="deq-promise-item"><span className="deq-promise-index">04</span><span className="deq-promise-icon"><Sparkles size={21}/></span><div><small>PACKED WITH CARE</small><strong>Free replacement</strong><p>For glass atomizer leak or break</p></div></article>
+          <div className="promise-atelier-benefits">
+            <div className="promise-benefits-heading"><span>THE CARE PROTOCOL</span><span>ALWAYS INCLUDED <i>✳</i></span></div>
+            <article className="promise-benefit promise-benefit-delivery"><span className="promise-benefit-number">01</span><span className="promise-benefit-icon"><PackageCheck size={22}/></span><div><small>YOUR ORDER, ON US</small><h3>Delivery is<br/><em>our treat.</em></h3><p>Complimentary delivery on orders ৳2,000 and above.</p></div><span className="promise-benefit-aside">৳ 0<br/>DELIVERY</span></article>
+            <article className="promise-benefit promise-benefit-authentic"><span className="promise-benefit-number">02</span><span className="promise-benefit-icon"><ShieldCheck size={22}/></span><div><small>NO DOUBTS. JUST THE REAL THING.</small><h3>Authenticity,<br/><em>guaranteed.</em></h3><p>If a fragrance is not original, your money comes back.</p></div><span className="promise-benefit-aside">100%<br/>ASSURANCE</span></article>
+            <article className="promise-benefit promise-benefit-payment"><span className="promise-benefit-number">03</span><span className="promise-benefit-icon"><ShoppingBag size={22}/></span><div><small>TAKE YOUR TIME</small><h3>Pay when<br/><em>it arrives.</em></h3><p>Cash on delivery. Your order, your peace of mind.</p></div><span className="promise-benefit-aside">PAY<br/>LATER</span></article>
+            <article className="promise-benefit promise-benefit-care"><span className="promise-benefit-number">04</span><span className="promise-benefit-icon"><Sparkles size={22}/></span><div><small>FRAGILE, NEVER FORGOTTEN</small><h3>Handled with<br/><em>extra care.</em></h3><p>Free replacement if a glass atomizer leaks or breaks.</p></div><span className="promise-benefit-aside">CARE<br/>IN EVERY DROP</span></article>
           </div>
         </div>
-        <div className="deq-promise-ticker" aria-label="Free delivery on orders ৳2,000 plus. Money back if not original. Cash on delivery. Free replacement for glass atomizer leak or break.">
-          <div className="deq-promise-ticker-track"><span>FREE DELIVERY ON ORDERS ৳2,000+</span><i>✳</i><span>MONEY BACK IF NOT ORIGINAL</span><i>✳</i><span>CASH ON DELIVERY</span><i>✳</i><span>FREE REPLACEMENT FOR GLASS ATOMIZER LEAK OR BREAK</span><i>✳</i><span>FREE DELIVERY ON ORDERS ৳2,000+</span><i>✳</i><span>MONEY BACK IF NOT ORIGINAL</span><i>✳</i><span>CASH ON DELIVERY</span><i>✳</i><span>FREE REPLACEMENT FOR GLASS ATOMIZER LEAK OR BREAK</span><i>✳</i></div>
-        </div>
+        <div className="promise-atelier-bottom"><span>THE DETAILS ARE NEVER SMALL.</span><span>DEQANT <i>✳</i> FRAGRANCE, WITH INTENTION</span></div>
       </div>
     </section>
 
