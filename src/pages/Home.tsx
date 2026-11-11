@@ -361,42 +361,43 @@ export default function Home() {
       <a className="scroll-cue" href="#collection"><ArrowDown /><span>Scroll to discover</span></a>
     </section>
 
-    <section className="deq-promise-standard" aria-labelledby="deq-promise-title">
-      <div className="promise-standard-shell">
-        <div className="promise-standard-lead">
-          <div className="promise-standard-overline"><span className="promise-standard-rule"/> THE DEQANT STANDARD <span>01 — 04</span></div>
-          <div className="promise-standard-heading">
-            <p>MORE THAN<br/>A BEAUTIFUL<br/><em>BOTTLE.</em></p>
-            <h2 id="deq-promise-title">A better experience,<br/><em>from first click to final spray.</em></h2>
+    <section className="deq-assurance" aria-labelledby="deq-assurance-title">
+      <div className="deq-assurance-frame">
+        <div className="deq-assurance-story">
+          <div className="deq-assurance-top"><span>THE DEQANT DIFFERENCE</span><span>01 <i/> 04</span></div>
+          <div className="deq-assurance-copy">
+            <p className="deq-assurance-kicker">A PROMISE IN EVERY ORDER</p>
+            <h2 id="deq-assurance-title">The details<br/>make the <em>difference.</em></h2>
+            <p className="deq-assurance-description">A beautiful fragrance is only the beginning. Every order comes with thoughtful service, honest standards and care that continues after checkout.</p>
           </div>
-          <div className="promise-standard-seal" aria-hidden="true"><span>THE DEQANT</span><b>D</b><i>STANDARD</i></div>
-          <div className="promise-standard-foot"><span>THOUGHTFULLY PACKED. HONESTLY PROMISED.</span><span>EST. FOR FRAGRANCE LOVERS</span></div>
+          <div className="deq-assurance-signoff"><span>DEQANT</span><i/> CONSIDERED FROM START TO FINISH</div>
+          <span className="deq-assurance-watermark" aria-hidden="true">D</span>
         </div>
-        <div className="promise-standard-details">
-          <div className="promise-standard-intro"><span>THE DETAILS THAT MATTER</span><p>Good fragrance deserves service that feels just as considered. Here's what comes with every order.</p></div>
-          <div className="promise-standard-grid">
-            <article className="promise-standard-item">
-              <div className="promise-standard-item-top"><span>01</span><PackageCheck size={23}/></div>
-              <div><small>DELIVERY, ON US</small><h3>Free delivery<br/><em>৳2,000+</em></h3><p>Enjoy complimentary delivery when your order reaches ৳2,000.</p></div>
-              <span className="promise-standard-index">01 / 04</span>
+        <div className="deq-assurance-content">
+          <div className="deq-assurance-heading"><span>WHAT YOU CAN EXPECT</span><p>Four reasons to shop<br/><em>with confidence.</em></p></div>
+          <div className="deq-assurance-grid">
+            <article className="deq-assurance-item">
+              <div className="deq-assurance-item-head"><span>01 / DELIVERY</span><PackageCheck size={22}/></div>
+              <div><h3>Delivery, <em>on us.</em></h3><p>Enjoy free delivery when your order reaches ৳2,000.</p></div>
+              <strong className="deq-assurance-value">৳2,000<span>ORDER VALUE</span></strong>
             </article>
-            <article className="promise-standard-item">
-              <div className="promise-standard-item-top"><span>02</span><ShieldCheck size={23}/></div>
-              <div><small>AUTHENTICITY, ALWAYS</small><h3>Not original?<br/><em>Money back.</em></h3><p>If a fragrance isn't original, we'll make it right with a refund.</p></div>
-              <span className="promise-standard-index">02 / 04</span>
+            <article className="deq-assurance-item">
+              <div className="deq-assurance-item-head"><span>02 / AUTHENTICITY</span><ShieldCheck size={22}/></div>
+              <div><h3>Not original? <em>Money back.</em></h3><p>If a fragrance isn't original, we'll make it right with a refund.</p></div>
+              <strong className="deq-assurance-value">100%<span>OUR COMMITMENT</span></strong>
             </article>
-            <article className="promise-standard-item">
-              <div className="promise-standard-item-top"><span>03</span><ShoppingBag size={23}/></div>
-              <div><small>PAY YOUR WAY</small><h3>Cash on<br/><em>delivery.</em></h3><p>Pay when your order arrives. Simple, familiar and convenient.</p></div>
-              <span className="promise-standard-index">03 / 04</span>
+            <article className="deq-assurance-item">
+              <div className="deq-assurance-item-head"><span>03 / PAYMENT</span><ShoppingBag size={22}/></div>
+              <div><h3>Pay when <em>it arrives.</em></h3><p>Cash on delivery keeps checkout simple and convenient.</p></div>
+              <strong className="deq-assurance-value">COD<span>PAYMENT OPTION</span></strong>
             </article>
-            <article className="promise-standard-item">
-              <div className="promise-standard-item-top"><span>04</span><Sparkles size={23}/></div>
-              <div><small>A LITTLE EXTRA CARE</small><h3>Fragile glass?<br/><em>We'll replace it.</em></h3><p>Free replacement if your glass atomizer arrives leaking or broken.</p></div>
-              <span className="promise-standard-index">04 / 04</span>
+            <article className="deq-assurance-item">
+              <div className="deq-assurance-item-head"><span>04 / EXTRA CARE</span><Sparkles size={22}/></div>
+              <div><h3>Fragile glass? <em>We've got you.</em></h3><p>Free replacement if your glass atomizer arrives leaking or broken.</p></div>
+              <strong className="deq-assurance-value">CARE<span>FREE REPLACEMENT</span></strong>
             </article>
           </div>
-          <div className="promise-standard-bottom"><span>THE DEQANT PROMISE</span><span>CARE IN EVERY DETAIL <b>✳</b></span></div>
+          <div className="deq-assurance-bottom"><span>THE DEQANT STANDARD</span><span>THOUGHTFULLY PACKED <b>✳</b> HONESTLY PROMISED</span></div>
         </div>
       </div>
     </section>
