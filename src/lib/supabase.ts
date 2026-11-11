@@ -39,7 +39,7 @@ export async function productBySlug(slug:string){const rows=await api(`/rest/v1/
 export async function listAdminRatings(){
  const rows=await api("/rest/v1/product_ratings?select=id,product_id,user_id,rating,created_at,updated_at,products(name,brand)&order=updated_at.desc&limit=150");
  const ids=[...new Set((rows??[]).map((row:any)=>String(row.user_id)).filter(Boolean))];
- const profiles=ids.length?await api(`/rest/v1/profiles?id=in.(${ids.map(encodeURIComponent).join(",")})&select=id,full_name,email`):[];
+ const profiles=ids.length?await api(`/rest/v1/profiles?id=in.(${ids.map((id:string)=>encodeURIComponent(id)).join(",")})&select=id,full_name,email`):[];
  const profileMap=new Map((profiles??[]).map((profile:any)=>[String(profile.id),profile]));
  return (rows??[]).map((row:any)=>({...row,customer:profileMap.get(String(row.user_id))??{full_name:"Customer",email:""}}));
 }
