@@ -3622,3 +3622,32 @@ body { position: relative; }
  .shop-atlas-tile,.shop-atlas-tile:after,.shop-atlas-go,.weather-climate-option,.weather-product-pick{transition:none}
  .weather-art-glow,.weather-art-ring,.weather-particle{animation:none}
 }
+
+
+/* DEQANT customer assurance ribbon */
+.deq-promise-ribbon{position:relative;isolation:isolate;overflow:hidden;padding:clamp(42px,6vw,76px) var(--gutter);background:radial-gradient(ellipse at 8% 10%,rgba(186,139,92,.2),transparent 36%),linear-gradient(125deg,#260b18,#4d0220 48%,#210c19);color:#fff7ed}
+.deq-promise-glow{position:absolute;z-index:-1;width:460px;height:460px;right:-180px;top:-310px;border-radius:50%;border:1px solid rgba(237,210,174,.18);box-shadow:0 0 0 28px rgba(237,210,174,.035),0 0 0 64px rgba(237,210,174,.025),0 0 100px rgba(208,164,112,.13);pointer-events:none}
+.deq-promise-orbit{position:absolute;z-index:-1;width:300px;height:300px;left:-220px;bottom:-245px;border:1px solid rgba(237,210,174,.13);border-radius:50%;box-shadow:0 0 0 24px rgba(237,210,174,.025);pointer-events:none}
+.deq-promise-inner{max-width:1360px;margin:0 auto}
+.deq-promise-heading{display:flex;align-items:center;gap:14px;margin-bottom:24px;color:#e7c69d}
+.deq-promise-heading>span{font-size:9px;letter-spacing:.2em;font-weight:700}
+.deq-promise-heading>i{height:1px;flex:1;background:linear-gradient(90deg,rgba(231,198,157,.48),transparent)}
+.deq-promise-heading>small{font-size:8px;letter-spacing:.13em;color:rgba(255,247,237,.55)}
+.deq-promise-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border:1px solid rgba(238,215,185,.2);background:rgba(255,255,255,.035);backdrop-filter:blur(12px)}
+.deq-promise-item{position:relative;display:grid;grid-template-columns:24px 42px minmax(0,1fr) 16px;align-items:center;gap:12px;min-width:0;min-height:142px;padding:20px 17px;color:inherit;transition:background .25s ease,transform .25s ease}
+.deq-promise-item+.deq-promise-item{border-left:1px solid rgba(238,215,185,.16)}
+.deq-promise-item:hover{background:rgba(255,255,255,.07)}
+.deq-promise-index{align-self:start;padding-top:3px;font-size:8px;letter-spacing:.12em;color:#d2ad82}
+.deq-promise-icon{width:40px;height:40px;display:grid;place-items:center;border:1px solid rgba(231,198,157,.36);border-radius:50%;color:#f0d2aa;background:rgba(231,198,157,.08)}
+.deq-promise-item>div{min-width:0}
+.deq-promise-item>div>small{display:block;margin-bottom:8px;font-size:7px;letter-spacing:.12em;color:#d8b68f}
+.deq-promise-item strong{display:block;font:400 clamp(17px,1.55vw,22px)/1.05 var(--serif);color:#fff8ef}
+.deq-promise-item p{margin:6px 0 0;font-size:10px;line-height:1.45;color:rgba(255,247,237,.68)}
+.deq-promise-arrow{align-self:start;color:rgba(235,205,169,.58)}
+.deq-promise-footer{display:flex;justify-content:space-between;gap:12px;padding-top:17px;margin-top:18px;border-top:1px solid rgba(238,215,185,.18);font-size:8px;letter-spacing:.16em;color:rgba(255,247,237,.6)}
+.deq-promise-footer i{font-style:normal;color:#d5b184;padding:0 5px}
+.product-badges span{background:#fff9ef!important;color:#4d0220!important;border:1px solid rgba(77,2,32,.18);box-shadow:0 3px 12px rgba(25,5,13,.16);font-weight:700;text-shadow:none;backdrop-filter:blur(10px)}
+.product-badges{z-index:3}
+@media(max-width:900px){.deq-promise-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.deq-promise-item:nth-child(3){border-left:0;border-top:1px solid rgba(238,215,185,.16)}.deq-promise-item:nth-child(4){border-top:1px solid rgba(238,215,185,.16)}}
+@media(max-width:600px){.deq-promise-ribbon{padding:42px 18px}.deq-promise-heading{align-items:flex-start;flex-wrap:wrap;gap:9px}.deq-promise-heading>span{font-size:8px}.deq-promise-heading>i{min-width:24px;margin-top:5px}.deq-promise-heading>small{width:100%;font-size:7px}.deq-promise-grid{grid-template-columns:1fr}.deq-promise-item{min-height:105px;grid-template-columns:20px 38px minmax(0,1fr) 15px;padding:15px 13px;gap:10px}.deq-promise-item+.deq-promise-item,.deq-promise-item:nth-child(3){border-left:0;border-top:1px solid rgba(238,215,185,.16)}.deq-promise-icon{width:36px;height:36px}.deq-promise-item strong{font-size:20px}.deq-promise-footer{font-size:7px;letter-spacing:.1em;flex-wrap:wrap}.deq-promise-footer span:last-child{margin-left:auto;text-align:right}}
+@media(prefers-reduced-motion:reduce){.deq-promise-item{transition:none}}
