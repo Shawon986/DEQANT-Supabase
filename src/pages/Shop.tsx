@@ -9,6 +9,9 @@ type ShopProps = { title?: string; description?: string; category?: "decant" | "
 
 export default function Shop({ title = "The fragrance library", description = "Explore decants and intact bottles. Compare notes, find your size, and choose a scent that feels entirely your own.", category, bestSeller, offer }: ShopProps) {
   const [params] = useSearchParams();
+  const shopCategory = params.get("shopCategory") || undefined;
+  const shopCategoryTitle: Record<string,string> = {"for-him":"For him","for-her":"For her","unisex":"Unisex","middle-eastern":"Middle Eastern","designer":"Designer","niche":"Niche","new-drops":"New drops","all-brands":"All brands"};
+  const activeShopCategory = shopCategory ? shopCategoryTitle[shopCategory] : undefined;
   const [q, setQ] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [searchFocused, setSearchFocused] = useState(false);
@@ -20,10 +23,10 @@ export default function Shop({ title = "The fragrance library", description = "E
   const [filtersOpen, setFiltersOpen] = useState(false);
   const searchRef = useRef<HTMLInputElement>(null);
   useEffect(() => { if (params.get("focus") === "search") setTimeout(() => searchRef.current?.focus(), 150); }, [params]);
-  const query = storeApi.store.catalog.useQuery({ q: searchTerm || undefined, category, size, maxPrice, offer: offer || discounted || undefined, bestSeller, sort });
+  const query = storeApi.store.catalog.useQuery({ q: searchTerm || undefined, category, shopCategory, size, maxPrice, offer: offer || discounted || undefined, bestSeller, sort });
   const clear = () => { setQ(""); setSearchTerm(""); setSearchFocused(false); setSize(undefined); setMaxPrice(undefined); setDiscounted(false); setSort("featured"); };
   return <PageShell>
-    <section className="shop-heading"><p>THE COLLECTION / {category === "decant" ? "DECANTS" : category === "intact" ? "INTACT BOTTLES" : "ALL FRAGRANCE"}</p><h1>{title}</h1><span>{description}</span></section>
+    <section className="shop-heading"><p>THE COLLECTION / {category === "decant" ? "DECANTS" : category === "intact" ? "INTACT BOTTLES" : "ALL FRAGRANCE"}</p><h1>{activeShopCategory ? `Shop ${activeShopCategory}` : title}</h1><span>{activeShopCategory ? `Explore our ${activeShopCategory.toLowerCase()} fragrance edit, selected from the DEQANT collection.` : description}</span></section>
     <section className="shop-layout">
       <button className="filter-toggle button button-outline" onClick={() => setFiltersOpen(!filtersOpen)} aria-expanded={filtersOpen}><SlidersHorizontal /> {filtersOpen ? "Hide filters" : "Search & filters"}</button>
       <aside className={`filters ${filtersOpen ? "filters-open" : ""}`}>
