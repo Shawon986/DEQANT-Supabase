@@ -19,7 +19,7 @@ export async function signOut(){if(getSession())await api("/auth/v1/logout",{met
 export async function currentUser(){const s=await validSession();if(!s)return null;try{return await api("/auth/v1/user");}catch{saveSession(null);return null;}}
 export async function getProfile(){const u=await currentUser();if(!u)return null;const rows=await api(`/rest/v1/profiles?id=eq.${encodeURIComponent(u.id)}&select=id,full_name,role,email`);return rows?.[0]??null;}
 export async function listProducts(includeInactive=false):Promise<DbProduct[]>{return await api(`/rest/v1/products?select=*,product_variants(*)&order=created_at.desc${includeInactive?"":"&active=eq.true"}`)??[];}
-export async function saveProduct(input:Omit<DbProduct,"id"|"created_at"|"product_variants">&{id?:number;variants:Array<Omit<DbVariant,"product_id">>}){const{variants,...product}=input;return await api("/rest/v1/rpc/admin_save_product",{method:"POST",body:JSON.stringify({p_product:product,p_variants:variants})});}
+export async function saveProduct(input:Omit<DbProduct,"id"|"created_at"|"product_variants">&{id?:number;variants:Array<Omit<DbVariant,"id"|"product_id">&{id?:number}>}){const{variants,...product}=input;return await api("/rest/v1/rpc/admin_save_product",{method:"POST",body:JSON.stringify({p_product:product,p_variants:variants})});}
 export async function setProductActive(id:number,active:boolean){await api(`/rest/v1/products?id=eq.${id}`,{method:"PATCH",body:JSON.stringify({active})});}
 export async function deleteProduct(id:number){
  // The database RPC verifies the admin role and performs the delete transactionally.
