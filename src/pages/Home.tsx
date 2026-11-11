@@ -27,10 +27,21 @@ function WeatherAtelier({catalogue}:{catalogue?:CatalogEntry[]}) {
  const climate=weatherProfiles.find(item=>item.id===climateId)??weatherProfiles[0];
  const recommendations=useMemo(()=>{
   if(!catalogue?.length)return [];
+  // Every published perfume is evaluated from its saved catalogue data.
+  // Notes and fragrance family carry the strongest signal; descriptions provide
+  // a useful secondary signal when an admin has entered richer product details.
+  const normalise=(value:unknown)=>String(value??"").normalize("NFD").replace(/[\\u0300-\\u036f]/g,"").toLowerCase().replace(/[^a-z0-9]+/g," ").trim();
   const scored=catalogue.map(entry=>{
-   const searchable=[entry.product.name,entry.product.brand,entry.product.notes,entry.product.family,entry.product.description].filter(Boolean).join(" ").toLowerCase();
-   const score=climate.terms.reduce((total,term)=>total+(searchable.includes(term)?(term.length>6?3:2):0),0);
-   return {entry,score};
+   const notes=normalise(entry.product.notes);
+   const family=normalise(entry.product.family);
+   const description=normalise(entry.product.description);
+   const identity=normalise([entry.product.name,entry.product.brand].join(" "));
+   const score=climate.terms.reduce((total,term)=>{
+    const needle=normalise(term);
+    if(!needle)return total;
+    return total+(notes.includes(needle)?5:0)+(family.includes(needle)?4:0)+(description.includes(needle)?2:0)+(identity.includes(needle)?1:0);
+   },0);
+   return {entry,score,matchedByNotes:climate.terms.some(term=>notes.includes(normalise(term))||family.includes(normalise(term)))};
   }).sort((a,b)=>b.score-a.score||(b.entry.product.popularity??0)-(a.entry.product.popularity??0));
   const matches=scored.filter(item=>item.score>0).slice(0,3);
   return (matches.length?matches:scored.slice(0,3)).map(item=>({...item,curatedFallback:item.score===0}));
@@ -240,7 +251,7 @@ function ScentFinder() {
 
 export default function Home() {
   const { data: settings } = storeApi.store.settings.useQuery();
-  const { data: catalogue, isLoading } = storeApi.store.catalog.useQuery({ sort: "popular" });
+  const { data: catalogue, isLoading } = storeApi.store.catalog.useQuery({ sort: "popular" }, { staleTime: 0, refetchOnMount: "always" });
   const bestSellers = useMemo(() => catalogue?.filter((entry: CatalogEntry) => entry.product.bestSeller).slice(0, 4) ?? [], [catalogue]);
   const highRated = useMemo(() => catalogue?.filter((entry: CatalogEntry) => (entry.product.ratingCount ?? 0) > 0 && (entry.product.averageRating ?? 0) >= 4).sort((a: CatalogEntry, b: CatalogEntry) => (b.product.averageRating ?? 0) - (a.product.averageRating ?? 0) || (b.product.ratingCount ?? 0) - (a.product.ratingCount ?? 0)).slice(0, 4) ?? [], [catalogue]);
   const [bestSellerSizes, setBestSellerSizes] = useState<Record<number, number>>({});
@@ -368,7 +379,7 @@ export default function Home() {
  <div className="shop-by-atlas-top"><span>DEQANT / COLLECTION INDEX</span><span>VOL. 001 — FIND YOUR WORLD</span></div>
  <div className="shop-by-atlas-heading"><div><p>DISCOVER BY CHARACTER</p><h2 id="shop-by-heading">A world of<br/><em>your own.</em></h2></div><div className="shop-by-atlas-intro"><span>THE COLLECTION INDEX · 08 PATHWAYS</span><p>Not sure what you love yet? Start with a point of view. Explore fragrance through identity, origin, artistry and discovery.</p><Link to="/shop">VIEW THE COMPLETE COLLECTION <ArrowUpRight size={15}/></Link></div></div>
  <div className="shop-by-atlas-grid">
- {[{key:"for-him",label:"For him",sub:"BOLD BY NATURE",note:"Confident signatures",index:"01",symbol:"H",tone:"ink"},{key:"for-her",label:"For her",sub:"SOFTLY UNFORGETTABLE",note:"Expressive elegance",index:"02",symbol:"F",tone:"rose"},{key:"unisex",label:"Unisex",sub:"BEYOND THE LABEL",note:"Made to be shared",index:"03",symbol:"U",tone:"sage"},{key:"middle-eastern",label:"Middle Eastern",sub:"A LEGACY IN EVERY NOTE",note:"Oud, amber & heritage",index:"04",symbol:"م",tone:"noir"},{key:"designer",label:"Designer",sub:"ICONS OF MODERNITY",note:"The houses you know",index:"05",symbol:"D",tone:"sand"},{key:"niche",label:"Niche",sub:"ART WITHOUT COMPROMISE",note:"Rare olfactory art",index:"06",symbol:"N",tone:"plum"},{key:"new-drops",label:"New drops",sub:"FRESH FROM THE ATELIER",note:"Just arrived",index:"07",symbol:"✳",tone:"blue"},{key:"all-brands",label:"All brands",sub:"THE COMPLETE ARCHIVE",note:"Every house, one place",index:"08",symbol:"∞",tone:"gold"}].map(item=><Link key={item.key} to={`/shop?shopCategory=${item.key}`} className={`shop-atlas-tile shop-atlas-${item.tone}`}><span className="shop-atlas-topline"><small>{item.index} / 08</small><small>{item.sub}</small></span><span className="shop-atlas-symbol" aria-hidden="true">{item.symbol}</span><span className="shop-atlas-bottom"><span><strong>{item.label}</strong><small>{item.note}</small></span><span className="shop-atlas-go"><ArrowUpRight size={19}/></span></span></Link>)}
+ {[{key:"for-him",label:"For him",sub:"BOLD BY NATURE",note:"Confident signatures",index:"01",symbol:"H",tone:"ink"},{key:"for-her",label:"For her",sub:"SOFTLY UNFORGETTABLE",note:"Expressive elegance",index:"02",symbol:"F",tone:"rose"},{key:"unisex",label:"Unisex",sub:"BEYOND THE LABEL",note:"Made to be shared",index:"03",symbol:"U",tone:"sage"},{key:"middle-eastern",label:"Middle Eastern",sub:"A LEGACY IN EVERY NOTE",note:"Oud, amber & heritage",index:"04",symbol:"م",tone:"noir"},{key:"designer",label:"Designer",sub:"ICONS OF MODERNITY",note:"The houses you know",index:"05",symbol:"D",tone:"sand"},{key:"niche",label:"Niche",sub:"ART WITHOUT COMPROMISE",note:"Rare olfactory art",index:"06",symbol:"N",tone:"plum"},{key:"new-drops",label:"New drops",sub:"FRESH FROM THE ATELIER",note:"Just arrived",index:"07",symbol:<Sparkles aria-hidden="true" strokeWidth={1.1}/>,tone:"blue"},{key:"all-brands",label:"All brands",sub:"THE COMPLETE ARCHIVE",note:"Every house, one place",index:"08",symbol:"∞",tone:"gold"}].map(item=><Link key={item.key} to={`/shop?shopCategory=${item.key}`} className={`shop-atlas-tile shop-atlas-${item.tone}`}><span className="shop-atlas-topline"><small>{item.index} / 08</small><small>{item.sub}</small></span><span className="shop-atlas-symbol" aria-hidden="true">{item.symbol}</span><span className="shop-atlas-bottom"><span><strong>{item.label}</strong><small>{item.note}</small></span><span className="shop-atlas-go"><ArrowUpRight size={19}/></span></span></Link>)}
  </div><div className="shop-by-atlas-bottom"><span>FOLLOW YOUR INSTINCT. DISCOVER YOUR SIGNATURE.</span><span>08 COLLECTIONS <i>✳</i> ENDLESS POSSIBILITIES</span></div>
 </section>
 
