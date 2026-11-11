@@ -19,7 +19,7 @@ export async function signOut(){if(getSession())await api("/auth/v1/logout",{met
 export async function currentUser(){const s=await validSession();if(!s)return null;try{return await api("/auth/v1/user");}catch{saveSession(null);return null;}}
 export async function getProfile(){const u=await currentUser();if(!u)return null;const rows=await api(`/rest/v1/profiles?id=eq.${encodeURIComponent(u.id)}&select=id,full_name,role,email`);return rows?.[0]??null;}
 export async function listProducts(includeInactive=false):Promise<DbProduct[]>{return await api(`/rest/v1/products?select=*,product_variants(*)&order=created_at.desc${includeInactive?"":"&active=eq.true"}`)??[];}
-export async function saveProduct(input:Omit<DbProduct,"id"|"created_at"|"product_variants">&{id?:number;variants:Omit<DbVariant,"id"|"product_id">[]}){const{variants,...product}=input;return await api("/rest/v1/rpc/admin_save_product",{method:"POST",body:JSON.stringify({p_product:product,p_variants:variants})});}
+export async function saveProduct(input:Omit<DbProduct,"id"|"created_at"|"product_variants">&{id?:number;variants:Array<Omit<DbVariant,"product_id">>}){const{variants,...product}=input;return await api("/rest/v1/rpc/admin_save_product",{method:"POST",body:JSON.stringify({p_product:product,p_variants:variants})});}
 export async function setProductActive(id:number,active:boolean){await api(`/rest/v1/products?id=eq.${id}`,{method:"PATCH",body:JSON.stringify({active})});}
 export async function deleteProduct(id:number){
  // The database RPC verifies the admin role and performs the delete transactionally.
@@ -84,6 +84,6 @@ export async function cancelOrder(i:{orderNumber:string;phone:string}){return aw
 export async function orderByPhone(i:{orderNumber:string;phone:string}){return await api("/rest/v1/rpc/order_by_phone",{method:"POST",body:JSON.stringify({p_order_number:i.orderNumber,p_phone:i.phone})},false);}
 export async function sendContact(i:{name:string;email:string;message:string}){return await api("/rest/v1/rpc/submit_contact",{method:"POST",body:JSON.stringify({p_name:i.name,p_email:i.email,p_message:i.message})},false);}
 
-export async function listMyOrders(){const user=await currentUser();if(!user)return [];return await api("/rest/v1/orders?select=id,order_number,customer_name,phone,district,area,address,subtotal,delivery_fee,total,payment_method,status,created_at,order_items(id,product_name,size_ml,quantity,line_total)&order=created_at.desc&limit=50");}
+export async function listMyOrders(){const user=await currentUser();if(!user)return [];return await api("/rest/v1/orders?select=id,order_number,customer_name,phone,district,area,address,subtotal,discount_amount,coupon_code,delivery_fee,total,payment_method,status,advance_payment_required,advance_payment_amount,advance_payment_status,created_at,order_items(id,product_name,size_ml,quantity,line_total)&order=created_at.desc&limit=50");}
 export async function listAdminOrders(){return await api("/rest/v1/orders?select=*,order_items(*)&order=created_at.desc&limit=200");}
-export async function updateAdminOrder(id:number,status:string,internalNotes?:string){await api(`/rest/v1/orders?id=eq.${id}`,{method:"PATCH",body:JSON.stringify({status,internal_notes:internalNotes})});}
+export async function updateAdminOrder(id:number,status:string,internalNotes?:string){return await api("/rest/v1/rpc/admin_update_order",{method:"POST",body:JSON.stringify({p_order_id:id,p_status:status,p_internal_notes:internalNotes??null})});}
