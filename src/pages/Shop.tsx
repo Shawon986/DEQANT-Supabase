@@ -15,7 +15,7 @@ export default function Shop({ title = "The fragrance library", description = "E
   const [q, setQ] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [searchFocused, setSearchFocused] = useState(false);
-  useEffect(() => { const timer = window.setTimeout(() => setSearchTerm(q.trim()), 220); return () => window.clearTimeout(timer); }, [q]);
+  useEffect(() => { const timer = window.setTimeout(() => setSearchTerm(q.trim()), 300; return () => window.clearTimeout(timer); }, [q]);
   const [size, setSize] = useState<number | undefined>();
   const [maxPrice, setMaxPrice] = useState<number | undefined>();
   const [discounted, setDiscounted] = useState(false);
