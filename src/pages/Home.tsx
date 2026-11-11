@@ -378,23 +378,23 @@ export default function Home() {
           <div className="deq-assurance-grid">
             <article className="deq-assurance-item">
               <div className="deq-assurance-item-head"><span>01 / DELIVERY</span><PackageCheck size={22}/></div>
-              <div><h3>Delivery, <em>on us.</em></h3><p>Enjoy free delivery when your order reaches ৳2,000.</p></div>
-              <strong className="deq-assurance-value">৳2,000<span>ORDER VALUE</span></strong>
+              <div><h3>FREE DELIVERY <em>ON ORDERS ৳2,000+</em></h3><p>Enjoy free delivery when your order reaches ৳2,000.</p></div>
+              
             </article>
             <article className="deq-assurance-item">
               <div className="deq-assurance-item-head"><span>02 / AUTHENTICITY</span><ShieldCheck size={22}/></div>
-              <div><h3>Not original? <em>Money back.</em></h3><p>If a fragrance isn't original, we'll make it right with a refund.</p></div>
-              <strong className="deq-assurance-value">100%<span>OUR COMMITMENT</span></strong>
+              <div><h3>100% AUTHENTICITY <em>OR YOUR MONEY BACK</em></h3><p>If a fragrance isn't original, we'll make it right with a refund.</p></div>
+              
             </article>
             <article className="deq-assurance-item">
               <div className="deq-assurance-item-head"><span>03 / PAYMENT</span><ShoppingBag size={22}/></div>
-              <div><h3>Pay when <em>it arrives.</em></h3><p>Cash on delivery keeps checkout simple and convenient.</p></div>
-              <strong className="deq-assurance-value">COD<span>PAYMENT OPTION</span></strong>
+              <div><h3>CASH ON <em>DELIVERY</em></h3><p>Cash on delivery keeps checkout simple and convenient.</p></div>
+              
             </article>
             <article className="deq-assurance-item">
               <div className="deq-assurance-item-head"><span>04 / EXTRA CARE</span><Sparkles size={22}/></div>
-              <div><h3>Fragile glass? <em>We've got you.</em></h3><p>Free replacement if your glass atomizer arrives leaking or broken.</p></div>
-              <strong className="deq-assurance-value">CARE<span>FREE REPLACEMENT</span></strong>
+              <div><h3>FREE REPLACEMENT <em>IF IT LEAKS OR BREAKS</em></h3><p>Free replacement if your glass atomizer arrives leaking or broken.</p></div>
+              
             </article>
           </div>
           <div className="deq-assurance-bottom"><span>THE DEQANT STANDARD</span><span>THOUGHTFULLY PACKED <b>✳</b> HONESTLY PROMISED</span></div>
