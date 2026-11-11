@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
 import { Link } from "react-router";
-import { ArrowDown, ArrowRight, PackageCheck, ShieldCheck, ShoppingBag, Sparkles, Star } from "lucide-react";
+import { ArrowDown, ArrowRight, ArrowUpRight, CloudRain, Droplets, PackageCheck, ShieldCheck, ShoppingBag, Snowflake, Sparkles, Star, Sun, Wind } from "lucide-react";
 import { PageShell, ProductCard, Reveal, LoadingState } from "@/components/Storefront";
 import { storeApi } from "@/providers/store";
 import type { CatalogEntry } from "@/lib/supabase";
@@ -14,6 +14,47 @@ const moods = [
   { name: "Spicy", terms: "saffron cinnamon", description: "A little heat, aromatic spice and an unforgettable edge." },
   { name: "Musk", terms: "musk iris", description: "Airy musk, soft iris and an intimate skin-like finish." },
 ];
+
+const weatherProfiles = [
+ {id:"hot",title:"Hot & humid",short:"SUN / HUMIDITY",temperature:"28°–38°C",icon:Sun,headline:"Keep it light. Leave a beautiful trail.",advice:"Heat amplifies fragrance. Reach for airy citrus, green notes, clean musk and aquatic freshness; keep dense sweetness for cooler hours.",tags:["Citrus","Aquatic","Green","Clean musk"],terms:["citrus","bergamot","lemon","lime","grapefruit","neroli","aquatic","marine","green","vetiver","fresh","musk"],accent:"sun"},
+ {id:"rain",title:"Rainy days",short:"RAIN / MONSOON",temperature:"22°–30°C",icon:CloudRain,headline:"A little depth for the softer skies.",advice:"Rain and humidity call for balanced woods, aromatic herbs and earthy freshness. Choose something grounding without becoming too heavy.",tags:["Vetiver","Woody","Earthy","Aromatic"],terms:["vetiver","cedar","patchouli","earthy","woody","aromatic","lavender","moss","tea","musk"],accent:"rain"},
+ {id:"cool",title:"Cool & crisp",short:"COLD / WINTER",temperature:"8°–20°C",icon:Snowflake,headline:"Let warmth unfold slowly.",advice:"Cool air softens projection. Amber, vanilla, spices, woods and richer gourmand notes bring warmth and a memorable, comforting presence.",tags:["Amber","Vanilla","Spice","Oud"],terms:["amber","vanilla","saffron","cinnamon","oud","tobacco","leather","spice","tonka","gourmand","sandalwood"],accent:"cool"},
+ {id:"mild",title:"Mild & breezy",short:"SPRING / AUTUMN",temperature:"18°–27°C",icon:Wind,headline:"Find your effortless everyday signature.",advice:"In balanced weather, florals, soft woods, iris, tea and gentle musk feel versatile from daytime plans to evening moments.",tags:["Floral","Iris","Tea","Soft woods"],terms:["rose","jasmine","iris","lavender","tea","floral","sandalwood","musk","pear","aromatic"],accent:"mild"}
+] as const;
+
+function WeatherAtelier({catalogue}:{catalogue?:CatalogEntry[]}) {
+ const [climateId,setClimateId]=useState<(typeof weatherProfiles)[number]["id"]>("hot");
+ const climate=weatherProfiles.find(item=>item.id===climateId)??weatherProfiles[0];
+ const recommendations=useMemo(()=>{
+  if(!catalogue?.length)return [];
+  const scored=catalogue.map(entry=>{
+   const searchable=[entry.product.name,entry.product.brand,entry.product.notes,entry.product.family,entry.product.description].filter(Boolean).join(" ").toLowerCase();
+   const score=climate.terms.reduce((total,term)=>total+(searchable.includes(term)?(term.length>6?3:2):0),0);
+   return {entry,score};
+  }).sort((a,b)=>b.score-a.score||(b.entry.product.popularity??0)-(a.entry.product.popularity??0));
+  const matches=scored.filter(item=>item.score>0).slice(0,3);
+  return (matches.length?matches:scored.slice(0,3)).map(item=>({...item,curatedFallback:item.score===0}));
+ },[catalogue,climate]);
+ const ClimateIcon=climate.icon;
+ return <section className={`weather-atlas weather-${climate.accent}`} aria-labelledby="weather-atlas-title">
+  <div className="weather-atlas-noise" aria-hidden="true"/><div className="weather-atlas-orbit weather-orbit-one" aria-hidden="true"/><div className="weather-atlas-orbit weather-orbit-two" aria-hidden="true"/>
+  <div className="weather-atlas-inner">
+   <div className="weather-atlas-heading"><div><p className="weather-kicker"><span/> THE CLIMATE × FRAGRANCE STUDY</p><h2 id="weather-atlas-title">Dress for the<br/><em>weather.</em></h2><p className="weather-intro">Your scent should move with the atmosphere. Choose the weather around you and discover fragrances selected for the way they bloom in that air.</p></div><div className="weather-heading-mark"><span>DEQANT</span><strong>W</strong><small>THE WEATHER EDIT · 01—04</small></div></div>
+   <div className="weather-atlas-layout">
+    <div className="weather-climate-panel"><div className="weather-panel-top"><span>01 / SET THE ATMOSPHERE</span><span>CHOOSE YOUR CLIMATE</span></div>
+     <div className="weather-climate-options">{weatherProfiles.map(item=>{const Icon=item.icon;return <button key={item.id} type="button" className={`weather-climate-option ${climateId===item.id?"active":""}`} onClick={()=>setClimateId(item.id)} aria-pressed={climateId===item.id}><span className="weather-option-icon"><Icon size={20}/></span><span className="weather-option-copy"><strong>{item.title}</strong><small>{item.short}</small></span><span className="weather-option-temp">{item.temperature}</span><ArrowUpRight size={15} className="weather-option-arrow"/></button>;})}</div>
+     <div className="weather-atmosphere-art" aria-live="polite"><div className="weather-art-glow"/><div className="weather-art-ring ring-a"/><div className="weather-art-ring ring-b"/><div className="weather-art-core"><ClimateIcon size={48} strokeWidth={1}/><span>{climate.short}</span><strong>{climate.temperature}</strong></div><span className="weather-art-coordinate">23° 42' N / 90° 21' E</span><span className="weather-art-caption">AN ATMOSPHERIC STUDY</span><i className="weather-particle particle-a"/><i className="weather-particle particle-b"/><i className="weather-particle particle-c"/><i className="weather-particle particle-d"/></div>
+    </div>
+    <div className="weather-recommendation-panel" aria-live="polite"><div className="weather-result-top"><span>02 / THE FRAGRANCE FORECAST</span><span className="weather-live-dot">CURATED FOR YOU</span></div>
+     <div className="weather-result-copy"><span>THE DEQANT CLIMATE NOTE</span><h3>{climate.headline}</h3><p>{climate.advice}</p><div className="weather-note-tags">{climate.tags.map(tag=><span key={tag}><Droplets size={11}/>{tag}</span>)}</div></div>
+     <div className="weather-picks-heading"><strong>SCENTS FOR THIS WEATHER</strong><span>{recommendations.length?String(recommendations.length).padStart(2,"0")+" SELECTED":"BUILDING YOUR EDIT"}</span></div>
+     {recommendations.length?<div className="weather-product-list">{recommendations.map(({entry,curatedFallback},index)=><Link to={`/product/${entry.product.slug}`} className="weather-product-pick" key={entry.product.id}><span className="weather-pick-number">0{index+1}</span><img src={entry.product.imageUrl} alt={entry.product.name} loading="lazy"/><span className="weather-pick-info"><small>{entry.product.brand}</small><strong>{entry.product.name}</strong><em>{curatedFallback?"A popular DEQANT pick":`Matched to ${climate.title.toLowerCase()}`}</em></span><ArrowUpRight size={17}/></Link>)}</div>:<div className="weather-no-products">Your climate edit is being prepared. Check back soon.</div>}
+     <div className="weather-result-foot"><span>NOTE-LED DISCOVERY</span><span>NOT A ONE-SCENT RULE · FIND YOUR SIGNATURE</span></div>
+    </div>
+   </div><div className="weather-atlas-footer"><span>THE RIGHT SCENT, IN THE RIGHT AIR.</span><span>DEQANT FRAGRANCE <i>✳</i> RAJSHAHI</span></div>
+  </div>
+ </section>;
+}
 
 function ScrollBottleExperience() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -213,7 +254,7 @@ export default function Home() {
   useEffect(() => {
     if (!("IntersectionObserver" in window)) return;
     const targets = document.querySelectorAll<HTMLElement>(
-      ".hero-visual-cinematic, .scent-marquee, .bottle-scroll-story, .scent-finder"
+      ".hero-visual-cinematic, .scent-marquee, .bottle-scroll-story, .scent-finder, .weather-atlas"
     );
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
@@ -323,7 +364,15 @@ export default function Home() {
       })}</div> : <div className="empty-state"><p>Our best sellers are being curated. Explore the complete collection.</p><Link className="text-link" to="/shop">Shop all fragrances <ArrowRight /></Link></div>}
     </section>
 
-    <section className="shop-by-section" aria-labelledby="shop-by-heading"><div className="shop-by-heading"><div className="section-intro"><p>EXPLORE THE DEQANT UNIVERSE</p><h2 id="shop-by-heading">Shop <em>by.</em></h2><span>Eight considered paths into the world of fragrance. Start with a mood, a style, or the house you love.</span></div><div className="shop-by-heading-aside"><span className="shop-by-index">CURATED DISCOVERY / 08</span><p>Not sure where to begin? Choose a collection and let your next signature find you.</p></div></div><div className="shop-by-grid">{[{key:"for-him",label:"For him",note:"Confident signatures",index:"01"},{key:"for-her",label:"For her",note:"Expressive elegance",index:"02"},{key:"unisex",label:"Unisex",note:"Beyond convention",index:"03"},{key:"middle-eastern",label:"Middle Eastern",note:"Oud, amber & heritage",index:"04"},{key:"designer",label:"Designer",note:"Modern icons",index:"05"},{key:"niche",label:"Niche",note:"Rare olfactory art",index:"06"},{key:"new-drops",label:"New drops",note:"Just arrived",index:"07"},{key:"all-brands",label:"All brands",note:"Explore every house",index:"08"}].map(item=><Link key={item.key} to={`/shop?shopCategory=${item.key}`} className={`shop-by-card shop-by-${item.key}`}><span className="shop-by-card-index">{item.index}</span><span className="shop-by-card-copy"><strong>{item.label}</strong><small>{item.note}</small></span><ArrowRight className="shop-by-arrow" size={18}/></Link>)}</div></section>
+    <section className="shop-by-section shop-by-atlas" aria-labelledby="shop-by-heading">
+ <div className="shop-by-atlas-top"><span>DEQANT / COLLECTION INDEX</span><span>VOL. 001 — FIND YOUR WORLD</span></div>
+ <div className="shop-by-atlas-heading"><div><p>DISCOVER BY CHARACTER</p><h2 id="shop-by-heading">A world of<br/><em>your own.</em></h2></div><div className="shop-by-atlas-intro"><span>THE COLLECTION INDEX · 08 PATHWAYS</span><p>Not sure what you love yet? Start with a point of view. Explore fragrance through identity, origin, artistry and discovery.</p><Link to="/shop">VIEW THE COMPLETE COLLECTION <ArrowUpRight size={15}/></Link></div></div>
+ <div className="shop-by-atlas-grid">
+ {[{key:"for-him",label:"For him",sub:"BOLD BY NATURE",note:"Confident signatures",index:"01",symbol:"H",tone:"ink"},{key:"for-her",label:"For her",sub:"SOFTLY UNFORGETTABLE",note:"Expressive elegance",index:"02",symbol:"F",tone:"rose"},{key:"unisex",label:"Unisex",sub:"BEYOND THE LABEL",note:"Made to be shared",index:"03",symbol:"U",tone:"sage"},{key:"middle-eastern",label:"Middle Eastern",sub:"A LEGACY IN EVERY NOTE",note:"Oud, amber & heritage",index:"04",symbol:"م",tone:"noir"},{key:"designer",label:"Designer",sub:"ICONS OF MODERNITY",note:"The houses you know",index:"05",symbol:"D",tone:"sand"},{key:"niche",label:"Niche",sub:"ART WITHOUT COMPROMISE",note:"Rare olfactory art",index:"06",symbol:"N",tone:"plum"},{key:"new-drops",label:"New drops",sub:"FRESH FROM THE ATELIER",note:"Just arrived",index:"07",symbol:"✳",tone:"blue"},{key:"all-brands",label:"All brands",sub:"THE COMPLETE ARCHIVE",note:"Every house, one place",index:"08",symbol:"∞",tone:"gold"}].map(item=><Link key={item.key} to={`/shop?shopCategory=${item.key}`} className={`shop-atlas-tile shop-atlas-${item.tone}`}><span className="shop-atlas-topline"><small>{item.index} / 08</small><small>{item.sub}</small></span><span className="shop-atlas-symbol" aria-hidden="true">{item.symbol}</span><span className="shop-atlas-bottom"><span><strong>{item.label}</strong><small>{item.note}</small></span><span className="shop-atlas-go"><ArrowUpRight size={19}/></span></span></Link>)}
+ </div><div className="shop-by-atlas-bottom"><span>FOLLOW YOUR INSTINCT. DISCOVER YOUR SIGNATURE.</span><span>08 COLLECTIONS <i>✳</i> ENDLESS POSSIBILITIES</span></div>
+</section>
+
+<WeatherAtelier catalogue={catalogue} />
 
     <ScentFinder />
 
