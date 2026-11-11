@@ -4039,3 +4039,87 @@ section.deq-promise-ribbon:after{content:"D";position:absolute;z-index:-1;right:
 @media(prefers-reduced-motion:reduce){
   .bottle-scroll-story:before{mask-image:none}
 }
+
+
+/* Scroll stability + bottle epigraph alignment.
+   These rules preserve the existing artwork, layout language and bottle motion. */
+html,
+body,
+#root,
+main,
+.page-shell,
+.scent-finder,
+.weather-atlas,
+.high-rated-section {
+  overflow-anchor: none;
+}
+
+@media (max-width: 760px) {
+  .scent-finder {
+    contain: none !important;
+    overflow-anchor: none;
+  }
+  .orbit-wrap {
+    contain: none !important;
+  }
+}
+
+.bottle-story-ornament-bottom {
+  box-sizing: border-box;
+  width: auto;
+  max-width: none;
+}
+
+.bottle-bottom-epigraph {
+  width: 100%;
+  min-width: 0;
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) minmax(0, auto);
+  align-items: center !important;
+  justify-content: initial;
+  column-gap: clamp(12px, 2.5vw, 32px);
+}
+
+.bottle-bottom-epigraph span {
+  min-width: 0;
+  line-height: 1.5;
+}
+
+.bottle-bottom-epigraph strong {
+  min-width: 0;
+  max-width: 100%;
+  justify-self: end;
+  text-align: right;
+  line-height: 1.02;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 760px) {
+  .bottle-story-ornament-bottom {
+    left: 16px !important;
+    right: 16px !important;
+    width: auto;
+  }
+  .bottle-bottom-epigraph {
+    grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr);
+    column-gap: 8px;
+    align-items: center !important;
+  }
+  .bottle-bottom-epigraph span {
+    font-size: 5px;
+    letter-spacing: .1em;
+  }
+  .bottle-bottom-epigraph strong {
+    font-size: clamp(14px, 4vw, 19px) !important;
+    text-align: right !important;
+    white-space: normal;
+  }
+}
+@media (max-width: 390px) {
+  .bottle-bottom-epigraph {
+    grid-template-columns: minmax(0, .72fr) minmax(0, 1.28fr);
+  }
+  .bottle-bottom-epigraph strong {
+    font-size: 14px !important;
+  }
+}
