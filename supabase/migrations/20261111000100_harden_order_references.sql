@@ -130,4 +130,8 @@ $function$;
 -- Keep cancellation's existing 10-per-10-minute limit; harden its function search path.
 alter function public.cancel_order(text,text) set search_path = pg_catalog, public;
 
+-- The browser checks the authenticated profile role; is_admin is an internal policy helper.
+revoke execute on function public.is_admin() from anon;
+grant execute on function public.is_admin() to authenticated;
+
 commit;
