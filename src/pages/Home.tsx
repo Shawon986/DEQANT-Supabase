@@ -367,6 +367,7 @@ export default function Home() {
         <div className="deq-promise-main">
           <div className="deq-promise-intro">
             <div className="deq-promise-heading"><span>THE DEQANT PROMISE</span><i/><small>01 — 04 / ALWAYS INCLUDED</small></div>
+            <div className="deq-promise-seal" aria-hidden="true"><span>THE DEQANT STANDARD</span><b>D</b><i>✳</i><small>CARE IN EVERY DETAIL</small></div>
             <p className="deq-promise-eyebrow">A BETTER WAY TO DISCOVER FRAGRANCE</p>
             <h2>Confidence,<br/><em>beautifully delivered.</em></h2>
             <p className="deq-promise-description">From the first click to the final note, every order comes with a little more care.</p>
