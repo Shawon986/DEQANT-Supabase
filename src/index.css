@@ -3271,3 +3271,73 @@ body { position: relative; }
   .coupon-entry > div { width: 100%; }
   .coupon-entry button { padding-inline: 12px; }
 }
+
+/* DEQANT collection discovery, rating and responsive checkout refinements */
+.best-seller-size{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:14px 0 10px;padding:0 2px}
+.best-seller-size>span{font-size:9px;letter-spacing:.16em;font-weight:700;color:var(--brand-champagne)}
+.best-seller-size select{min-width:104px;max-width:48%;padding:9px 30px 9px 12px;border:1px solid rgba(77,2,32,.24);border-radius:2px;background:rgba(255,255,255,.55);color:var(--brand-burgundy);font-size:12px}
+.best-seller-add{width:100%;justify-content:center}
+.shop-by-section,.high-rated-section{padding:clamp(64px,8vw,116px) var(--gutter);max-width:1440px;margin:0 auto}
+.shop-by-heading,.high-rated-heading{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:34px}
+.shop-by-heading .section-intro h2,.high-rated-heading .section-intro h2{font-size:clamp(48px,7vw,86px);margin:0}
+.shop-by-heading .section-intro>span,.high-rated-heading .section-intro>span{display:block;max-width:440px;margin-top:14px;color:rgba(77,2,32,.68);font-size:13px}
+.shop-by-index{font-size:9px;letter-spacing:.2em;color:var(--brand-champagne);padding-bottom:8px;white-space:nowrap}
+.shop-by-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.shop-by-card{min-height:172px;position:relative;isolation:isolate;overflow:hidden;display:flex;flex-direction:column;justify-content:space-between;padding:20px 22px;border:1px solid rgba(77,2,32,.14);background:linear-gradient(135deg,rgba(255,255,255,.66),rgba(206,201,189,.55));transition:transform .35s ease,border-color .35s ease,background .35s ease}
+.shop-by-card:before{content:"";position:absolute;z-index:-1;width:180px;height:180px;border:1px solid rgba(77,2,32,.11);border-radius:50%;right:-70px;bottom:-104px;transition:transform .5s ease}
+.shop-by-card:after{content:"";position:absolute;z-index:-1;width:118px;height:118px;border:1px solid rgba(183,164,127,.5);border-radius:50%;right:-39px;bottom:-74px}
+.shop-by-card:hover{transform:translateY(-4px);border-color:rgba(77,2,32,.38);background:linear-gradient(135deg,#fffaf1,rgba(206,201,189,.7))}
+.shop-by-card:hover:before{transform:scale(1.18)}
+.shop-by-card-index{font-size:9px;letter-spacing:.18em;color:var(--brand-champagne)}
+.shop-by-card-copy{display:flex;flex-direction:column;gap:4px}
+.shop-by-card-copy strong{font:300 clamp(27px,3vw,38px)/.95 var(--serif);color:var(--brand-burgundy)}
+.shop-by-card-copy small{font-size:10px;letter-spacing:.08em;color:rgba(77,2,32,.62)}
+.shop-by-arrow{position:absolute;right:19px;top:18px;color:var(--brand-wine);transition:transform .3s ease}
+.shop-by-card:hover .shop-by-arrow{transform:translate(3px,-3px)}
+.shop-by-middle-eastern{background:linear-gradient(135deg,rgba(77,2,32,.94),rgba(37,5,16,.98));color:var(--brand-ivory)}
+.shop-by-middle-eastern .shop-by-card-copy strong,.shop-by-middle-eastern .shop-by-card-copy small,.shop-by-middle-eastern .shop-by-arrow{color:var(--brand-ivory)}
+.shop-by-middle-eastern .shop-by-card-index{color:#d8b994}
+.shop-by-niche{background:linear-gradient(135deg,rgba(183,164,127,.32),rgba(255,255,255,.7))}
+.high-rated-section{background:linear-gradient(180deg,rgba(206,201,189,.24),rgba(242,238,229,0));max-width:none}
+.high-rated-heading,.high-rated-grid{max-width:1360px;margin-left:auto;margin-right:auto}
+.high-rated-stamp{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border:1px solid rgba(183,164,127,.65);font-size:9px;letter-spacing:.17em;color:var(--brand-wine);white-space:nowrap}
+.high-rated-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px}
+.high-rated-card{min-width:0}
+.high-rated-score{display:flex;align-items:center;gap:9px;padding:12px 2px;border-top:1px solid rgba(77,2,32,.14)}
+.rating-stars{display:inline-flex;align-items:center;gap:2px;color:#a4773c}
+.high-rated-score>strong,.product-rating-summary>strong{font-size:13px;color:var(--brand-burgundy)}
+.high-rated-score>small,.product-rating-summary>small{font-size:10px;color:rgba(77,2,32,.6)}
+.high-rated-empty{max-width:1360px;margin:0 auto;display:flex;align-items:center;gap:18px;padding:25px 28px;border:1px solid rgba(183,164,127,.48);background:rgba(255,255,255,.38);color:var(--brand-wine)}
+.high-rated-empty>svg{width:28px;height:28px;flex:none}
+.high-rated-empty strong{font:300 25px var(--serif)}
+.high-rated-empty p{margin:3px 0 0;font-size:12px;color:rgba(77,2,32,.65)}
+.product-rating-panel{margin:22px 0 26px;padding:18px 0;border-top:1px solid rgba(77,2,32,.16);border-bottom:1px solid rgba(77,2,32,.16);display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);gap:18px;align-items:center}
+.product-rating-summary{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.product-rating-summary .rating-stars{width:100%}
+.product-rating-action{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.product-rating-action>span{width:100%;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:rgba(77,2,32,.65)}
+.rating-input{display:flex;align-items:center;gap:3px}
+.rating-input button{border:0;background:transparent;color:#a4773c;padding:4px;display:grid;place-items:center}
+.rating-submit,.rating-sign-in{display:inline-flex;align-items:center;gap:7px;border:1px solid rgba(77,2,32,.28);background:var(--brand-burgundy);color:var(--brand-ivory);padding:9px 12px;font-size:10px;letter-spacing:.04em}
+.rating-submit:disabled{opacity:.45}
+.rating-error{width:100%;color:#a12b42}
+.rating-no-comments{grid-column:1/-1;margin:0;font-size:9px;letter-spacing:.08em;color:rgba(77,2,32,.55)}
+.deq-shop-categories-field{min-width:0;border:1px solid rgba(183,164,127,.35);padding:16px;margin:0}
+.deq-shop-categories-field legend{padding:0 8px;font-weight:700;color:var(--brand-burgundy)}
+.deq-shop-categories-field>p{font-size:11px;color:rgba(77,2,32,.65);margin:0 0 12px}
+.deq-shop-categories-field>div{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px}
+.deq-shop-categories-field>div>label{display:flex;align-items:center;gap:8px;min-width:0;padding:9px;border:1px solid rgba(77,2,32,.13);font-size:11px}
+.deq-shop-categories-field input{accent-color:var(--brand-burgundy);flex:none}
+.checkout-layout,.checkout-summary,.order-summary,.coupon-entry{min-width:0;max-width:100%}
+.checkout-summary{width:100%;overflow:hidden}
+.checkout-summary>*{min-width:0;max-width:100%}
+.coupon-entry{width:100%;overflow:hidden}
+.coupon-entry>div{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;width:100%;min-width:0}
+.coupon-entry input{width:100%;min-width:0;max-width:100%}
+.coupon-entry button{min-width:78px;max-width:100%;white-space:nowrap}
+.coupon-entry small{display:block;max-width:100%;overflow-wrap:anywhere;word-break:break-word}
+.order-summary>div,.checkout-item{min-width:0}
+.order-summary>div>span,.order-summary>div>strong{min-width:0;overflow-wrap:anywhere}
+@media(max-width:900px){.shop-by-grid,.high-rated-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.deq-shop-categories-field>div{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:600px){.shop-by-section,.high-rated-section{padding:58px 16px}.shop-by-heading,.high-rated-heading{align-items:flex-start;flex-direction:column;gap:14px;margin-bottom:24px}.shop-by-grid,.high-rated-grid{gap:9px}.shop-by-card{min-height:145px;padding:15px}.shop-by-card-copy strong{font-size:29px}.shop-by-card-copy small{font-size:9px}.shop-by-arrow{right:12px;top:12px;width:15px}.high-rated-stamp{padding:8px 10px}.product-rating-panel{grid-template-columns:1fr;gap:13px}.rating-no-comments{grid-column:auto}.deq-shop-categories-field>div{grid-template-columns:repeat(2,minmax(0,1fr))}.coupon-entry>div{grid-template-columns:minmax(0,1fr) 76px;gap:6px}.coupon-entry button{min-width:0;padding-left:8px;padding-right:8px}.best-seller-size{margin-top:10px}.best-seller-size select{max-width:58%}}
+@media(prefers-reduced-motion:reduce){.shop-by-card,.shop-by-card:before,.shop-by-arrow{transition:none}}
