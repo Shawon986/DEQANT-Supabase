@@ -5,7 +5,7 @@ import { PageShell, money } from "@/components/Storefront";
 import { storeApi } from "@/providers/store";
 
 const statuses = ["pending", "confirmed", "processing", "shipped", "delivered"];
-const cancellableStatuses = ["pending", "confirmed", "processing"];
+const cancellableStatuses = ["pending"];
 const CANCELLATION_WINDOW_MS = 3 * 60 * 60 * 1000;
 
 function formatRemaining(ms: number) {
@@ -34,7 +34,7 @@ export default function Track() {
   const query = storeApi.store.track.useQuery(search!, { enabled: Boolean(search), retry: false });
   const cancelMutation = storeApi.store.cancelOrder.useMutation();
   useEffect(() => {
-    if (!query.data) return;
+    if (!query.data || query.data.status !== "pending") return;
     const timer = window.setInterval(() => setNow(Date.now()), 1000);
     return () => window.clearInterval(timer);
   }, [query.data]);
@@ -59,8 +59,7 @@ export default function Track() {
     {query.data && <div className="tracking-result" aria-live="polite">
       <div className="tracking-summary"><Package /><div><p>ORDER {query.data.orderNumber}</p><h2>{query.data.status === "cancelled" ? "This order was cancelled" : query.data.status === "delivered" ? "Your fragrance has arrived" : "Your order is in motion"}</h2><span>Placed {query.data.createdAt.toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" })} · {money(query.data.total)}</span></div></div>
       {query.data.status !== "cancelled" && <div className="status-timeline" aria-label={`Order progress: ${query.data.status}`}>{statuses.map((status, index) => <div key={status} className={`${index <= activeIndex ? "complete" : ""}${index === activeIndex ? " current" : ""}`}><span>{index < activeIndex ? <Check /> : index + 1}</span><strong>{status}</strong><small>{index === activeIndex ? "Current status" : index < activeIndex ? "Completed" : "Upcoming"}</small></div>)}</div>}
-      {canCancel ? <div className="tracking-cancel-panel"><div><span><Clock3 size={16}/> CANCELLATION AVAILABLE</span><strong>{formatRemaining(remaining)}</strong><p>You can cancel this order within 3 hours of placing it. The option closes automatically when the timer ends.</p></div><button type="button" className="tracking-cancel-button" onClick={() => void cancel()} disabled={cancelMutation.isPending}><XCircle size={16}/>{cancelMutation.isPending ? "Cancelling…" : "Cancel order"}</button></div>
-      : query.data.status !== "cancelled" && (cancellableStatuses.includes(query.data.status) ? <p className="tracking-cancel-closed">The 3-hour cancellation period has ended. This order can no longer be cancelled online.</p> : <p className="tracking-cancel-closed">This order can no longer be cancelled because its fulfilment has progressed.</p>)}
+      {query.data.status === "pending" ? (canCancel ? <div className="tracking-cancel-panel"><div><span><Clock3 size={16}/> CANCELLATION AVAILABLE</span><strong>{formatRemaining(remaining)}</strong><p>You can cancel this order within 3 hours of placing it. The option closes automatically when the timer ends.</p></div><button type="button" className="tracking-cancel-button" onClick={() => void cancel()} disabled={cancelMutation.isPending}><XCircle size={16}/>{cancelMutation.isPending ? "Cancelling…" : "Cancel order"}</button></div> : <p className="tracking-cancel-closed">The 3-hour cancellation period has ended. This order can no longer be cancelled online.</p>) : null}
       {cancelMutation.error && <div className="tracking-error" role="alert">{cancelMutation.error.message}</div>}
     </div>}
     <div className="tracking-help"><h2>Need a hand?</h2><p>If your tracking details are unavailable or your order seems delayed, our concierge can help.</p><a className="text-link" href="mailto:concierge@deqant.com">Contact concierge</a></div>
