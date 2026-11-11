@@ -4170,3 +4170,334 @@ main,
     min-height: 0 !important;
   }
 }
+
+
+/* DEQANT bottle-story final layout correction.
+   The scene remains scroll-driven, but uses natural document flow so scrollbar
+   dragging is not affected by a pinned/sticky section or changing scroll runway. */
+html,
+body {
+  scroll-behavior: auto !important;
+  scroll-snap-type: none !important;
+  overflow-anchor: none !important;
+}
+#root,
+main,
+.page-shell {
+  overflow-anchor: none !important;
+  scroll-snap-type: none !important;
+}
+.bottle-scroll-story {
+  position: relative !important;
+  display: block !important;
+  height: auto !important;
+  min-height: 0 !important;
+  padding: clamp(150px, 18vh, 210px) 0 clamp(145px, 17vh, 190px) !important;
+  overflow: visible !important;
+  contain: none !important;
+  content-visibility: visible !important;
+}
+.bottle-scroll-sticky {
+  position: relative !important;
+  inset: auto !important;
+  display: grid !important;
+  grid-template-columns: minmax(0, .88fr) minmax(0, 1.12fr) !important;
+  grid-template-rows: auto !important;
+  align-items: center !important;
+  gap: clamp(24px, 5vw, 76px) !important;
+  width: 100% !important;
+  max-width: 1480px !important;
+  height: auto !important;
+  min-height: 0 !important;
+  margin: 0 auto !important;
+  padding: 0 clamp(24px, 7vw, 108px) !important;
+  overflow: visible !important;
+  contain: none !important;
+  transform: none !important;
+}
+.bottle-bottom-epigraph strong {
+  position: relative !important;
+  top: 60px !important;
+}
+.bottle-story-ornament-bottom {
+  bottom: clamp(18px, 3vh, 34px) !important;
+}
+.bottle-ornament-index {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.bottle-ornament-index svg,
+.promise-atmosphere-topline svg,
+.promise-atmosphere-footer svg,
+.promise-benefit-foot svg,
+.shop-by-atlas-bottom svg,
+.weather-atlas-footer svg {
+  display: inline-block;
+  flex: 0 0 auto;
+  vertical-align: middle;
+  stroke: currentColor;
+}
+.bottle-ornament-index:before {
+  content: none !important;
+}
+.promise-atmosphere-topline svg,
+.promise-atmosphere-footer svg,
+.shop-by-atlas-bottom svg,
+.weather-atlas-footer svg {
+  margin-inline: 5px;
+  color: #c79a77;
+}
+.promise-benefit-foot svg {
+  margin-left: 6px;
+  transition: transform .2s ease;
+}
+.promise-benefit-card:hover .promise-benefit-foot svg {
+  transform: translate(2px, -2px);
+}
+
+@media (min-width: 761px) {
+  .bottle-bottom-epigraph strong {
+    top: 60px !important;
+  }
+}
+
+@media (max-width: 760px) {
+  .bottle-scroll-story {
+    height: auto !important;
+    min-height: 0 !important;
+    padding: 126px 0 0 !important;
+    overflow: visible !important;
+  }
+  .bottle-scroll-sticky {
+    position: relative !important;
+    inset: auto !important;
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    grid-template-rows: auto auto !important;
+    align-items: stretch !important;
+    justify-items: stretch !important;
+    gap: 20px !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    padding: 0 14px !important;
+    margin: 0 auto !important;
+  }
+  .bottle-story-copy {
+    width: 100% !important;
+    max-width: none !important;
+    min-width: 0 !important;
+    padding: 21px 18px !important;
+    margin: 0 !important;
+    backdrop-filter: none !important;
+  }
+  .bottle-story-copy .eyebrow {
+    margin: 0 0 11px !important;
+    font-size: 8px !important;
+  }
+  .bottle-story-copy h2 {
+    margin: 0 0 13px !important;
+    font-size: clamp(42px, 10vw, 60px) !important;
+    line-height: .92 !important;
+  }
+  .bottle-story-description {
+    max-width: 42ch !important;
+    margin: 0 !important;
+    font-size: 12px !important;
+    line-height: 1.6 !important;
+  }
+  .bottle-scroll-instruction {
+    margin-top: 15px !important;
+    font-size: 8px !important;
+  }
+  .bottle-scroll-instruction small {
+    font-size: 9px !important;
+  }
+  .bottle-progress-track {
+    display: none !important;
+  }
+  .bottle-exploded-stage {
+    width: 100% !important;
+    height: clamp(420px, 62svh, 560px) !important;
+    min-height: 420px !important;
+    margin: 0 !important;
+    overflow: visible !important;
+  }
+  .exploded-perfume {
+    width: min(82vw, 330px) !important;
+    height: min(54svh, 420px) !important;
+    max-height: 420px !important;
+  }
+  .bottle-stage-caption,
+  .bottle-stage-footer {
+    left: 12px !important;
+    right: 12px !important;
+    font-size: 6px !important;
+    letter-spacing: .09em !important;
+  }
+  .bottle-stage-caption { top: 13px !important; }
+  .bottle-stage-footer { bottom: 13px !important; }
+  .bottle-stage-number {
+    right: 12px !important;
+    bottom: 38px !important;
+    font-size: 16px !important;
+  }
+  .bottle-story-ornament {
+    left: 14px !important;
+    right: 14px !important;
+  }
+  .bottle-story-ornament-top {
+    top: 12px !important;
+    row-gap: 7px !important;
+    gap: 7px !important;
+  }
+  .bottle-story-ornament-top .bottle-ornament-index,
+  .bottle-story-ornament-top .bottle-ornament-edition {
+    font-size: 5px !important;
+    letter-spacing: .1em !important;
+  }
+  .bottle-ornament-topline {
+    grid-template-columns: 34px minmax(0, 1fr) !important;
+    gap: 9px !important;
+    padding: 7px 0 !important;
+  }
+  .bottle-ornament-seal,
+  .bottle-ornament-seal img {
+    width: 32px !important;
+    height: 32px !important;
+  }
+  .bottle-ornament-heading { gap: 3px !important; }
+  .bottle-ornament-heading span {
+    font-size: 5px !important;
+    letter-spacing: .16em !important;
+  }
+  .bottle-ornament-heading strong {
+    font-size: clamp(14px, 4.2vw, 19px) !important;
+  }
+  .bottle-ornament-subtitle {
+    display: none !important;
+  }
+  .bottle-story-ornament-bottom {
+    position: relative !important;
+    inset: auto !important;
+    left: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) auto !important;
+    align-items: start !important;
+    gap: 9px 12px !important;
+    width: calc(100% - 28px) !important;
+    max-width: none !important;
+    margin: 24px auto 0 !important;
+    padding: 15px 0 22px !important;
+  }
+  .bottle-bottom-epigraph {
+    grid-column: 1 / -1 !important;
+    display: grid !important;
+    grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr) !important;
+    align-items: center !important;
+    justify-content: initial !important;
+    gap: 8px !important;
+    padding: 8px 0 12px !important;
+    transform: none !important;
+  }
+  .bottle-bottom-epigraph span {
+    font-size: 5px !important;
+    line-height: 1.5 !important;
+    letter-spacing: .1em !important;
+  }
+  .bottle-bottom-epigraph strong {
+    position: static !important;
+    top: auto !important;
+    justify-self: end !important;
+    font-size: clamp(14px, 4vw, 18px) !important;
+    line-height: 1.05 !important;
+    text-align: right !important;
+    white-space: normal !important;
+    overflow-wrap: anywhere !important;
+  }
+  .bottle-bottom-epigraph i {
+    display: none !important;
+  }
+  .bottle-bottom-note {
+    grid-column: 1 !important;
+    min-width: 0 !important;
+  }
+  .bottle-bottom-note span,
+  .bottle-bottom-notes span {
+    font-size: 6px !important;
+  }
+  .bottle-bottom-note strong {
+    font-size: 12px !important;
+  }
+  .bottle-bottom-notes {
+    grid-column: 2 !important;
+    display: flex !important;
+    flex-wrap: wrap !important;
+    justify-content: flex-end !important;
+    gap: 6px !important;
+    min-width: 0 !important;
+  }
+  .bottle-bottom-notes i {
+    font-size: 5px !important;
+  }
+  .bottle-bottom-mark {
+    grid-column: 1 / -1 !important;
+    min-width: 0 !important;
+    font-size: 5px !important;
+    line-height: 1.5 !important;
+    letter-spacing: .1em !important;
+    text-align: left !important;
+  }
+}
+
+@media (max-width: 390px) {
+  .bottle-scroll-story {
+    padding-top: 120px !important;
+  }
+  .bottle-scroll-sticky {
+    padding-inline: 12px !important;
+  }
+  .bottle-story-copy {
+    padding: 18px 15px !important;
+  }
+  .bottle-story-copy h2 {
+    font-size: 40px !important;
+  }
+  .bottle-exploded-stage {
+    height: 420px !important;
+  }
+  .exploded-perfume {
+    width: min(84vw, 292px) !important;
+    height: min(49svh, 370px) !important;
+  }
+  .bottle-story-ornament {
+    left: 12px !important;
+    right: 12px !important;
+  }
+  .bottle-bottom-epigraph {
+    grid-template-columns: minmax(0, .72fr) minmax(0, 1.28fr) !important;
+    column-gap: 7px !important;
+  }
+  .bottle-bottom-epigraph strong {
+    font-size: 14px !important;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .bottle-scroll-story {
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: visible !important;
+  }
+  .bottle-scroll-sticky {
+    position: relative !important;
+    height: auto !important;
+    min-height: 0 !important;
+  }
+  .bottle-part {
+    transform: none !important;
+    will-change: auto !important;
+  }
+}
