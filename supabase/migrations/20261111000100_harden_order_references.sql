@@ -129,6 +129,12 @@ $function$;
 
 -- Keep cancellation's existing 10-per-10-minute limit; harden its function search path.
 alter function public.cancel_order(text,text) set search_path = pg_catalog, public;
+alter function public.admin_review_bkash_payment(bigint,boolean,text) set search_path = pg_catalog, public;
+alter function public.admin_save_product(jsonb,jsonb) set search_path = pg_catalog, public;
+alter function public.cart_read(uuid) set search_path = pg_catalog, public;
+alter function public.submit_bkash_payment(text,text,text,text) set search_path = pg_catalog, public;
+alter function public.validate_coupon(text) set search_path = pg_catalog, public;
+alter function public.handle_new_user() set search_path = pg_catalog, public;
 
 -- The browser checks the authenticated profile role; is_admin is an internal policy helper.
 revoke execute on function public.is_admin() from anon;
