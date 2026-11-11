@@ -203,7 +203,7 @@ function ScrollBottleExperience() {
     <div className="bottle-story-ornament bottle-story-ornament-bottom" aria-hidden="true">
       <div className="bottle-bottom-epigraph"><span>THE INVISIBLE, MADE ICONIC.</span><strong>AN OBJECT OF DESIRE.</strong></div>
       <div className="bottle-bottom-note"><span>THE CRAFT</span><strong>Designed to be discovered.</strong></div>
-      <div className="bottle-bottom-notes"><span>01 <i>FORM</i></span><span>02 <i>ESSENCE</i></span><span>03 <i>MEMORY</i></span></div>
+      
       <div className="bottle-bottom-mark">SCENT IS A FORM OF MEMORY <b>—</b> DEQANT, RAJSHAHI</div>
     </div>
   </section>;
