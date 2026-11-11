@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
 import { Link } from "react-router";
-import { ArrowDown, ArrowRight, PackageCheck, ShieldCheck, ShoppingBag, Sparkles } from "lucide-react";
+import { ArrowDown, ArrowRight, PackageCheck, ShieldCheck, ShoppingBag, Sparkles, Star } from "lucide-react";
 import { PageShell, ProductCard, Reveal, LoadingState } from "@/components/Storefront";
 import { storeApi } from "@/providers/store";
 import type { CatalogEntry } from "@/lib/supabase";
@@ -201,6 +201,8 @@ export default function Home() {
   const { data: settings } = storeApi.store.settings.useQuery();
   const { data: catalogue, isLoading } = storeApi.store.catalog.useQuery({ sort: "popular" });
   const bestSellers = useMemo(() => catalogue?.filter((entry: CatalogEntry) => entry.product.bestSeller).slice(0, 4) ?? [], [catalogue]);
+  const highRated = useMemo(() => catalogue?.filter((entry: CatalogEntry) => (entry.product.ratingCount ?? 0) > 0 && (entry.product.averageRating ?? 0) >= 4).sort((a: CatalogEntry, b: CatalogEntry) => (b.product.averageRating ?? 0) - (a.product.averageRating ?? 0) || (b.product.ratingCount ?? 0) - (a.product.ratingCount ?? 0)).slice(0, 4) ?? [], [catalogue]);
+  const [bestSellerSizes, setBestSellerSizes] = useState<Record<number, number>>({});
   const { add, isMutating } = useCart();
   const line = "FEEL THE FRAGRANCE · RAJSHAHI · 2026";
   const [typed, setTyped] = useState(() =>
@@ -314,12 +316,18 @@ export default function Home() {
     <section className="home-collection" id="collection">
       <Reveal><div className="section-intro"><p>THE DEQANT EDIT</p><h2>Our<br /><em>best sellers.</em></h2><Link className="text-link" to="/best-sellers">View all best sellers <ArrowRight /></Link></div></Reveal>
       {isLoading ? <LoadingState /> : bestSellers.length ? <div className="editorial-grid">{bestSellers.map((entry: CatalogEntry, index: number) => {
-        const purchasable = entry.variants.find((variant) => variant.sizeMl === 3 && variant.stock > 0) ?? entry.variants.find((variant) => variant.stock > 0);
-        return <Reveal key={entry.product.id}><div className="best-seller-card"><ProductCard entry={entry} index={index} /><button type="button" className="button button-burgundy best-seller-add" onClick={() => purchasable && add(purchasable.id, 1)} disabled={!purchasable || isMutating}><ShoppingBag size={16} />{isMutating ? "Adding…" : purchasable ? `Add ${purchasable.sizeMl}ml to cart` : "Sold out"}</button></div></Reveal>;
+        const availableVariants = entry.variants;
+        const selectedSize = bestSellerSizes[entry.product.id] ?? (availableVariants.find((variant) => variant.sizeMl === 3)?.sizeMl ?? availableVariants.find((variant) => variant.stock > 0)?.sizeMl ?? 3);
+        const purchasable = availableVariants.find((variant) => variant.sizeMl === selectedSize);
+        return <Reveal key={entry.product.id}><div className="best-seller-card"><ProductCard entry={entry} index={index} /><label className="best-seller-size"><span>CHOOSE SIZE</span><select aria-label={`Choose size for ${entry.product.name}`} value={selectedSize} onChange={(event) => setBestSellerSizes(current => ({...current,[entry.product.id]:Number(event.target.value)}))}>{availableVariants.map(variant=><option key={variant.id} value={variant.sizeMl} disabled={variant.stock===0}>{variant.sizeMl} ml{variant.stock===0?" · Sold out":""}</option>)}</select></label><button type="button" className="button button-burgundy best-seller-add" onClick={() => purchasable && purchasable.stock>0 && add(purchasable.id, 1)} disabled={!purchasable || purchasable.stock===0 || isMutating}><ShoppingBag size={16} />{isMutating ? "Adding…" : purchasable?.stock ? `Add ${purchasable.sizeMl}ml to cart` : "Sold out"}</button></div></Reveal>;
       })}</div> : <div className="empty-state"><p>Our best sellers are being curated. Explore the complete collection.</p><Link className="text-link" to="/shop">Shop all fragrances <ArrowRight /></Link></div>}
     </section>
 
+    <section className="shop-by-section" aria-labelledby="shop-by-heading"><div className="shop-by-heading"><div className="section-intro"><p>EXPLORE THE DEQANT UNIVERSE</p><h2 id="shop-by-heading">Shop <em>by.</em></h2><span>Find a fragrance through the world it belongs to.</span></div><span className="shop-by-index">COLLECTIONS / 08</span></div><div className="shop-by-grid">{[{key:"for-him",label:"For him",note:"Confident signatures",index:"01"},{key:"for-her",label:"For her",note:"Expressive elegance",index:"02"},{key:"unisex",label:"Unisex",note:"Beyond convention",index:"03"},{key:"middle-eastern",label:"Middle Eastern",note:"Oud, amber & heritage",index:"04"},{key:"designer",label:"Designer",note:"Modern icons",index:"05"},{key:"niche",label:"Niche",note:"Rare olfactory art",index:"06"},{key:"new-drops",label:"New drops",note:"Just arrived",index:"07"},{key:"all-brands",label:"All brands",note:"Explore every house",index:"08"}].map(item=><Link key={item.key} to={`/shop?shopCategory=${item.key}`} className={`shop-by-card shop-by-${item.key}`}><span className="shop-by-card-index">{item.index}</span><span className="shop-by-card-copy"><strong>{item.label}</strong><small>{item.note}</small></span><ArrowRight className="shop-by-arrow" size={18}/></Link>)}</div></section>
+
     <ScentFinder />
+
+    <section className="high-rated-section"><div className="high-rated-heading"><div className="section-intro"><p>THE CUSTOMER EDIT</p><h2>Most <em>loved.</em></h2><span>Fragrances earning their place, one five-star moment at a time.</span></div><span className="high-rated-stamp"><Star size={15} fill="currentColor"/> RATED BY YOU</span></div>{highRated.length?<div className="high-rated-grid">{highRated.map((entry:CatalogEntry,index:number)=><Reveal key={entry.product.id}><article className="high-rated-card"><ProductCard entry={entry} index={index}/><div className="high-rated-score"><span className="rating-stars" aria-label={`${entry.product.averageRating} out of 5 stars`}>{Array.from({length:5},(_,i)=><Star key={i} size={13} fill={i<Math.round(entry.product.averageRating??0)?"currentColor":"none"}/>)}</span><strong>{Number(entry.product.averageRating).toFixed(1)}</strong><small>{entry.product.ratingCount} {entry.product.ratingCount===1?"rating":"ratings"}</small></div></article></Reveal>)}</div>:<div className="high-rated-empty"><Star/><div><strong>Your next favourite starts here.</strong><p>Customer-rated fragrances will appear in this collection automatically.</p></div></div>}</section>
 
     <section className="manifesto">
       <Reveal className="manifesto-image"><div className="pattern-frame"><img src="/products/ivory-santal.svg" alt="Ivory Santal perfume bottle" loading="lazy" /><span>THE ART OF<br />WEARING LESS,<br />BUT MEANING MORE.</span></div></Reveal>
