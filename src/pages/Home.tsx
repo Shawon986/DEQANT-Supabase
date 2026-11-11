@@ -94,7 +94,10 @@ function ScrollBottleExperience() {
       sectionTop = section.getBoundingClientRect().top + window.scrollY;
       const viewportHeight = document.documentElement.clientHeight || window.innerHeight;
       animationStart = sectionTop - viewportHeight * 0.35;
-      runway = Math.max(1, section.offsetHeight + viewportHeight * 0.3);
+      // The editorial footer now has its own space below the bottle stage.
+      // Exclude that footer from the animation runway so the bottle's timing stays unchanged.
+      const footerReserve = section.querySelector<HTMLElement>(".bottle-story-ornament-bottom")?.offsetHeight ?? 0;
+      runway = Math.max(1, section.offsetHeight - footerReserve + viewportHeight * 0.3);
       distances = window.matchMedia("(max-width: 760px)").matches
         ? { cap: 118, atomizer: 88, collar: 54, glass: 30, juice: 36, label: 42 }
         : { cap: 220, atomizer: 158, collar: 92, glass: 52, juice: 64, label: 78 };
