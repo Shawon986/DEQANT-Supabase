@@ -44,7 +44,7 @@ async function cachedPublicProducts(){
 }
 async function cachedPublicRatings(){
  if(!publicRatingsPromise||Date.now()>=publicRatingsExpiresAt){
-  const pending=api("/rest/v1/product_rating_summary?select=product_id,average_rating,rating_count",{},false);
+  const pending=api("/rest/v1/rpc/get_product_rating_summary",{method:"POST",body:JSON.stringify({p_product_id:null})},false);
   publicRatingsPromise=pending;publicRatingsExpiresAt=Date.now()+60_000;
   try{return await pending;}catch(error){if(publicRatingsPromise===pending)publicRatingsPromise=null;throw error;}
  }
@@ -65,7 +65,7 @@ export async function listAdminRatings(){
  const profileMap=new Map((profiles??[]).map((profile:any)=>[String(profile.id),profile]));
  return (rows??[]).map((row:any)=>({...row,customer:profileMap.get(String(row.user_id))??{full_name:"Customer",email:""}}));
 }
-export async function productRating(productId:number){const summaryRows=await api(`/rest/v1/product_rating_summary?product_id=eq.${productId}&select=average_rating,rating_count`,{},false);const user=await currentUser();let myRating:number|null=null;if(user){const own=await api(`/rest/v1/product_ratings?product_id=eq.${productId}&user_id=eq.${encodeURIComponent(user.id)}&select=rating&limit=1`);myRating=own?.[0]?.rating?Number(own[0].rating):null;}const row=summaryRows?.[0];return{averageRating:Number(row?.average_rating)||0,ratingCount:Number(row?.rating_count)||0,myRating,canRate:Boolean(user)};}
+export async function productRating(productId:number){const summaryRows=await api("/rest/v1/rpc/get_product_rating_summary",{method:"POST",body:JSON.stringify({p_product_id:productId})},false);const user=await currentUser();let myRating:number|null=null;if(user){const own=await api(`/rest/v1/product_ratings?product_id=eq.${productId}&user_id=eq.${encodeURIComponent(user.id)}&select=rating&limit=1`);myRating=own?.[0]?.rating?Number(own[0].rating):null;}const row=summaryRows?.[0];return{averageRating:Number(row?.average_rating)||0,ratingCount:Number(row?.rating_count)||0,myRating,canRate:Boolean(user)};}
 export async function submitProductRating(productId:number,rating:number){if(!Number.isInteger(rating)||rating<1||rating>5)throw new Error("Choose a rating from 1 to 5 stars.");const user=await currentUser();if(!user)throw new Error("Please sign in to rate this perfume.");await api(`/rest/v1/product_ratings?on_conflict=product_id,user_id`,{method:"POST",headers:{Prefer:"resolution=merge-duplicates,return=representation"},body:JSON.stringify({product_id:productId,user_id:user.id,rating,updated_at:new Date().toISOString()})});return productRating(productId);}
 export async function settings(){const rows=await api("/rest/v1/website_settings?select=setting_key,setting_value",{},false);return Object.fromEntries((rows??[]).map((r:any)=>[r.setting_key,r.setting_value]));}
 export async function listCoupons(){return await api("/rest/v1/coupons?select=*&order=created_at.desc");}
