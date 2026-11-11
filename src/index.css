@@ -4950,3 +4950,32 @@ main,
   .bottle-scroll-sticky { position: relative !important; height: auto !important; min-height: 0 !important; }
   .bottle-part { transform: none !important; will-change: auto !important; }
 }
+
+
+/* Bottle story desktop overlap correction.
+   Keep the existing mobile layout untouched. */
+@media (min-width: 761px) {
+  .bottle-story-ornament-bottom {
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr) !important;
+    align-items: center !important;
+  }
+  .bottle-bottom-epigraph {
+    min-width: 0 !important;
+    gap: 8px !important;
+  }
+  .bottle-bottom-epigraph strong {
+    position: static !important;
+    top: auto !important;
+    display: block !important;
+    max-width: 100% !important;
+    line-height: 1.05 !important;
+    overflow-wrap: anywhere !important;
+  }
+  .bottle-bottom-note {
+    min-width: 0 !important;
+    align-self: center !important;
+  }
+  .bottle-bottom-mark {
+    grid-column: 1 / -1 !important;
+  }
+}
