@@ -140,4 +140,52 @@ alter function public.handle_new_user() set search_path = pg_catalog, public;
 revoke execute on function public.is_admin() from anon;
 grant execute on function public.is_admin() to authenticated;
 
+
+-- Require the client-generated opaque cart token and rate-limit guest cart creation/reads.
+create or replace function public.cart_read(p_token uuid)
+returns jsonb
+language plpgsql
+security definer
+set search_path = pg_catalog, public
+as $function$
+declare c public.carts; result jsonb;
+begin
+  perform public.consume_rate_limit('cart_read',120,60);
+  if p_token is null then raise exception 'A cart token is required.' using errcode='22023'; end if;
+  select * into c from public.carts where token=p_token;
+  if not found then insert into public.carts(token) values(p_token) returning * into c; end if;
+  select jsonb_build_object('token',c.token,'items',coalesce(jsonb_agg(jsonb_build_object(
+    'id',ci.id,'quantity',ci.quantity,'variant',jsonb_build_object('id',v.id,'sizeMl',v.size_ml,'price',v.price,'originalPrice',v.original_price,'stock',v.stock),
+    'product',jsonb_build_object('id',p.id,'slug',p.slug,'name',p.name,'brand',p.brand,'category',p.category,'imageUrl',p.image_url),
+    'lineTotal',v.price*ci.quantity) order by ci.created_at) filter(where ci.id is not null),'[]'::jsonb),
+    'subtotal',coalesce(sum(v.price*ci.quantity),0),'count',coalesce(sum(ci.quantity),0)) into result
+  from public.cart_items ci join public.product_variants v on v.id=ci.variant_id
+  join public.products p on p.id=v.product_id where ci.cart_id=c.id;
+  return result;
+end;
+$function$;
+
+create or replace function public.cart_add(p_token uuid,p_variant_id bigint,p_quantity integer)
+returns jsonb
+language plpgsql
+security definer
+set search_path = pg_catalog, public
+as $function$
+declare c public.carts; v public.product_variants; next_qty integer;
+begin
+  perform public.consume_rate_limit('cart_add',120,60);
+  if p_token is null then raise exception 'A cart token is required.' using errcode='22023'; end if;
+  if p_quantity<1 or p_quantity>10 then raise exception 'Quantity must be between 1 and 10.'; end if;
+  select * into v from public.product_variants where id=p_variant_id and active for update;
+  if not found or v.stock<1 then raise exception 'This size is currently out of stock.'; end if;
+  if not exists(select 1 from public.products where id=v.product_id and active) then raise exception 'This fragrance is not available.'; end if;
+  select * into c from public.carts where token=p_token;
+  if not found then insert into public.carts(token) values(p_token) returning * into c; end if;
+  insert into public.cart_items(cart_id,variant_id,quantity) values(c.id,v.id,p_quantity)
+  on conflict(cart_id,variant_id) do update set quantity=public.cart_items.quantity+excluded.quantity returning quantity into next_qty;
+  if next_qty>least(v.stock,10) then raise exception 'Not enough stock available. Only % remain.',v.stock; end if;
+  return public.cart_read(c.token);
+end;
+$function$;
+
 commit;
