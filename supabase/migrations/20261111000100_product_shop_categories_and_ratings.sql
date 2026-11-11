@@ -22,3 +22,38 @@ create or replace view public.product_rating_summary with (security_invoker = tr
 select product_id, round(avg(rating)::numeric, 1) as average_rating, count(*)::integer as rating_count
 from public.product_ratings group by product_id;
 grant select on public.product_rating_summary to anon, authenticated;
+
+-- Keep the admin product-save RPC aligned with the new category array.
+create or replace function public.admin_save_product(p_product jsonb, p_variants jsonb)
+ returns jsonb
+ language plpgsql
+ security definer
+ set search_path to 'public'
+as $function$
+declare saved public.products;
+begin
+ if not public.is_admin() then raise exception 'Administrator access required.' using errcode='42501'; end if;
+ if coalesce(jsonb_typeof(p_variants),'')<>'array' then raise exception 'Variants must be an array.'; end if;
+ if jsonb_array_length(p_variants)=0 then raise exception 'Add at least one size and price variant.'; end if;
+ if coalesce((p_product->>'shipping_weight_grams')::integer,150)<=0 then raise exception 'Shipping weight must be a positive number of grams.'; end if;
+ if p_product ? 'id' and nullif(p_product->>'id','') is not null then
+   update public.products set slug=p_product->>'slug',name=p_product->>'name',brand=coalesce(p_product->>'brand','DEQANT'),category=p_product->>'category',
+    description=coalesce(p_product->>'description',''),notes=coalesce(p_product->>'notes',''),family=coalesce(p_product->>'family',''),
+    shipping_weight_grams=coalesce((p_product->>'shipping_weight_grams')::integer,150),
+    image_url=coalesce(p_product->>'image_url',''),image_urls=coalesce(array(select jsonb_array_elements_text(coalesce(p_product->'image_urls','[]'::jsonb))),'{}'),
+    shop_categories=coalesce(array(select jsonb_array_elements_text(coalesce(p_product->'shop_categories','[]'::jsonb))),'{}'),
+    best_seller=coalesce((p_product->>'best_seller')::boolean,false),special_offer=coalesce((p_product->>'special_offer')::boolean,false),
+    featured=coalesce((p_product->>'featured')::boolean,false),new_arrival=coalesce((p_product->>'new_arrival')::boolean,true),
+    active=coalesce((p_product->>'active')::boolean,false),updated_at=now()
+   where id=(p_product->>'id')::bigint returning * into saved;
+   if not found then raise exception 'Product not found.'; end if;
+ else
+   insert into public.products(slug,name,brand,category,description,notes,family,shipping_weight_grams,image_url,image_urls,shop_categories,best_seller,special_offer,featured,new_arrival,active)
+   values(p_product->>'slug',p_product->>'name',coalesce(p_product->>'brand','DEQANT'),p_product->>'category',coalesce(p_product->>'description',''),coalesce(p_product->>'notes',''),coalesce(p_product->>'family',''),coalesce((p_product->>'shipping_weight_grams')::integer,150),coalesce(p_product->>'image_url',''),coalesce(array(select jsonb_array_elements_text(coalesce(p_product->'image_urls','[]'::jsonb))),'{}'),coalesce(array(select jsonb_array_elements_text(coalesce(p_product->'shop_categories','[]'::jsonb))),'{}'),coalesce((p_product->>'best_seller')::boolean,false),coalesce((p_product->>'special_offer')::boolean,false),coalesce((p_product->>'featured')::boolean,false),coalesce((p_product->>'new_arrival')::boolean,true),coalesce((p_product->>'active')::boolean,false)) returning * into saved;
+ end if;
+ delete from public.product_variants where product_id=saved.id;
+ insert into public.product_variants(product_id,size_ml,price,original_price,stock,sku,active)
+ select saved.id,v.size_ml,v.price,v.original_price,v.stock,coalesce(nullif(v.sku,''),upper(saved.slug||'-'||v.size_ml||'ml')),coalesce(v.active,true)
+ from jsonb_to_recordset(p_variants) as v(size_ml integer,price integer,original_price integer,stock integer,sku text,active boolean);
+ return to_jsonb(saved);
+end; $function$;
