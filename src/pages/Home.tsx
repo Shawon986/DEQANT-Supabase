@@ -361,44 +361,36 @@ export default function Home() {
       <a className="scroll-cue" href="#collection"><ArrowDown /><span>Scroll to discover</span></a>
     </section>
 
-    <section className="deq-assurance" aria-labelledby="deq-assurance-title">
-      <div className="deq-assurance-frame">
-        <div className="deq-assurance-story">
-          <div className="deq-assurance-top"><span>THE DEQANT DIFFERENCE</span><span>01 <i/> 04</span></div>
-          <div className="deq-assurance-copy">
-            <p className="deq-assurance-kicker">A PROMISE IN EVERY ORDER</p>
-            <h2 id="deq-assurance-title">The details<br/>make the <em>difference.</em></h2>
-            <p className="deq-assurance-description">A beautiful fragrance is only the beginning. Every order comes with thoughtful service, honest standards and care that continues after checkout.</p>
-          </div>
-          <div className="deq-assurance-signoff"><span>DEQANT</span><i/> CONSIDERED FROM START TO FINISH</div>
-          <span className="deq-assurance-watermark" aria-hidden="true">D</span>
+    <section className="deq-promise-v2" aria-labelledby="deq-promise-v2-title">
+      <div className="promise-v2-shell">
+        <div className="promise-v2-topline"><span><i/> THE DEQANT STANDARD</span><span>GOOD FRAGRANCE. BETTER SERVICE. <b>✳</b></span></div>
+        <div className="promise-v2-heading">
+          <div><p>OUR PROMISE TO YOU</p><h2 id="deq-promise-v2-title">Consider it<br/><em>taken care of.</em></h2></div>
+          <div className="promise-v2-intro"><span className="promise-v2-seal"><b>D</b><i>THE DEQANT PROMISE</i></span><p>From the moment you order to the moment your fragrance arrives, every detail is considered. No fine print. Just promises we stand behind.</p></div>
         </div>
-        <div className="deq-assurance-content">
-          <div className="deq-assurance-heading"><span>WHAT YOU CAN EXPECT</span><p>Four reasons to shop<br/><em>with confidence.</em></p></div>
-          <div className="deq-assurance-grid">
-            <article className="deq-assurance-item">
-              <div className="deq-assurance-item-head"><span>01 / DELIVERY</span><PackageCheck size={22}/></div>
-              <div><h3>FREE DELIVERY <em>ON ORDERS ৳2,000+</em></h3><p>Enjoy free delivery when your order reaches ৳2,000.</p></div>
-              
-            </article>
-            <article className="deq-assurance-item">
-              <div className="deq-assurance-item-head"><span>02 / AUTHENTICITY</span><ShieldCheck size={22}/></div>
-              <div><h3>100% AUTHENTICITY <em>OR YOUR MONEY BACK</em></h3><p>If a fragrance isn't original, we'll make it right with a refund.</p></div>
-              
-            </article>
-            <article className="deq-assurance-item">
-              <div className="deq-assurance-item-head"><span>03 / PAYMENT</span><ShoppingBag size={22}/></div>
-              <div><h3>CASH ON <em>DELIVERY</em></h3><p>Cash on delivery keeps checkout simple and convenient.</p></div>
-              
-            </article>
-            <article className="deq-assurance-item">
-              <div className="deq-assurance-item-head"><span>04 / EXTRA CARE</span><Sparkles size={22}/></div>
-              <div><h3>FREE REPLACEMENT <em>IF IT LEAKS OR BREAKS</em></h3><p>Free replacement if your glass atomizer arrives leaking or broken.</p></div>
-              
-            </article>
-          </div>
-          <div className="deq-assurance-bottom"><span>THE DEQANT STANDARD</span><span>THOUGHTFULLY PACKED <b>✳</b> HONESTLY PROMISED</span></div>
+        <div className="promise-v2-list">
+          <article className="promise-v2-card">
+            <div className="promise-v2-card-top"><span>01</span><PackageCheck size={25}/><small>DELIVERY, ON US</small></div>
+            <div className="promise-v2-card-main"><h3>Free<br/><em>delivery.</em></h3><p>On every order of <strong>৳2,000 or more.</strong></p></div>
+            <div className="promise-v2-card-foot"><span>WE'LL TAKE CARE OF THE SHIPPING</span><ArrowUpRight size={17}/></div>
+          </article>
+          <article className="promise-v2-card">
+            <div className="promise-v2-card-top"><span>02</span><ShieldCheck size={25}/><small>AUTHENTICITY, ALWAYS</small></div>
+            <div className="promise-v2-card-main"><h3>100%<br/><em>authentic.</em></h3><p>Not genuine? <strong>Your money back.</strong></p></div>
+            <div className="promise-v2-card-foot"><span>YOUR TRUST IS NON-NEGOTIABLE</span><ArrowUpRight size={17}/></div>
+          </article>
+          <article className="promise-v2-card">
+            <div className="promise-v2-card-top"><span>03</span><ShoppingBag size={25}/><small>PAYMENT, YOUR WAY</small></div>
+            <div className="promise-v2-card-main"><h3>Cash on<br/><em>delivery.</em></h3><p>Pay only when your order <strong>reaches you.</strong></p></div>
+            <div className="promise-v2-card-foot"><span>NO ADVANCE REQUIRED FOR COD</span><ArrowUpRight size={17}/></div>
+          </article>
+          <article className="promise-v2-card">
+            <div className="promise-v2-card-top"><span>04</span><Sparkles size={25}/><small>CARE THAT CONTINUES</small></div>
+            <div className="promise-v2-card-main"><h3>Free<br/><em>replacement.</em></h3><p>Leaking or broken on arrival? <strong>We'll replace it.</strong></p></div>
+            <div className="promise-v2-card-foot"><span>WE'LL MAKE IT RIGHT</span><ArrowUpRight size={17}/></div>
+          </article>
         </div>
+        <div className="promise-v2-bottom"><span>THE LITTLE DETAILS. THE BIG DIFFERENCE.</span><span>DEQANT <i>✳</i> MADE TO BE TRUSTED</span></div>
       </div>
     </section>
 
