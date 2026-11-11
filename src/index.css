@@ -4003,3 +4003,39 @@ section.deq-promise-ribbon:after{content:"D";position:absolute;z-index:-1;right:
 @media(max-width:680px){.deq-promise-ledger{padding:28px 10px}.promise-ledger-inner{display:flex;flex-direction:column;min-height:0}.promise-ledger-feature{padding:24px 21px 20px}.promise-ledger-topline{font-size:7px}.promise-ledger-art{width:min(100%,300px);margin:8px auto -2px}.promise-ledger-feature-copy h2{font-size:clamp(64px,13vw,88px)}.promise-ledger-note{margin-top:17px;font-size:11px}.promise-ledger-feature-foot{margin-top:25px}.promise-ledger-list{padding:25px 21px 23px}.promise-ledger-list-head{padding-bottom:16px}.promise-ledger-row{grid-template-columns:26px 34px minmax(0,1fr) 12px;column-gap:10px;padding:24px 0}.promise-ledger-copy h3{font-size:clamp(32px,8vw,43px)}.promise-ledger-copy p{font-size:10px}.promise-ledger-list-foot{margin-top:20px}}
 @media(max-width:380px){.promise-ledger-feature{padding:21px 17px 18px}.promise-ledger-feature-copy h2{font-size:61px}.promise-ledger-list{padding:22px 16px}.promise-ledger-row{grid-template-columns:21px 30px minmax(0,1fr) 10px;column-gap:8px}.promise-ledger-icon{width:29px;height:29px}.promise-ledger-copy h3{font-size:30px}.promise-ledger-copy p{font-size:9px}.promise-ledger-copy>span{font-size:6px}}
 @media(prefers-reduced-motion:reduce){.promise-ledger-orbit,.promise-ledger-star,.promise-ledger-vessel{animation:none!important}.promise-ledger-row,.promise-ledger-mark{transition:none!important}.promise-ledger-row:hover{padding-left:0;padding-right:0}}
+
+
+/* Bottle story — replace the technical straight-line frame with a softer
+   constellation treatment. Scroll-linked bottle movement remains untouched. */
+.bottle-scroll-story:before{
+  opacity:.38;
+  background-image:
+    radial-gradient(circle,rgba(238,207,177,.34) 1px,transparent 1.6px),
+    radial-gradient(circle,rgba(238,207,177,.18) 1px,transparent 1.7px),
+    radial-gradient(ellipse at 72% 42%,rgba(145,76,94,.22),transparent 42%),
+    radial-gradient(ellipse at 22% 78%,rgba(199,154,119,.12),transparent 36%);
+  background-size:83px 97px,137px 121px,auto,auto;
+  background-position:12px 18px,49px 57px,center,center;
+  mask-image:radial-gradient(ellipse at 68% 48%,#000 5%,transparent 82%);
+}
+.bottle-ornament-rule{display:none}
+.bottle-ornament-topline{border:0;background:linear-gradient(110deg,rgba(222,190,160,.07),rgba(222,190,160,.015) 60%,rgba(222,190,160,.055));border-radius:28px;padding:14px 20px}
+.bottle-story-ornament-bottom{border:0;padding-top:0}
+.bottle-bottom-epigraph{border:0}
+.bottle-progress-track{display:none}
+.bottle-stage-orbit{display:none}
+.bottle-exploded-stage:before{filter:none;background:radial-gradient(circle,rgba(185,120,106,.2),rgba(112,46,69,.07) 46%,transparent 72%)}
+.bottle-stage-footer{gap:8px;justify-content:center;flex-wrap:wrap}
+.bottle-stage-footer span{padding:7px 11px;border:1px solid rgba(223,190,161,.2);border-radius:999px;background:rgba(255,255,255,.035);font-size:7px;letter-spacing:.14em}
+.bottle-bottom-notes span{padding:6px 9px;border:1px solid rgba(199,154,119,.24);border-radius:999px;background:rgba(199,154,119,.055)}
+.bottle-bottom-note{padding:9px 13px;border-radius:16px;background:radial-gradient(ellipse at 0 50%,rgba(199,154,119,.13),transparent 80%)}
+.bottle-bottom-mark{max-width:260px;line-height:1.7}
+.bottle-ornament-index:before{content:"✳";display:inline-block;margin-right:9px;color:#c79a77}
+@media(max-width:760px){
+  .bottle-ornament-topline{padding:9px 12px;border-radius:18px}
+  .bottle-bottom-notes span{padding:5px 6px}
+  .bottle-stage-footer span{padding:6px 8px}
+}
+@media(prefers-reduced-motion:reduce){
+  .bottle-scroll-story:before{mask-image:none}
+}

@@ -131,3 +131,19 @@
   .promise-benefit-card{transition:none}
   .promise-benefit-card:hover{transform:none}
 }
+
+/* Performance pass: keep the same glass-study composition without costly filters. */
+.deq-promise-atmosphere:after,
+.promise-atmosphere-grain,
+.promise-atmosphere-orbit,
+.promise-glass-stage:before,
+.promise-glass-stage:after{display:none}
+.promise-glass-stage{
+  background:
+    radial-gradient(circle at 50% 46%,rgba(211,168,125,.19),transparent 34%),
+    radial-gradient(circle at 50% 88%,rgba(112,54,66,.12),transparent 42%);
+}
+.promise-glass-aura{filter:none;background:radial-gradient(circle,rgba(207,154,105,.2),rgba(207,154,105,.06) 48%,transparent 72%)}
+.promise-glass-feature{box-shadow:0 12px 32px rgba(0,0,0,.14)}
+.promise-benefit-card{transition:background-color .18s ease,border-color .18s ease}
+.promise-benefit-card:hover{transform:none}
