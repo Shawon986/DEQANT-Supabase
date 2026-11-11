@@ -361,31 +361,90 @@ export default function Home() {
       <a className="scroll-cue" href="#collection"><ArrowDown /><span>Scroll to discover</span></a>
     </section>
 
-    <section className="deq-promise-ledger promise-immersion" aria-labelledby="promise-ledger-title">
-      <div className="promise-immersion-backdrop" aria-hidden="true">
-        <div className="promise-ink-wash"/><div className="promise-liquid-ribbon ribbon-one"/><div className="promise-liquid-ribbon ribbon-two"/><div className="promise-liquid-ribbon ribbon-three"/>
-        <div className="promise-grain"/><div className="promise-lightwell"/><div className="promise-starfield"><i/><i/><i/><i/><i/><i/><i/><i/><i/><i/><i/><i/></div>
-      </div>
-      <div className="promise-immersion-inner">
-        <div className="promise-immersion-topline"><span>DEQANT <i>✳</i> THE HOUSE PROMISE</span><span>AN EXPERIENCE, NOT JUST AN ORDER <b>— 001</b></span></div>
-        <div className="promise-immersion-heading">
-          <p>BEAUTY IS IN THE DETAILS</p>
-          <h2 id="promise-ledger-title">A feeling that<br/><em>stays with you.</em></h2>
-          <span>From the first note to the final delivery, every detail carries our signature of care.</span>
+    <section className="deq-promise-atmosphere" aria-labelledby="promise-atmosphere-title">
+      <div className="promise-atmosphere-grain" aria-hidden="true" />
+      <div className="promise-atmosphere-orbit promise-atmosphere-orbit-one" aria-hidden="true" />
+      <div className="promise-atmosphere-orbit promise-atmosphere-orbit-two" aria-hidden="true" />
+      <div className="promise-atmosphere-inner">
+        <div className="promise-atmosphere-topline">
+          <span>DEQANT <i>✳</i> THE HOUSE PROMISE</span>
+          <span>THOUGHTFUL BY DESIGN <b>— 001</b></span>
         </div>
-        <div className="promise-immersion-stage" aria-hidden="true">
-          <div className="promise-stage-halo halo-one"/><div className="promise-stage-halo halo-two"/>
-          <div className="promise-stage-liquid"><span/><i/><b/></div>
-          <div className="promise-stage-orbit orbit-a"/><div className="promise-stage-orbit orbit-b"/>
-          <div className="promise-stage-core"><span>THE</span><strong>D</strong><small>DEQANT</small></div>
-          <div className="promise-stage-coordinate coordinate-a">23° 42' N<br/>90° 21' E</div><div className="promise-stage-coordinate coordinate-b">CRAFTED WITH INTENTION<br/>EST. 2024</div>
-          <div className="promise-stage-cross cross-a">✳</div><div className="promise-stage-cross cross-b">✦</div>
+        <div className="promise-atmosphere-heading">
+          <div>
+            <p className="promise-atmosphere-kicker"><span /> THE DEQANT STANDARD</p>
+            <h2 id="promise-atmosphere-title">The details<br /><em>make the difference.</em></h2>
+          </div>
+          <p className="promise-atmosphere-intro">A better fragrance experience is built from the little things. From the vessel in your hand to the care behind every delivery, these are the standards we stand by.</p>
         </div>
-        <div className="promise-immersion-promise promise-one"><span>01 <i>— DELIVERY</i></span><strong>Good things<br/><em>come to you.</em></strong><p>Free delivery when your order reaches <b>৳2,000.</b></p></div>
-        <div className="promise-immersion-promise promise-two"><span>02 <i>— AUTHENTICITY</i></span><strong>Only the<br/><em>real thing.</em></strong><p>100% authenticity. If it's not genuine, <b>your money back.</b></p></div>
-        <div className="promise-immersion-promise promise-three"><span>03 <i>— PAYMENT</i></span><strong>Pay when<br/><em>it arrives.</em></strong><p>Choose cash on delivery. <b>No advance needed for COD.</b></p></div>
-        <div className="promise-immersion-promise promise-four"><span>04 <i>— AFTERCARE</i></span><strong>We'll make<br/><em>it right.</em></strong><p>Leaking or broken on arrival? <b>Free replacement.</b></p></div>
-        <div className="promise-immersion-bottom"><span>THE DEQANT STANDARD</span><span>THOUGHTFUL BY DESIGN <i>✳</i> MADE TO BE TRUSTED</span></div>
+        <div className="promise-atmosphere-layout">
+          <div className="promise-glass-feature">
+            <div className="promise-feature-top"><span>OBJECT STUDY / 001</span><span>THE DEQANT ATELIER</span></div>
+            <div className="promise-glass-stage" aria-hidden="true">
+              <div className="promise-glass-aura" />
+              <span className="promise-glass-coordinate promise-coordinate-left">GLASS<br />NOT PLASTIC</span>
+              <svg className="promise-glass-atomizer" viewBox="0 0 360 440" role="img" aria-label="Transparent glass perfume atomizer with a fine mist spray">
+                <defs>
+                  <linearGradient id="promise-cap" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stopColor="#72515a" /><stop offset=".24" stopColor="#d6b995" /><stop offset=".52" stopColor="#f4e5d0" /><stop offset=".78" stopColor="#9c746d" /><stop offset="1" stopColor="#4a2b36" /></linearGradient>
+                  <linearGradient id="promise-glass" x1="0" y1="0" x2="1" y2=".2"><stop offset="0" stopColor="#fff" stopOpacity=".42" /><stop offset=".2" stopColor="#f6e7d7" stopOpacity=".1" /><stop offset=".55" stopColor="#d9bba5" stopOpacity=".2" /><stop offset=".82" stopColor="#fff" stopOpacity=".28" /><stop offset="1" stopColor="#c39b86" stopOpacity=".13" /></linearGradient>
+                  <linearGradient id="promise-juice" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#d8a66e" stopOpacity=".55" /><stop offset="1" stopColor="#8d4d43" stopOpacity=".82" /></linearGradient>
+                  <linearGradient id="promise-label" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stopColor="#f4e8d8" /><stop offset="1" stopColor="#cbb39a" /></linearGradient>
+                  <clipPath id="promise-bottle-clip"><path d="M122 169 Q122 151 143 143 L150 126 H210 L217 143 Q238 151 238 169 L252 191 V357 Q252 376 233 376 H127 Q108 376 108 357 V191 Z" /></clipPath>
+                </defs>
+                <ellipse cx="180" cy="394" rx="93" ry="13" fill="#05080b" opacity=".48" />
+                <path d="M164 68 H196 V133 H164 Z" fill="url(#promise-glass)" stroke="#e8d7c4" strokeOpacity=".5" />
+                <rect x="169" y="48" width="22" height="26" rx="4" fill="url(#promise-cap)" />
+                <path d="M180 48 V30 H222" fill="none" stroke="#d8c1a5" strokeWidth="5" strokeLinecap="round" />
+                <rect x="218" y="25" width="15" height="10" rx="3" fill="#d7c1a7" />
+                <path d="M180 30 H223" stroke="#fff0dc" strokeOpacity=".65" strokeWidth="1.5" />
+                <rect x="148" y="119" width="64" height="19" rx="4" fill="url(#promise-cap)" stroke="#ead5bb" strokeOpacity=".65" />
+                <path d="M153 125 H207" stroke="#fff" strokeOpacity=".42" strokeWidth="2" />
+                <path d="M122 169 Q122 151 143 143 L150 126 H210 L217 143 Q238 151 238 169 L252 191 V357 Q252 376 233 376 H127 Q108 376 108 357 V191 Z" fill="url(#promise-glass)" stroke="#f0dfcd" strokeWidth="2.2" />
+                <g clipPath="url(#promise-bottle-clip)">
+                  <path d="M110 272 Q180 262 250 272 V382 H110 Z" fill="url(#promise-juice)" />
+                  <path d="M112 273 Q180 263 248 273" fill="none" stroke="#f4d7b2" strokeOpacity=".8" strokeWidth="2" />
+                </g>
+                <path d="M129 180 Q129 158 149 151 L154 137" fill="none" stroke="#fff" strokeOpacity=".72" strokeWidth="5" strokeLinecap="round" />
+                <path d="M231 198 V344" fill="none" stroke="#fff" strokeOpacity=".4" strokeWidth="3" strokeLinecap="round" />
+                <path d="M121 354 Q180 365 239 354" fill="none" stroke="#fff" strokeOpacity=".32" strokeWidth="2" />
+                <rect x="132" y="225" width="96" height="69" rx="2" fill="url(#promise-label)" stroke="#f7ead8" strokeOpacity=".75" />
+                <text x="180" y="250" textAnchor="middle" fill="#4d2631" fontFamily="Georgia,serif" fontSize="21" letterSpacing="3">D</text>
+                <path d="M151 260 H209" stroke="#8c665b" strokeOpacity=".7" strokeWidth="1" />
+                <text x="180" y="274" textAnchor="middle" fill="#5d3c3d" fontFamily="Arial,sans-serif" fontSize="6" letterSpacing="2.4">DEQANT</text>
+                <g fill="#f5dfc5" opacity=".8">
+                  <circle cx="240" cy="38" r="2" /><circle cx="255" cy="48" r="1.4" /><circle cx="248" cy="61" r="1.8" /><circle cx="267" cy="34" r="1.2" /><circle cx="261" cy="70" r="1.1" />
+                </g>
+                <path d="M234 30 Q254 20 268 15 M234 34 Q258 36 274 31 M234 38 Q252 49 264 55" fill="none" stroke="#d8b995" strokeOpacity=".55" strokeWidth="1" />
+              </svg>
+              <span className="promise-glass-coordinate promise-coordinate-right">A FINER<br />WAY TO CARRY SCENT</span>
+              <span className="promise-glass-caption">GLASS / FRAGRANCE / FORM</span>
+            </div>
+            <div className="promise-feature-bottom"><span>THE VESSEL MATTERS</span><strong>DEQANT · 001</strong></div>
+          </div>
+          <div className="promise-benefit-grid">
+            <article className="promise-benefit-card">
+              <div className="promise-benefit-top"><span>01 / DELIVERY</span><PackageCheck size={23} strokeWidth={1.3} /></div>
+              <div><h3>Good things<br /><em>come to you.</em></h3><p>Complimentary delivery when your order reaches <strong>৳2,000.</strong></p></div>
+              <span className="promise-benefit-foot">DELIVERED WITH CARE <i>↗</i></span>
+            </article>
+            <article className="promise-benefit-card">
+              <div className="promise-benefit-top"><span>02 / AUTHENTICITY</span><ShieldCheck size={23} strokeWidth={1.3} /></div>
+              <div><h3>Only the<br /><em>real thing.</em></h3><p>Authentic fragrances, carefully sourced and honestly presented.</p></div>
+              <span className="promise-benefit-foot">GENUINE BY PROMISE <i>↗</i></span>
+            </article>
+            <article className="promise-benefit-card promise-benefit-featured">
+              <div className="promise-benefit-top"><span>03 / THE ATOMIZER</span><Droplets size={23} strokeWidth={1.3} /></div>
+              <div><h3>Real glass<br /><em>atomizer.</em></h3><p>Every decant is presented in a real glass atomizer, chosen for a more considered fragrance ritual.</p></div>
+              <span className="promise-benefit-foot">FEEL THE DIFFERENCE <i>↗</i></span>
+            </article>
+            <article className="promise-benefit-card">
+              <div className="promise-benefit-top"><span>04 / ARRIVAL CARE</span><Sparkles size={23} strokeWidth={1.3} /></div>
+              <div><h3>We'll make<br /><em>it right.</em></h3><p>Leaking or damaged on arrival? <strong>We'll arrange a replacement.</strong></p></div>
+              <span className="promise-benefit-foot">CARE AFTER CHECKOUT <i>↗</i></span>
+            </article>
+          </div>
+        </div>
+        <div className="promise-atmosphere-footer"><span>THE DEQANT STANDARD</span><span>THOUGHTFUL BY DESIGN <i>✳</i> MADE TO BE TRUSTED</span></div>
       </div>
     </section>
 
