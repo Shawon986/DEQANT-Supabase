@@ -1,5 +1,3 @@
-begin;
-
 -- Increase guest order-reference entropy from 24 bits to 96 bits.
 -- Existing order numbers remain valid; only newly created orders use the stronger format.
 create or replace function public.place_order(
@@ -187,5 +185,3 @@ begin
   return public.cart_read(c.token);
 end;
 $function$;
-
-commit;
