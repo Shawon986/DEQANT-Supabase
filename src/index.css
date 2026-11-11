@@ -4979,3 +4979,47 @@ main,
     grid-column: 1 / -1 !important;
   }
 }
+
+
+/* Account order history: preserve the desktop card design while preventing
+   long order references, item names and delivery details from overflowing phones. */
+@media (max-width: 680px) {
+  .account-page { width: calc(100% - 32px); padding: 42px 0 72px; }
+  .account-heading { align-items: flex-start; flex-direction: column; gap: 18px; padding-bottom: 26px; }
+  .account-heading h1 { font-size: clamp(40px, 11vw, 58px); overflow-wrap: anywhere; }
+  .account-heading > div > span { display: block; max-width: 42ch; line-height: 1.7; }
+  .account-signout { min-height: 42px; }
+  .account-profile-card { gap: 12px; margin: 20px 0 42px; padding: 17px 15px; min-width: 0; }
+  .account-profile-card > div { min-width: 0; overflow-wrap: anywhere; }
+  .account-profile-card strong { display: block; font-size: 19px; overflow-wrap: anywhere; }
+  .account-profile-card > div > span { display: block; overflow-wrap: anywhere; }
+  .account-verified { flex: 0 0 auto; }
+  .account-orders-heading { align-items: flex-start; flex-direction: column; gap: 10px; }
+  .account-orders-heading h2 { font-size: 34px; }
+  .account-order-list > article { min-width: 0; padding: 17px 15px; }
+  .account-order-top { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: start; gap: 10px; }
+  .account-order-top > div { min-width: 0; }
+  .account-order-top strong { font-size: 18px; overflow-wrap: anywhere; }
+  .account-order-top > a { grid-column: 1 / -1; justify-self: start; }
+  .account-order-status { justify-self: end; white-space: nowrap; }
+  .account-order-items > div { align-items: flex-start; gap: 10px; }
+  .account-order-items > div > span { min-width: 0; line-height: 1.6; overflow-wrap: anywhere; }
+  .account-order-items strong { flex: 0 0 auto; white-space: nowrap; }
+  .account-order-bottom { align-items: flex-start; flex-direction: column; gap: 7px; line-height: 1.7; }
+  .account-order-bottom > span { width: 100%; overflow-wrap: anywhere; }
+  .account-cancel-row { align-items: flex-start; flex-direction: column; gap: 10px; }
+  .account-cancel-row > span { line-height: 1.6; }
+  .account-guest-note { align-items: flex-start; flex-direction: column; padding: 16px; }
+  .account-guest-note > span { min-width: 0; line-height: 1.7; }
+}
+@media (max-width: 380px) {
+  .account-page { width: calc(100% - 24px); }
+  .account-order-list > article { padding: 15px 12px; }
+  .account-order-top strong { font-size: 16px; }
+  .account-order-items > div { font-size: 9px; }
+}
+
+/* Customer inbox delete action — restrained to the existing admin palette. */
+.deq-message-delete { display: inline-flex; align-items: center; gap: 6px; margin-top: 12px; padding: 7px 10px; border: 1px solid rgba(214, 132, 132, .28); border-radius: 7px; background: rgba(160, 65, 65, .08); color: #e4aaaa; font-size: 9px; cursor: pointer; }
+.deq-message-delete:hover { background: rgba(160, 65, 65, .18); }
+.deq-message-delete:disabled { opacity: .55; cursor: wait; }

@@ -37,10 +37,17 @@ export default function Login() {
         }
       } else {
         await signIn(normalizedEmail, password);
-        // Refresh cached auth/profile queries after the new session is stored.
-        await queryClient.invalidateQueries();
-        const profile = await getProfile();
-        navigate(params.get("next") === "/admin" || profile?.role === "admin" ? "/admin" : "/account", { replace: true });
+        // Drop any anonymous/stale profile cache before resolving the newly stored session.
+        queryClient.clear();
+        let profile = null;
+        let profileError: unknown = null;
+        for (let attempt = 0; attempt < 4 && !profile; attempt += 1) {
+          try { profile = await getProfile(); profileError = null; }
+          catch (cause) { profileError = cause; }
+          if (!profile && attempt < 3) await new Promise(resolve => window.setTimeout(resolve, 250));
+        }
+        if (!profile) throw profileError instanceof Error ? profileError : new Error("Your account session is active, but its customer profile is not available yet. Please try again in a moment.");
+        navigate(params.get("next") === "/admin" || profile.role === "admin" ? "/admin" : "/account", { replace: true });
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : "Authentication failed.");
