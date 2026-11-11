@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router";
-import { ArrowLeft, ArrowRight, Minus, Plus, ShoppingBag } from "lucide-react";
+import { ArrowLeft, ArrowRight, Minus, Plus, ShoppingBag, Star } from "lucide-react";
 import { ErrorState, LoadingState, money, PageShell, ProductCard } from "@/components/Storefront";
 import { storeApi } from "@/providers/store";
 import { useCart } from "@/providers/cart";
@@ -10,6 +10,10 @@ export default function Product() {
   const { slug = "" } = useParams();
   const query = storeApi.store.product.useQuery({ slug });
   const relatedQuery = storeApi.store.catalog.useQuery({ sort: "popular" });
+  const ratingQuery = storeApi.store.productRating.useQuery({ productId: query.data?.product.id ?? 0 }, { enabled: Boolean(query.data?.product.id) });
+  const [ratingValue, setRatingValue] = useState(0);
+  const ratingMutation = storeApi.store.submitProductRating.useMutation({ onSuccess: () => { void ratingQuery.refetch(); } });
+  useEffect(() => { if (ratingQuery.data?.myRating) setRatingValue(Number(ratingQuery.data.myRating)); }, [ratingQuery.data?.myRating]);
   const { add, isMutating } = useCart();
   const [variantId, setVariantId] = useState<number>();
   const [quantity, setQuantity] = useState(1);
@@ -105,6 +109,7 @@ export default function Product() {
         <p className="eyebrow">{product.brand} / DEQANT FRAGRANCE</p><h1>{product.name}</h1>
         <div className="detail-price"><strong>{money(selected.price)}</strong>{selected.originalPrice > selected.price && <><del>{money(selected.originalPrice)}</del><span>Save {discount}%</span></>}</div>
         <p className="detail-description">{product.description}</p>
+        <section className="product-rating-panel" aria-label="Customer rating"><div className="product-rating-summary"><span className="rating-stars" aria-label={`${ratingQuery.data?.averageRating ?? 0} out of 5 stars`}>{Array.from({length:5},(_,i)=><Star key={i} size={16} fill={i<Math.round(ratingQuery.data?.averageRating ?? 0)?"currentColor":"none"}/>)}</span><strong>{ratingQuery.data?.ratingCount ? Number(ratingQuery.data.averageRating).toFixed(1) : "New"}</strong><small>{ratingQuery.data?.ratingCount ? `${ratingQuery.data.ratingCount} customer ${ratingQuery.data.ratingCount===1?"rating":"ratings"}` : "No ratings yet"}</small></div><div className="product-rating-action"><span>{ratingQuery.data?.myRating ? "Your rating · you can update it" : "Rate this fragrance"}</span>{ratingQuery.data?.canRate ? <><div className="rating-input" role="group" aria-label="Choose a rating from one to five stars">{[1,2,3,4,5].map(value=><button type="button" key={value} aria-label={`${value} star${value===1?"":"s"}`} aria-pressed={ratingValue===value} onClick={()=>setRatingValue(value)}><Star size={22} fill={value<=ratingValue?"currentColor":"none"}/></button>)}</div><button type="button" className="rating-submit" disabled={!ratingValue||ratingMutation.isPending} onClick={()=>ratingMutation.mutate({productId:product.id,rating:ratingValue})}>{ratingMutation.isPending?"Saving…":ratingQuery.data?.myRating?"Update rating":"Submit rating"} <ArrowRight size={14}/></button></> : <Link className="rating-sign-in" to="/login">Sign in to rate <ArrowRight size={14}/></Link>}{ratingMutation.error&&<small className="rating-error" role="alert">{ratingMutation.error.message}</small>}</div><p className="rating-no-comments">Star ratings only · No written reviews or comments</p></section>
         <fieldset className="size-selector"><legend>Select your size <span>{product.category === "decant" ? "Hand-prepared decant" : "Sealed intact bottle"}</span></legend><div>{variants.map((variant: {id:number;price:number;originalPrice:number;stock:number;sizeMl:number}) => <button key={variant.id} className={selected.id === variant.id ? "selected" : ""} onClick={() => { setVariantId(variant.id); setQuantity(1); }} disabled={variant.stock === 0} aria-pressed={selected.id === variant.id}><strong>{variant.sizeMl}ml</strong>{variant.sizeMl === 3 && <small className="size-pick-badge try-first">TRY FIRST</small>}{variant.sizeMl === 10 && <small className="size-pick-badge best-value">BEST VALUE</small>}<span>{variant.stock === 0 ? "Sold out" : money(variant.price)}</span></button>)}</div></fieldset>
         <div className="stock-note">{selected.stock > 0 ? <><span className="stock-dot" /> {selected.stock < 8 ? `Only ${selected.stock} left in this size` : "In stock, ready to prepare"}</> : "Currently unavailable"}</div>
         <div className="add-row"><div className="quantity"><button onClick={() => setQuantity(Math.max(1, quantity - 1))} disabled={quantity <= 1} aria-label="Decrease quantity"><Minus /></button><span>{quantity}</span><button onClick={() => setQuantity(Math.min(Math.min(10, selected.stock), quantity + 1))} disabled={quantity >= Math.min(10, selected.stock)} aria-label="Increase quantity"><Plus /></button></div><button className="button button-burgundy add-button" onClick={() => add(selected.id, quantity)} disabled={isMutating || selected.stock === 0}><ShoppingBag />{isMutating ? "Adding…" : "Add to cart"}</button></div>
