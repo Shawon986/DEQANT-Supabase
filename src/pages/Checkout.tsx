@@ -99,7 +99,7 @@ export function OrderSuccess() {
             <label>Transaction ID (TrxID)<input required minLength={6} maxLength={32} autoComplete="off" value={trxId} onChange={e=>setTrxId(e.target.value.toUpperCase().replace(/[^A-Z0-9]/g,""))} placeholder="Enter your bKash TrxID"/></label>
             <label>Sender mobile number<input required inputMode="tel" autoComplete="tel" value={senderPhone} onChange={e=>setSenderPhone(e.target.value)} placeholder="01XXXXXXXXX"/></label>
             {payment.error && <p className="form-error" role="alert">{payment.error.message}</p>}
-            <button className="button button-burgundy" disabled={payment.isPending || !bkashNumber}>{payment.isPending ? "Submitting transaction…" : "Submit for manual verification"} <ArrowRight /></button>
+            <button className="button button-burgundy" disabled={payment.isPending || !bkashNumber}>{payment.isPending ? "Submitting your confirmation…" : "Submit to confirm your order"} <ArrowRight /></button>
             <small>Submitting details does not mean the payment is verified. Your order remains pending until an administrator approves it.</small>
           </form>
         </>}
