@@ -3,7 +3,8 @@ import { useEffect, type ReactNode } from "react";
 import * as db from "@/lib/supabase";
 const client = new QueryClient({defaultOptions:{queries:{staleTime:20_000,retry:1,refetchOnWindowFocus:true},mutations:{retry:0}}});
 const key=(name:string,input?:unknown)=>["supabase",name,input];
-function query(name:string,fn:(input:any)=>Promise<any>){return {useQuery:(input?:any,options:any={})=>useQuery({queryKey:key(name,input),queryFn:()=>fn(input),...options})};}
+const publicQueryNames = new Set(["catalog","product","settings","zones"]);
+function query(name:string,fn:(input:any)=>Promise<any>){return {useQuery:(input?:any,options:any={})=>useQuery({queryKey:key(name,input),queryFn:()=>fn(input),staleTime:options.staleTime??(publicQueryNames.has(name)?60_000:20_000),...options})};}
 function mutation(fn:(input:any)=>Promise<any>,invalidate:string[]=[]){return {useMutation:(options:any={})=>{const qc=useQueryClient();return useMutation({mutationFn:fn,onSuccess:async(data,vars,ctx)=>{for(const n of invalidate)await qc.invalidateQueries({queryKey:["supabase",n]});await options.onSuccess?.(data,vars,ctx);},onError:options.onError});}};}
 export const storeApi:any={
  useUtils:()=>{const qc=useQueryClient();return{store:{cart:{invalidate:()=>qc.invalidateQueries({queryKey:["supabase","cart"]})},catalog:{invalidate:()=>qc.invalidateQueries({queryKey:["supabase","catalog"]})}},invalidate:()=>qc.invalidateQueries()};},
@@ -21,8 +22,8 @@ function RealtimeSync(){
   void import("@/lib/realtime").then(({subscribeStoreChanges})=>{
    if(!active)return;
    cleanup=subscribeStoreChanges((table)=>{
-    if(table==="products"||table==="product_variants"){void qc.invalidateQueries({queryKey:["supabase","catalog"]});void qc.invalidateQueries({queryKey:["supabase","product"]});}
-    if(table==="product_ratings"){void qc.invalidateQueries({queryKey:["supabase","catalog"]});void qc.invalidateQueries({queryKey:["supabase","product-rating"]});void qc.invalidateQueries({queryKey:["supabase","product"]});}
+    if(table==="products"||table==="product_variants"){db.invalidateCatalogCache();void qc.invalidateQueries({queryKey:["supabase","catalog"]});void qc.invalidateQueries({queryKey:["supabase","product"]});}
+    if(table==="product_ratings"){db.invalidateCatalogCache();void qc.invalidateQueries({queryKey:["supabase","catalog"]});void qc.invalidateQueries({queryKey:["supabase","product-rating"]});void qc.invalidateQueries({queryKey:["supabase","product"]});}
     if(table==="website_settings")void qc.invalidateQueries({queryKey:["supabase","settings"]});
     if(table==="orders")void qc.invalidateQueries({queryKey:["supabase","my-orders"]});
     window.dispatchEvent(new CustomEvent("deqant:database-change",{detail:{table}}));
