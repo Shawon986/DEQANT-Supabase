@@ -3651,3 +3651,15 @@ body { position: relative; }
 @media(max-width:900px){.deq-promise-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.deq-promise-item:nth-child(3){border-left:0;border-top:1px solid rgba(238,215,185,.16)}.deq-promise-item:nth-child(4){border-top:1px solid rgba(238,215,185,.16)}}
 @media(max-width:600px){.deq-promise-ribbon{padding:42px 18px}.deq-promise-heading{align-items:flex-start;flex-wrap:wrap;gap:9px}.deq-promise-heading>span{font-size:8px}.deq-promise-heading>i{min-width:24px;margin-top:5px}.deq-promise-heading>small{width:100%;font-size:7px}.deq-promise-grid{grid-template-columns:1fr}.deq-promise-item{min-height:105px;grid-template-columns:20px 38px minmax(0,1fr) 15px;padding:15px 13px;gap:10px}.deq-promise-item+.deq-promise-item,.deq-promise-item:nth-child(3){border-left:0;border-top:1px solid rgba(238,215,185,.16)}.deq-promise-icon{width:36px;height:36px}.deq-promise-item strong{font-size:20px}.deq-promise-footer{font-size:7px;letter-spacing:.1em;flex-wrap:wrap}.deq-promise-footer span:last-child{margin-left:auto;text-align:right}}
 @media(prefers-reduced-motion:reduce){.deq-promise-item{transition:none}}
+
+/* Customer ratings workspace */
+.deq-ratings-list{display:grid;gap:0}
+.deq-rating-row{display:grid;grid-template-columns:minmax(180px,1.3fr) auto auto minmax(150px,1fr);align-items:center;gap:18px;padding:16px 4px;border-bottom:1px solid rgba(226,190,164,.13)}
+.deq-rating-perfume,.deq-rating-customer{display:flex;flex-direction:column;gap:5px;min-width:0}
+.deq-rating-perfume strong{font-size:13px;color:#f5e8df}
+.deq-rating-perfume small,.deq-rating-customer small{font-size:10px;color:#bdaaa2;overflow-wrap:anywhere}
+.deq-rating-stars{display:flex;gap:3px;color:#d6ad70}
+.deq-rating-value{font-size:12px;color:#f1d6b1;white-space:nowrap}
+.deq-rating-customer b{font-size:11px;color:#ead9d0}
+@media(max-width:760px){.deq-rating-row{grid-template-columns:minmax(0,1fr) auto;gap:9px 14px;padding:15px 0}.deq-rating-perfume{grid-column:1}.deq-rating-stars{grid-column:2;grid-row:1;justify-content:flex-end}.deq-rating-value{grid-column:1;grid-row:2}.deq-rating-customer{grid-column:2;grid-row:2;text-align:right}}
+@media(max-width:420px){.deq-rating-row{gap:8px}.deq-rating-perfume strong{font-size:12px}.deq-rating-customer small{font-size:9px}}
