@@ -5512,3 +5512,28 @@ main,
     --deq-badge-angle: 0deg;
   }
 }
+
+/* Direction and mobile product image refinements */
+.announcement>div{animation-name:deq-announcement-ltr}
+@keyframes deq-announcement-ltr{
+  from{transform:translate3d(-50%,0,0)}
+  to{transform:translate3d(0,0,0)}
+}
+
+@media(max-width:767px){
+  .product-main-image{
+    width:100vw;
+    max-width:none;
+    margin-left:calc(50% - 50vw);
+    margin-right:calc(50% - 50vw);
+  }
+  .product-main-image img{
+    display:block;
+    width:100%;
+    height:auto;
+    min-height:0;
+    max-height:none;
+    padding:0;
+    object-fit:contain;
+  }
+}
