@@ -5157,3 +5157,45 @@ main,
   .collection-size-options button strong { font-size: 8px; }
   .collection-quick-add { width: calc(100% - 14px); margin-right: 7px; margin-left: 7px; font-size: 9px; }
 }
+
+
+.collection-size-options {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 7px;
+  padding: 12px 0 10px;
+}
+.collection-size-options button {
+  min-width: 0;
+  min-height: 48px;
+  padding: 7px 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--foreground);
+  font: inherit;
+}
+.collection-size-options button span { font-size: 10px; }
+.collection-size-options button strong { font-size: 11px; }
+.collection-size-options button.active {
+  border-color: var(--brand-burgundy);
+  background: var(--brand-burgundy);
+  color: var(--brand-ivory);
+}
+.collection-quick-add {
+  width: 100%;
+  min-height: 48px;
+  padding: 10px 14px;
+  border: 0;
+  background: var(--brand-burgundy);
+  color: var(--brand-ivory);
+  font: inherit;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .03em;
+}
+.collection-quick-add:disabled { opacity: .55; cursor: not-allowed; }
