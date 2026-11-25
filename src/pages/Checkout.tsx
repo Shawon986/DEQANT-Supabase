@@ -11,9 +11,16 @@ type CheckoutResult = { orderNumber:string; total:number };
 type OrderLine = { id:number; productName:string; sizeMl:number; quantity:number; lineTotal:number };
 
 const initialForm = { customerName: "", phone: "", email: "", district: "", area: "", address: "", instructions: "" };
+type PaymentDraft = { trxId?: string; senderPhone?: string };
+function readPaymentDraft(key: string): PaymentDraft {
+  try { return JSON.parse(localStorage.getItem(key) || "{}") as PaymentDraft; } catch { return {}; }
+}
+function savePaymentDraft(key: string, draft: PaymentDraft) {
+  try { localStorage.setItem(key, JSON.stringify(draft)); } catch { /* Payment entry remains usable if storage is unavailable. */ }
+}
 
 export default function Checkout() {
-  const { cart, isLoading, token, error: cartError } = useCart();
+  const { cart, isLoading, token, error: cartError, startFreshCart } = useCart();
   const zonesQuery = storeApi.store.zones.useQuery();
   const { data: zones } = zonesQuery;
   const [form, setForm] = useState(initialForm);
@@ -26,7 +33,7 @@ export default function Checkout() {
   const navigate = useNavigate();
   const utils = storeApi.useUtils();
   const checkout = storeApi.store.checkout.useMutation({
-    onSuccess: async (result: CheckoutResult) => { localStorage.setItem("deqant.lastOrderNumber", result.orderNumber); await utils.store.cart.invalidate(); navigate(`/order/${result.orderNumber}`, { state: { phone: form.phone, total: result.total } }); },
+    onSuccess: async (result: CheckoutResult) => { localStorage.setItem("deqant.lastOrderNumber", result.orderNumber); startFreshCart(); await utils.store.cart.invalidate(); navigate(`/order/${result.orderNumber}`, { state: { phone: form.phone, total: result.total } }); },
   });
   const zone = zones?.find((item: DeliveryZone) => item.id === zoneId);
   const orderSubtotal=Math.max(0,Number(cart?.subtotal)||0);
@@ -63,11 +70,12 @@ export function OrderSuccess() {
   const initialPhone = (location.state as { phone?: string } | null)?.phone ?? "";
   const [phone, setPhone] = useState(initialPhone);
   const [verifiedPhone, setVerifiedPhone] = useState(initialPhone);
-  const [trxId, setTrxId] = useState("");
-  const [senderPhone, setSenderPhone] = useState("");
+  const paymentDraftKey = `deqant.bkash-payment-draft.${orderNumber}`;
+  const [trxId, setTrxId] = useState(() => readPaymentDraft(paymentDraftKey).trxId ?? "");
+  const [senderPhone, setSenderPhone] = useState(() => readPaymentDraft(paymentDraftKey).senderPhone ?? "");
   const query = storeApi.store.orderSuccess.useQuery({ orderNumber, phone: verifiedPhone }, { enabled: Boolean(verifiedPhone), retry: false });
   const paymentSettings = storeApi.store.settings.useQuery();
-  const payment = storeApi.store.submitBkashPayment.useMutation({ onSuccess: async () => { setTrxId(""); await query.refetch(); } });
+  const payment = storeApi.store.submitBkashPayment.useMutation({ onSuccess: async () => { localStorage.removeItem(paymentDraftKey); setTrxId(""); setSenderPhone(""); await query.refetch(); } });
   const bkashNumber = String(paymentSettings.data?.bkashNumber ?? "").trim();
   const bkashPaymentType = paymentSettings.data?.bkashPaymentType === "merchant" ? "merchant" : "personal";
   const order = query.data?.order;
@@ -98,8 +106,8 @@ export function OrderSuccess() {
           {paymentStatus === "rejected" && <div className="bkash-rejection"><strong>We could not verify the previous submission.</strong><p>{order.bkashReviewNote || "Please check the transaction details and submit again."}</p></div>}
           {!bkashNumber && <p className="bkash-config-notice">The store’s bKash receiving number is being configured. Please contact DEQANT before sending money.</p>}
           <form className="bkash-submit-form" onSubmit={submitPayment}>
-            <label>Transaction ID (TrxID)<input required minLength={6} maxLength={32} autoComplete="off" value={trxId} onChange={e=>setTrxId(e.target.value.toUpperCase().replace(/[^A-Z0-9]/g,""))} placeholder="Enter your bKash TrxID"/></label>
-            <label>Sender mobile number<input required inputMode="tel" autoComplete="tel" value={senderPhone} onChange={e=>setSenderPhone(e.target.value)} placeholder="01XXXXXXXXX"/></label>
+            <label>Transaction ID (TrxID)<input required minLength={6} maxLength={32} autoComplete="off" value={trxId} onChange={e=>{const value=e.target.value.toUpperCase().replace(/[^A-Z0-9]/g,"");setTrxId(value);savePaymentDraft(paymentDraftKey,{trxId:value,senderPhone});}} placeholder="Enter your bKash TrxID"/></label>
+            <label>Sender mobile number<input required inputMode="tel" autoComplete="tel" value={senderPhone} onChange={e=>{const value=e.target.value;setSenderPhone(value);savePaymentDraft(paymentDraftKey,{trxId,senderPhone:value});}} placeholder="01XXXXXXXXX"/></label>
             {payment.error && <p className="form-error" role="alert">{payment.error.message}</p>}
             <button className="button button-burgundy" disabled={payment.isPending || !bkashNumber}>{payment.isPending ? "Submitting your confirmation…" : "Submit to confirm your order"} <ArrowRight /></button>
             <small>Submitting details does not mean the payment is verified. Your order remains pending until an administrator approves it.</small>
