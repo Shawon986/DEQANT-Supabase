@@ -12,6 +12,7 @@ type CartContextValue={
   update:(itemId:number,quantity:number)=>void;
   remove:(itemId:number)=>void;
   isMutating:boolean;
+  startFreshCart:()=>void;
 };
 const CartContext=createContext<CartContextValue|null>(null);
 
@@ -21,6 +22,7 @@ export function CartProvider({children}:{children:ReactNode}){
   useEffect(()=>{if(query.data?.token&&query.data.token!==token){localStorage.setItem("deqant-cart-token",query.data.token);setToken(query.data.token);}},[query.data?.token,token]);
   const utils=storeApi.useUtils();
   const refresh=()=>utils.store.cart.invalidate();
+  const startFreshCart=()=>{const nextToken=crypto.randomUUID();localStorage.setItem("deqant-cart-token",nextToken);setToken(nextToken);};
   const onError=(e:{message:string})=>toast.error(e.message);
   const addMutation=storeApi.store.addToCart.useMutation({onSuccess:(data:any)=>{if(data?.token){localStorage.setItem("deqant-cart-token",data.token);setToken(data.token);}void refresh();toast.success("Added to your fragrance wardrobe");},onError});
   const updateMutation=storeApi.store.updateCartItem.useMutation({onSuccess:refresh,onError});
@@ -31,8 +33,9 @@ export function CartProvider({children}:{children:ReactNode}){
     add:(id,q=1)=>{if(token)addMutation.mutate({token,variantId:id,quantity:q});},
     update:(id,q)=>{if(token)updateMutation.mutate({token,itemId:id,quantity:q});},
     remove:(id)=>{if(token)removeMutation.mutate({token,itemId:id});},
-    isMutating:addMutation.isPending||updateMutation.isPending||removeMutation.isPending
-  }),[token,query.data,query.isLoading,query.error,query.refetch,addMutation,updateMutation,removeMutation]);
+    isMutating:addMutation.isPending||updateMutation.isPending||removeMutation.isPending,
+    startFreshCart
+  }),[token,query.data,query.isLoading,query.error,query.refetch,addMutation,updateMutation,removeMutation,startFreshCart]);
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
 }
 export function useCart(){const value=useContext(CartContext);if(!value)throw new Error("useCart must be used within CartProvider");return value;}
