@@ -5546,3 +5546,11 @@ main,
 .zone-auto-note strong{font-size:13px}
 .zone-auto-note span{opacity:.7}
 .zone-auto-note b{font-size:13px;color:var(--brand-burgundy)}
+
+
+/* Checkout: restore explicit delivery-area choice and a single address field. */
+.checkout-form .zone-auto-note{margin-top:12px}
+@media(max-width:767px){
+  .product-detail .product-main-image{width:calc(100% - 24px)!important;max-width:none!important;margin-left:auto!important;margin-right:auto!important}
+  .product-detail .product-main-image img{width:100%;}
+}
