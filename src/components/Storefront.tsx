@@ -102,16 +102,32 @@ type ProductEntry = {
   variants: Array<{ id: number; sizeMl: number; price: number; originalPrice: number; stock: number }>;
 };
 
-export function ProductCard({ entry, index = 0 }: { entry: ProductEntry; index?: number }) {
+export function ProductCard({ entry, index = 0, showQuickBuy = false }: { entry: ProductEntry; index?: number; showQuickBuy?: boolean }) {
   const { product, variants } = entry;
-  const price = Math.min(...variants.map((variant) => variant.price));
-  const original = variants.find((variant) => variant.price === price)?.originalPrice ?? price;
-  return <article className={`product-card product-card-${index % 4}`}>
+  const { add, isMutating } = useCart();
+  const firstAvailable = variants.find((variant) => variant.stock > 0) ?? variants[0];
+  const [selectedSize, setSelectedSize] = useState(firstAvailable?.sizeMl);
+  const selectedVariant = variants.find((variant) => variant.sizeMl === selectedSize && variant.stock > 0) ?? firstAvailable;
+  const price = showQuickBuy ? (selectedVariant?.price ?? 0) : Math.min(...variants.map((variant) => variant.price));
+  const original = showQuickBuy
+    ? (selectedVariant?.originalPrice ?? price)
+    : (variants.find((variant) => variant.price === price)?.originalPrice ?? price);
+  return <article className={`product-card product-card-${index % 4}${showQuickBuy ? " product-card-quickbuy" : ""}`}>
     <Link to={`/product/${product.slug}`} className="product-image-wrap" aria-label={`View ${product.name}`}>
       <img src={product.imageUrl} alt={`${product.name} by ${product.brand}`} loading="lazy" decoding="async" fetchPriority={index === 0 ? "high" : "auto"} width="900" height="1100" />
-      <div className="product-badges">{product.bestSeller && <span>Best seller</span>}{original > price && <span>Private offer</span>}</div>
+      <div className="product-badges">{product.newArrival && <span>New</span>}{product.bestSeller && <span>Best seller</span>}{original > price && <span>Offer</span>}</div>
       <span className="product-view">Discover <ArrowRight size={16} /></span>
     </Link>
-    <div className="product-meta"><div><p>{product.brand} · {product.category === "decant" ? "Decant" : "Intact bottle"}</p><Link to={`/product/${product.slug}`}><h3>{product.name}</h3></Link></div><div className="product-price"><strong>{money(price)}</strong>{original > price && <del>{money(original)}</del>}<small>from {Math.min(...variants.map((v) => v.sizeMl))}ml</small></div></div>
+    <div className="product-meta"><div><p>{product.brand}</p><Link to={`/product/${product.slug}`}><h3>{product.name}</h3></Link></div>{!showQuickBuy && <div className="product-price"><strong>{money(price)}</strong>{original > price && <del>{money(original)}</del>}<small>from {Math.min(...variants.map((v) => v.sizeMl))}ml</small></div>}</div>
+    {showQuickBuy && <>
+      <div className="collection-size-options" role="group" aria-label={`Choose size for ${product.name}`}>
+        {variants.map((variant) => <button key={variant.id} type="button" className={selectedVariant?.id === variant.id ? "active" : ""} aria-pressed={selectedVariant?.id === variant.id} disabled={variant.stock === 0} onClick={() => setSelectedSize(variant.sizeMl)}>
+          <span>{variant.sizeMl} ml</span><strong>{money(variant.price)}</strong>
+        </button>)}
+      </div>
+      <button type="button" className="collection-quick-add" disabled={!selectedVariant || selectedVariant.stock === 0 || isMutating} onClick={() => selectedVariant && add(selectedVariant.id, 1)}>
+        {isMutating ? "Adding…" : selectedVariant ? `Add ${selectedVariant.sizeMl} ml · ${money(selectedVariant.price)}` : "Sold out"}
+      </button>
+    </>}
   </article>;
 }
