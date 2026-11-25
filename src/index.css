@@ -5033,3 +5033,22 @@ main,
 .best-seller-size-options button:disabled{opacity:.42;text-decoration:line-through;cursor:not-allowed}
 .best-seller-size-options button:focus-visible{outline:2px solid var(--brand-champagne);outline-offset:3px}
 @media(max-width:760px){.best-seller-size-options{gap:6px}.best-seller-size-options button{min-width:50px;min-height:36px;padding:7px 9px}}
+
+
+/* Customer order tracking: keep the two-step progress rail horizontal on every screen size. */
+.status-timeline{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));align-items:start;gap:0;margin-top:36px;}
+.status-timeline>div{position:relative;min-width:0;padding:52px 10px 0;text-align:center;opacity:.45;}
+.status-timeline>div:before{content:"";display:block;position:absolute;z-index:0;left:50%;top:16px;bottom:auto;width:100%;height:2px;background:rgba(77,2,32,.16);}
+.status-timeline>div:last-child:before{display:none;}
+.status-timeline>div>span{position:absolute;z-index:1;left:50%;top:0;transform:translateX(-50%);width:33px;height:33px;border:1px solid var(--line);border-radius:50%;display:grid;place-items:center;background:var(--background);font-size:10px;}
+.status-timeline>div.complete{opacity:1;}
+.status-timeline>div.complete:before{background:linear-gradient(90deg,#4d0220,#9a4567 55%,rgba(77,2,32,.35));}
+.status-timeline>div.complete>span{background:var(--brand-burgundy);color:var(--brand-ivory);border-color:var(--brand-burgundy);}
+.status-timeline>div.current>strong{color:var(--brand-burgundy);font-weight:800;}
+.status-timeline>div strong,.status-timeline>div small{display:block;text-transform:capitalize;}
+.status-timeline>div strong{font-size:13px;}
+.status-timeline>div small{font-size:9px;}
+.status-timeline.cancelled{grid-template-columns:minmax(0,1fr);max-width:220px;}
+.status-timeline.cancelled>div:before{display:none;}
+.status-timeline.cancelled>div{padding-top:46px;}
+@media(max-width:560px){.status-timeline{grid-template-columns:repeat(2,minmax(0,1fr));}.status-timeline>div{padding:48px 6px 0;text-align:center;}.status-timeline>div:before{left:50%;top:16px;width:100%;height:2px;}.status-timeline>div>span{left:50%;top:0;}}
