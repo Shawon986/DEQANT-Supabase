@@ -5035,6 +5035,114 @@ main,
 @media(max-width:760px){.best-seller-size-options{gap:6px}.best-seller-size-options button{min-width:50px;min-height:36px;padding:7px 9px}}
 
 
+/* Customer order tracking: keep the two-step progress rail horizontal on every screen size. */
+.status-timeline{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));align-items:start;gap:0;margin-top:36px;}
+.status-timeline>div{position:relative;min-width:0;padding:52px 10px 0;text-align:center;opacity:.45;}
+.status-timeline>div:before{content:"";display:block;position:absolute;z-index:0;left:50%;top:16px;bottom:auto;width:100%;height:2px;background:rgba(77,2,32,.16);}
+.status-timeline>div:last-child:before{display:none;}
+.status-timeline>div>span{position:absolute;z-index:1;left:50%;top:0;transform:translateX(-50%);width:33px;height:33px;border:1px solid var(--line);border-radius:50%;display:grid;place-items:center;background:var(--background);font-size:10px;}
+.status-timeline>div.complete{opacity:1;}
+.status-timeline>div.complete:before{background:linear-gradient(90deg,#4d0220,#9a4567 55%,rgba(77,2,32,.35));}
+.status-timeline>div.complete>span{background:var(--brand-burgundy);color:var(--brand-ivory);border-color:var(--brand-burgundy);}
+.status-timeline>div.current>strong{color:var(--brand-burgundy);font-weight:800;}
+.status-timeline>div strong,.status-timeline>div small{display:block;text-transform:capitalize;}
+.status-timeline>div strong{font-size:13px;}
+.status-timeline>div small{font-size:9px;}
+.status-timeline.cancelled{grid-template-columns:minmax(0,1fr);max-width:220px;}
+.status-timeline.cancelled>div:before{display:none;}
+.status-timeline.cancelled>div{padding-top:46px;}
+@media(max-width:560px){.status-timeline{grid-template-columns:repeat(2,minmax(0,1fr));}.status-timeline>div{padding:48px 6px 0;text-align:center;}.status-timeline>div:before{left:50%;top:16px;width:100%;height:2px;}.status-timeline>div>span{left:50%;top:0;}}
+
+
+
+/* DEQANT confirmed celebration — rocket launch and short-range champagne particle burst. */
+.status-timeline>div.current>span.confirmed-fireworks{
+  isolation:isolate;
+  overflow:visible;
+  border-color:#d8bd82;
+  color:var(--brand-ivory);
+  background:var(--brand-burgundy);
+  box-shadow:0 0 0 3px rgba(216,189,130,.17),0 0 13px rgba(216,189,130,.72),0 0 25px rgba(110,23,56,.38);
+  animation:deqant-confirmed-glow 2.5s ease-in-out infinite;
+}
+.confirmed-firework-burst{
+  position:absolute;
+  inset:0;
+  z-index:4;
+  overflow:visible;
+  pointer-events:none;
+}
+.confirmed-firework-burst:before{
+  content:"";
+  position:absolute;
+  left:50%;
+  bottom:calc(100% - 3px);
+  width:2px;
+  height:23px;
+  border-radius:100%;
+  background:linear-gradient(to top,rgba(255,235,185,.95),rgba(255,235,185,.62),transparent);
+  filter:drop-shadow(0 0 3px #e5c98d);
+  transform:translateX(-50%);
+  transform-origin:bottom;
+  animation:deqant-firework-launch 2.5s ease-out infinite;
+}
+.confirmed-firework-burst i{
+  --angle:0deg;
+  --distance:27px;
+  --delay:0s;
+  position:absolute;
+  left:50%;
+  top:0;
+  width:3px;
+  height:3px;
+  border-radius:50%;
+  opacity:0;
+  background:#f8e8c1;
+  box-shadow:0 0 5px 1px rgba(248,220,157,.9),0 0 9px rgba(210,168,91,.7);
+  animation:deqant-firework-particle 2.5s var(--delay) ease-out infinite;
+}
+.confirmed-firework-burst i:nth-child(1){--angle:0deg;--distance:29px;--delay:.42s}
+.confirmed-firework-burst i:nth-child(2){--angle:30deg;--distance:34px;--delay:.42s}
+.confirmed-firework-burst i:nth-child(3){--angle:60deg;--distance:27px;--delay:.42s}
+.confirmed-firework-burst i:nth-child(4){--angle:90deg;--distance:35px;--delay:.42s}
+.confirmed-firework-burst i:nth-child(5){--angle:120deg;--distance:30px;--delay:.42s}
+.confirmed-firework-burst i:nth-child(6){--angle:150deg;--distance:33px;--delay:.42s}
+.confirmed-firework-burst i:nth-child(7){--angle:180deg;--distance:26px;--delay:.42s}
+.confirmed-firework-burst i:nth-child(8){--angle:210deg;--distance:35px;--delay:.42s}
+.confirmed-firework-burst i:nth-child(9){--angle:240deg;--distance:29px;--delay:.42s}
+.confirmed-firework-burst i:nth-child(10){--angle:270deg;--distance:34px;--delay:.42s}
+.confirmed-firework-burst i:nth-child(11){--angle:300deg;--distance:27px;--delay:.42s}
+.confirmed-firework-burst i:nth-child(12){--angle:330deg;--distance:32px;--delay:.42s}
+.confirmed-firework-burst i:nth-child(5n + 1){--particle-color:#ff6b8a}
+.confirmed-firework-burst i:nth-child(5n + 2){--particle-color:#63d9ff}
+.confirmed-firework-burst i:nth-child(5n + 3){--particle-color:#c69aff}
+.confirmed-firework-burst i:nth-child(5n + 4){--particle-color:#ffd166}
+.confirmed-firework-burst i:nth-child(5n){--particle-color:#7ee0b5}
+.confirmed-firework-burst i{background:var(--particle-color);box-shadow:0 0 5px 1px color-mix(in srgb,var(--particle-color),transparent 12%),0 0 10px color-mix(in srgb,var(--particle-color),transparent 28%)}
+@keyframes deqant-confirmed-glow{
+  0%,100%{box-shadow:0 0 0 2px rgba(216,189,130,.13),0 0 9px rgba(216,189,130,.4),0 0 16px rgba(110,23,56,.25)}
+  50%{box-shadow:0 0 0 4px rgba(216,189,130,.24),0 0 18px rgba(216,189,130,.85),0 0 29px rgba(110,23,56,.48)}
+}
+@keyframes deqant-firework-launch{
+  0%,8%{opacity:0;transform:translateX(-50%) scaleY(.1)}
+  16%{opacity:1;transform:translateX(-50%) scaleY(1)}
+  30%,100%{opacity:0;transform:translateX(-50%) scaleY(.25)}
+}
+@keyframes deqant-firework-particle{
+  0%,20%{opacity:0;transform:translate(-50%,0) scale(.25)}
+  29%{opacity:1;transform:translate(-50%,-17px) scale(1.1)}
+  48%{opacity:.95;transform:translate(-50%,-17px) rotate(var(--angle)) translateY(calc(-1 * var(--distance))) scale(1)}
+  76%{opacity:0;transform:translate(-50%,-17px) rotate(var(--angle)) translateY(calc(-1 * var(--distance) - 5px)) scale(.25)}
+  100%{opacity:0;transform:translate(-50%,0) scale(.2)}
+}
+@media(prefers-reduced-motion:reduce){
+  .status-timeline>div.current>span.confirmed-fireworks,
+  .confirmed-firework-burst:before,
+  .confirmed-firework-burst i{animation:none!important}
+  .status-timeline>div.current>span.confirmed-fireworks{box-shadow:0 0 0 3px rgba(216,189,130,.2),0 0 12px rgba(216,189,130,.6)}
+}
+
+
 /* Mobile collection cards inspired by the supplied reference: compact two-column
    product browsing with visible sizes and a direct add-to-cart action. */
 @media (max-width: 760px) {
