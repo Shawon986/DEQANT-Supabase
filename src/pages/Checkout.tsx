@@ -40,8 +40,8 @@ export default function Checkout() {
   });
   const selectedDivision = divisions.find((item) => item.name === form.division);
   const selectedDistrict = selectedDivision?.districts.find((item) => item.name === form.district);
-  const zoneName = form.district === "Rajshahi" ? "Inside Rajshahi" : "Outside Rajshahi";
-  const zone = zones?.find((item: DeliveryZone) => item.name === zoneName);
+  const zoneName = form.district ? (form.district === "Rajshahi" ? "Inside Rajshahi" : "Outside Rajshahi") : "";
+  const zone = zoneName ? zones?.find((item: DeliveryZone) => item.name === zoneName) : undefined;
   const orderSubtotal=Math.max(0,Number(cart?.subtotal)||0);
   const totalWeight=(cart?.items??[]).reduce((sum:number,item:CheckoutLine)=>sum+(Math.max(1,Number(item.product.shippingWeightGrams)||(item.product.category==='intact'?500:100))*item.quantity),0);
   const deliveryFee=orderSubtotal>=2000?0:(zone?(Number(zone.fee)||0)+(totalWeight>1000?20:0):0);
