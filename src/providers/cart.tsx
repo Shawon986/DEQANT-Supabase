@@ -35,7 +35,7 @@ export function CartProvider({children}:{children:ReactNode}){
     remove:(id)=>{if(token)removeMutation.mutate({token,itemId:id});},
     isMutating:addMutation.isPending||updateMutation.isPending||removeMutation.isPending,
     startFreshCart
-  }),[token,query.data,query.isLoading,query.error,query.refetch,addMutation,updateMutation,removeMutation]);
+  }),[token,query.data,query.isLoading,query.error,query.refetch,addMutation,updateMutation,removeMutation,startFreshCart]);
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
 }
 export function useCart(){const value=useContext(CartContext);if(!value)throw new Error("useCart must be used within CartProvider");return value;}
