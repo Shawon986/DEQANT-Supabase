@@ -1,15 +1,47 @@
 -- Simplify DEQANT order lifecycle to pending, confirmed and cancelled.
--- Preserve legacy orders by mapping their former fulfilment stages to confirmed.
+-- Map former fulfilment stages to confirmed without bypassing normal stock or payment triggers.
+drop trigger if exists orders_guard_deqant_fulfilment on public.orders;
+
 update public.orders
 set status = 'confirmed', updated_at = now()
 where status in ('processing', 'shipped', 'delivered');
 
 alter table public.orders
   drop constraint if exists orders_status_check;
-
 alter table public.orders
   add constraint orders_status_check
   check (status in ('pending', 'confirmed', 'cancelled'));
+
+create or replace function public.guard_deqant_order_fulfilment()
+returns trigger
+language plpgsql
+set search_path = pg_catalog, public
+as $fn$
+begin
+  if new.status is distinct from old.status then
+    if old.status = 'cancelled' then
+      raise exception 'This order is already cancelled and its status cannot be changed.';
+    end if;
+    if not (
+      (old.status = 'pending' and new.status in ('confirmed', 'cancelled'))
+      or (old.status = 'confirmed' and new.status = 'cancelled')
+    ) then
+      raise exception 'Orders can only move from pending to confirmed or cancelled, and from confirmed to cancelled.';
+    end if;
+  end if;
+
+  if new.advance_payment_required
+     and new.status = 'confirmed'
+     and new.advance_payment_status <> 'verified' then
+    raise exception 'The required bKash advance payment must be verified before confirming this order.';
+  end if;
+  return new;
+end;
+$fn$;
+
+create trigger orders_guard_deqant_fulfilment
+before update of status, advance_payment_status on public.orders
+for each row execute function public.guard_deqant_order_fulfilment();
 
 create or replace function public.admin_update_order(
   p_order_id bigint,
@@ -39,13 +71,6 @@ begin
     or (o.status='confirmed' and p_status='cancelled')
   ) then
     raise exception 'This order cannot move from % to %. Orders can only move from pending to confirmed or cancelled, and from confirmed to cancelled.',o.status,p_status;
-  end if;
-
-  if p_status='cancelled' and o.status<>'cancelled' then
-    update public.product_variants v
-    set stock=v.stock+oi.quantity
-    from public.order_items oi
-    where oi.order_id=o.id and oi.variant_id=v.id;
   end if;
 
   update public.orders
