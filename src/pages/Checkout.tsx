@@ -76,13 +76,10 @@ export function OrderSuccess() {
   const [phone, setPhone] = useState(initialPhone);
   const [verifiedPhone, setVerifiedPhone] = useState(initialPhone);
   const query = storeApi.store.orderSuccess.useQuery({ orderNumber, phone: verifiedPhone }, { enabled: Boolean(verifiedPhone), retry: false });
-  const paymentSettings = storeApi.store.settings.useQuery();
-  const bkashNumber = String(paymentSettings.data?.bkashNumber ?? "").trim();
-  const bkashPaymentType = paymentSettings.data?.bkashPaymentType === "merchant" ? "merchant" : "personal";
   const order = query.data?.order;
   const paymentStatus = order?.advancePaymentStatus;
   return <PageShell><section className="success-page">
-    <div className="success-hero"><span className="success-check"><Check /></span><p>ORDER RECEIVED</p><h1>Your signature<br /><em>is on its way.</em></h1><span>Order <strong>{orderNumber}</strong></span><p>Your order is reserved. Complete the bKash advance shown below. Our team will verify it manually before fulfilment.</p></div>
+    <div className="success-hero"><span className="success-check"><Check /></span><p>ORDER RECEIVED</p><h1>Your signature<br /><em>is on its way.</em></h1><span>Order <strong>{orderNumber}</strong></span><p>Your payment details have been received. Our team will manually verify the bKash transaction before confirming your order.</p></div>
     {!verifiedPhone ? <form className="verify-order" onSubmit={(e) => { e.preventDefault(); setVerifiedPhone(phone); }}><label>Confirm your mobile number to view this order<input required value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="01XXXXXXXXX" /></label><button className="button button-burgundy">View order</button></form> : query.isLoading ? <LoadingState label="Retrieving your order…" /> : query.error ? <ErrorState message={query.error.message} /> : query.data ? <>
       <div className="success-details">
         <div className="success-status"><PackageCheck /><div><p>Current order status</p><h2>{query.data.order.status}</h2></div><strong>{money(query.data.order.total)}</strong></div>
