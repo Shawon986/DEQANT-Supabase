@@ -1,4 +1,11 @@
 -- Add structured Bangladesh location fields and derive delivery zones from district.
+-- Clarify that the inside fee covers the entire Rajshahi District.
+update public.delivery_zones set districts = case
+  when name = 'Inside Rajshahi' then 'Rajshahi District'
+  when name = 'Outside Rajshahi' then 'All other districts in Bangladesh'
+  else districts end
+where name in ('Inside Rajshahi', 'Outside Rajshahi');
+
 alter table public.orders
   add column if not exists division text not null default '';
 
