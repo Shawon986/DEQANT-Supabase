@@ -5556,12 +5556,15 @@ main,
 }
 
 
-/* Home moving ribbons: matched timing, same left-to-right direction, seamless loops. */
+/* Home ribbons: keep the header ticker unchanged and let the middle scent ribbon
+   travel completely from beyond the left edge to beyond the right edge.
+   Three repeated copies keep the line populated as it crosses the viewport. */
 .announcement>div{
   animation: deq-announcement-left-to-right 32s linear infinite !important;
 }
 .scent-marquee>div{
-  animation: deq-scent-left-to-right 32s linear infinite !important;
+  animation: deq-scent-full-crossing 96s linear infinite !important;
+  will-change: transform;
 }
 .announcement:hover>div{
   animation-play-state: running !important;
@@ -5570,7 +5573,7 @@ main,
   from{transform:translate3d(-50%,0,0)}
   to{transform:translate3d(0,0,0)}
 }
-@keyframes deq-scent-left-to-right{
-  from{transform:translate3d(-33.333333%,0,0)}
-  to{transform:translate3d(0,0,0)}
+@keyframes deq-scent-full-crossing{
+  from{transform:translate3d(-100%,0,0)}
+  to{transform:translate3d(100vw,0,0)}
 }
