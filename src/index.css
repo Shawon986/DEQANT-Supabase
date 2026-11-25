@@ -5023,3 +5023,13 @@ main,
 .deq-message-delete { display: inline-flex; align-items: center; gap: 6px; margin-top: 12px; padding: 7px 10px; border: 1px solid rgba(214, 132, 132, .28); border-radius: 7px; background: rgba(160, 65, 65, .08); color: #e4aaaa; font-size: 9px; cursor: pointer; }
 .deq-message-delete:hover { background: rgba(160, 65, 65, .18); }
 .deq-message-delete:disabled { opacity: .55; cursor: wait; }
+
+
+/* Best-seller variant buttons and long-form fragrance notes editor */
+.best-seller-size{display:flex;flex-direction:column;align-items:stretch;gap:9px;margin:14px 0 10px;padding:0 2px}
+.best-seller-size-options{display:flex;flex-wrap:wrap;gap:7px}
+.best-seller-size-options button{position:relative;display:inline-flex;align-items:center;justify-content:center;min-width:54px;min-height:38px;padding:8px 11px;border:1px solid rgba(77,2,32,.24);border-radius:2px;background:rgba(255,255,255,.55);color:var(--brand-burgundy);font-size:11px;font-weight:600;letter-spacing:.03em;transition:background .2s ease,border-color .2s ease,color .2s ease}
+.best-seller-size-options button.active{border-color:var(--brand-burgundy);background:var(--brand-burgundy);color:#fff}
+.best-seller-size-options button:disabled{opacity:.42;text-decoration:line-through;cursor:not-allowed}
+.best-seller-size-options button:focus-visible{outline:2px solid var(--brand-champagne);outline-offset:3px}
+@media(max-width:760px){.best-seller-size-options{gap:6px}.best-seller-size-options button{min-width:50px;min-height:36px;padding:7px 9px}}
