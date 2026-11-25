@@ -5113,6 +5113,12 @@ main,
 .confirmed-firework-burst i:nth-child(10){--angle:270deg;--distance:34px;--delay:.42s}
 .confirmed-firework-burst i:nth-child(11){--angle:300deg;--distance:27px;--delay:.42s}
 .confirmed-firework-burst i:nth-child(12){--angle:330deg;--distance:32px;--delay:.42s}
+.confirmed-firework-burst i:nth-child(5n + 1){--particle-color:#ff6b8a}
+.confirmed-firework-burst i:nth-child(5n + 2){--particle-color:#63d9ff}
+.confirmed-firework-burst i:nth-child(5n + 3){--particle-color:#c69aff}
+.confirmed-firework-burst i:nth-child(5n + 4){--particle-color:#ffd166}
+.confirmed-firework-burst i:nth-child(5n){--particle-color:#7ee0b5}
+.confirmed-firework-burst i{background:var(--particle-color);box-shadow:0 0 5px 1px color-mix(in srgb,var(--particle-color),transparent 12%),0 0 10px color-mix(in srgb,var(--particle-color),transparent 28%)}
 @keyframes deqant-confirmed-glow{
   0%,100%{box-shadow:0 0 0 2px rgba(216,189,130,.13),0 0 9px rgba(216,189,130,.4),0 0 16px rgba(110,23,56,.25)}
   50%{box-shadow:0 0 0 4px rgba(216,189,130,.24),0 0 18px rgba(216,189,130,.85),0 0 29px rgba(110,23,56,.48)}
