@@ -5558,15 +5558,19 @@ main,
 
 /* Home moving ribbons: matched timing, same left-to-right direction, seamless loops. */
 .announcement>div{
-  animation: deq-ribbon-left-to-right 32s linear infinite !important;
+  animation: deq-announcement-left-to-right 32s linear infinite !important;
 }
 .scent-marquee>div{
-  animation: deq-ribbon-left-to-right 32s linear infinite !important;
+  animation: deq-scent-left-to-right 32s linear infinite !important;
 }
 .announcement:hover>div{
   animation-play-state: running !important;
 }
-@keyframes deq-ribbon-left-to-right{
+@keyframes deq-announcement-left-to-right{
   from{transform:translate3d(-50%,0,0)}
+  to{transform:translate3d(0,0,0)}
+}
+@keyframes deq-scent-left-to-right{
+  from{transform:translate3d(-33.333333%,0,0)}
   to{transform:translate3d(0,0,0)}
 }
