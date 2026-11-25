@@ -5554,3 +5554,19 @@ main,
   .product-detail .product-main-image{width:calc(100% - 24px)!important;max-width:none!important;margin-left:auto!important;margin-right:auto!important}
   .product-detail .product-main-image img{width:100%;}
 }
+
+
+/* Home moving ribbons: matched timing, same left-to-right direction, seamless loops. */
+.announcement>div{
+  animation: deq-ribbon-left-to-right 32s linear infinite !important;
+}
+.scent-marquee>div{
+  animation: deq-ribbon-left-to-right 32s linear infinite !important;
+}
+.announcement:hover>div{
+  animation-play-state: running !important;
+}
+@keyframes deq-ribbon-left-to-right{
+  from{transform:translate3d(-50%,0,0)}
+  to{transform:translate3d(0,0,0)}
+}
