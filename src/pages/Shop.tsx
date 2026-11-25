@@ -38,7 +38,7 @@ export default function Shop({ title = "The fragrance library", description = "E
       </aside>
       <div className="shop-results">
         <div className="results-toolbar"><span aria-live="polite">{query.isLoading ? "Curating…" : `${query.data?.length ?? 0} fragrances`}</span><label>Sort by <select value={sort} onChange={(e) => setSort(e.target.value as typeof sort)}><option value="featured">Featured</option><option value="popular">Popularity</option><option value="new">New arrivals</option><option value="price-asc">Price: low to high</option><option value="price-desc">Price: high to low</option></select><ChevronDown /></label></div>
-        {query.isLoading ? <LoadingState /> : query.error ? <ErrorState message={query.error.message} /> : query.data?.length ? <div className="catalog-grid">{query.data.map((entry: CatalogEntry, index: number) => <ProductCard key={entry.product.id} entry={entry} index={index} />)}</div> : <div className="empty-state"><h2>No fragrance fits that brief.</h2><p>Try another note, a different size, or reset your filters.</p><button className="button button-burgundy" onClick={clear}>Clear filters</button></div>}
+        {query.isLoading ? <LoadingState /> : query.error ? <ErrorState message={query.error.message} /> : query.data?.length ? <div className="catalog-grid">{query.data.map((entry: CatalogEntry, index: number) => <ProductCard key={entry.product.id} entry={entry} index={index} showQuickBuy />)}</div> : <div className="empty-state"><h2>No fragrance fits that brief.</h2><p>Try another note, a different size, or reset your filters.</p><button className="button button-burgundy" onClick={clear}>Clear filters</button></div>}
       </div>
     </section>
   </PageShell>;
