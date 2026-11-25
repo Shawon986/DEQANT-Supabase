@@ -5052,3 +5052,75 @@ main,
 .status-timeline.cancelled>div:before{display:none;}
 .status-timeline.cancelled>div{padding-top:46px;}
 @media(max-width:560px){.status-timeline{grid-template-columns:repeat(2,minmax(0,1fr));}.status-timeline>div{padding:48px 6px 0;text-align:center;}.status-timeline>div:before{left:50%;top:16px;width:100%;height:2px;}.status-timeline>div>span{left:50%;top:0;}}
+
+
+/* Confirmed order celebration — subtle glow with fireworks blooming inside the active step. */
+.status-timeline>div.current>span.confirmed-fireworks{
+  isolation:isolate;
+  overflow:visible;
+  border-color:var(--brand-champagne);
+  color:var(--brand-ivory);
+  background:var(--brand-burgundy);
+  box-shadow:0 0 0 3px rgba(183,164,127,.16),0 0 13px rgba(183,164,127,.72),0 0 25px rgba(110,23,56,.42);
+  animation:confirmed-circle-glow 2.8s ease-in-out infinite;
+}
+.confirmed-fireworks::before,
+.confirmed-fireworks::after{
+  content:"";
+  position:absolute;
+  inset:3px;
+  z-index:-1;
+  border-radius:50%;
+  pointer-events:none;
+}
+.confirmed-fireworks::before{
+  background:
+    radial-gradient(circle,#f7e8bd 0 1.5px,transparent 2px) 50% 0/100% 100% no-repeat,
+    radial-gradient(circle,#d9b978 0 1.5px,transparent 2px) 100% 50%/100% 100% no-repeat,
+    radial-gradient(circle,#f7e8bd 0 1.5px,transparent 2px) 50% 100%/100% 100% no-repeat,
+    radial-gradient(circle,#d9b978 0 1.5px,transparent 2px) 0 50%/100% 100% no-repeat,
+    radial-gradient(circle,#fff3d2 0 1px,transparent 1.7px) 18% 18%/100% 100% no-repeat,
+    radial-gradient(circle,#fff3d2 0 1px,transparent 1.7px) 82% 82%/100% 100% no-repeat;
+  animation:confirmed-firework-burst 2.8s ease-out infinite;
+}
+.confirmed-fireworks::after{
+  inset:-7px;
+  border:1px solid rgba(183,164,127,.65);
+  opacity:0;
+  animation:confirmed-firework-ring 2.8s ease-out infinite;
+}
+.confirmed-fireworks>i{
+  position:absolute;
+  inset:0;
+  z-index:-1;
+  border-radius:50%;
+  pointer-events:none;
+  background:radial-gradient(circle,rgba(255,239,197,.58),rgba(183,164,127,.2) 48%,transparent 72%);
+  animation:confirmed-firework-core 2.8s ease-in-out infinite;
+}
+@keyframes confirmed-circle-glow{
+  0%,100%{box-shadow:0 0 0 2px rgba(183,164,127,.12),0 0 9px rgba(183,164,127,.42),0 0 17px rgba(110,23,56,.28)}
+  48%{box-shadow:0 0 0 4px rgba(183,164,127,.22),0 0 17px rgba(183,164,127,.9),0 0 31px rgba(110,23,56,.5)}
+}
+@keyframes confirmed-firework-burst{
+  0%,18%,100%{opacity:0;transform:scale(.35) rotate(0deg)}
+  28%{opacity:1;transform:scale(1.08) rotate(18deg)}
+  52%{opacity:.75;transform:scale(1.35) rotate(45deg)}
+  70%{opacity:0;transform:scale(1.55) rotate(65deg)}
+}
+@keyframes confirmed-firework-ring{
+  0%,22%,100%{opacity:0;transform:scale(.45)}
+  34%{opacity:.9;transform:scale(.85)}
+  68%{opacity:0;transform:scale(1.65)}
+}
+@keyframes confirmed-firework-core{
+  0%,100%{opacity:.35;transform:scale(.7)}
+  45%{opacity:1;transform:scale(1.12)}
+}
+@media(prefers-reduced-motion:reduce){
+  .status-timeline>div.current>span.confirmed-fireworks,
+  .confirmed-fireworks::before,
+  .confirmed-fireworks::after,
+  .confirmed-fireworks>i{animation:none!important}
+  .status-timeline>div.current>span.confirmed-fireworks{box-shadow:0 0 0 3px rgba(183,164,127,.2),0 0 12px rgba(183,164,127,.6)}
+}
