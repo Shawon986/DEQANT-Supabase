@@ -5141,3 +5141,318 @@ main,
   .confirmed-firework-burst i{animation:none!important}
   .status-timeline>div.current>span.confirmed-fireworks{box-shadow:0 0 0 3px rgba(216,189,130,.2),0 0 12px rgba(216,189,130,.6)}
 }
+
+
+/* Customer order tracking: keep the two-step progress rail horizontal on every screen size. */
+.status-timeline{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));align-items:start;gap:0;margin-top:36px;}
+.status-timeline>div{position:relative;min-width:0;padding:52px 10px 0;text-align:center;opacity:.45;}
+.status-timeline>div:before{content:"";display:block;position:absolute;z-index:0;left:50%;top:16px;bottom:auto;width:100%;height:2px;background:rgba(77,2,32,.16);}
+.status-timeline>div:last-child:before{display:none;}
+.status-timeline>div>span{position:absolute;z-index:1;left:50%;top:0;transform:translateX(-50%);width:33px;height:33px;border:1px solid var(--line);border-radius:50%;display:grid;place-items:center;background:var(--background);font-size:10px;}
+.status-timeline>div.complete{opacity:1;}
+.status-timeline>div.complete:before{background:linear-gradient(90deg,#4d0220,#9a4567 55%,rgba(77,2,32,.35));}
+.status-timeline>div.complete>span{background:var(--brand-burgundy);color:var(--brand-ivory);border-color:var(--brand-burgundy);}
+.status-timeline>div.current>strong{color:var(--brand-burgundy);font-weight:800;}
+.status-timeline>div strong,.status-timeline>div small{display:block;text-transform:capitalize;}
+.status-timeline>div strong{font-size:13px;}
+.status-timeline>div small{font-size:9px;}
+.status-timeline.cancelled{grid-template-columns:minmax(0,1fr);max-width:220px;}
+.status-timeline.cancelled>div:before{display:none;}
+.status-timeline.cancelled>div{padding-top:46px;}
+@media(max-width:560px){.status-timeline{grid-template-columns:repeat(2,minmax(0,1fr));}.status-timeline>div{padding:48px 6px 0;text-align:center;}.status-timeline>div:before{left:50%;top:16px;width:100%;height:2px;}.status-timeline>div>span{left:50%;top:0;}}
+
+
+
+/* DEQANT confirmed celebration — rocket launch and short-range champagne particle burst. */
+.status-timeline>div.current>span.confirmed-fireworks{
+  isolation:isolate;
+  overflow:visible;
+  border-color:#d8bd82;
+  color:var(--brand-ivory);
+  background:var(--brand-burgundy);
+  box-shadow:0 0 0 3px rgba(216,189,130,.17),0 0 13px rgba(216,189,130,.72),0 0 25px rgba(110,23,56,.38);
+  animation:deqant-confirmed-glow 2.5s ease-in-out infinite;
+}
+.confirmed-firework-burst{
+  position:absolute;
+  inset:0;
+  z-index:4;
+  overflow:visible;
+  pointer-events:none;
+}
+.confirmed-firework-burst:before{
+  content:"";
+  position:absolute;
+  left:50%;
+  bottom:calc(100% - 3px);
+  width:2px;
+  height:23px;
+  border-radius:100%;
+  background:linear-gradient(to top,rgba(255,235,185,.95),rgba(255,235,185,.62),transparent);
+  filter:drop-shadow(0 0 3px #e5c98d);
+  transform:translateX(-50%);
+  transform-origin:bottom;
+  animation:deqant-firework-launch 2.5s ease-out infinite;
+}
+.confirmed-firework-burst i{
+  --angle:0deg;
+  --distance:27px;
+  --delay:0s;
+  position:absolute;
+  left:50%;
+  top:0;
+  width:3px;
+  height:3px;
+  border-radius:50%;
+  opacity:0;
+  background:#f8e8c1;
+  box-shadow:0 0 5px 1px rgba(248,220,157,.9),0 0 9px rgba(210,168,91,.7);
+  animation:deqant-firework-particle 2.5s var(--delay) ease-out infinite;
+}
+.confirmed-firework-burst i:nth-child(1){--angle:0deg;--distance:29px;--delay:.42s}
+.confirmed-firework-burst i:nth-child(2){--angle:30deg;--distance:34px;--delay:.42s}
+.confirmed-firework-burst i:nth-child(3){--angle:60deg;--distance:27px;--delay:.42s}
+.confirmed-firework-burst i:nth-child(4){--angle:90deg;--distance:35px;--delay:.42s}
+.confirmed-firework-burst i:nth-child(5){--angle:120deg;--distance:30px;--delay:.42s}
+.confirmed-firework-burst i:nth-child(6){--angle:150deg;--distance:33px;--delay:.42s}
+.confirmed-firework-burst i:nth-child(7){--angle:180deg;--distance:26px;--delay:.42s}
+.confirmed-firework-burst i:nth-child(8){--angle:210deg;--distance:35px;--delay:.42s}
+.confirmed-firework-burst i:nth-child(9){--angle:240deg;--distance:29px;--delay:.42s}
+.confirmed-firework-burst i:nth-child(10){--angle:270deg;--distance:34px;--delay:.42s}
+.confirmed-firework-burst i:nth-child(11){--angle:300deg;--distance:27px;--delay:.42s}
+.confirmed-firework-burst i:nth-child(12){--angle:330deg;--distance:32px;--delay:.42s}
+.confirmed-firework-burst i:nth-child(5n + 1){--particle-color:#ff6b8a}
+.confirmed-firework-burst i:nth-child(5n + 2){--particle-color:#63d9ff}
+.confirmed-firework-burst i:nth-child(5n + 3){--particle-color:#c69aff}
+.confirmed-firework-burst i:nth-child(5n + 4){--particle-color:#ffd166}
+.confirmed-firework-burst i:nth-child(5n){--particle-color:#7ee0b5}
+.confirmed-firework-burst i{background:var(--particle-color);box-shadow:0 0 5px 1px color-mix(in srgb,var(--particle-color),transparent 12%),0 0 10px color-mix(in srgb,var(--particle-color),transparent 28%)}
+@keyframes deqant-confirmed-glow{
+  0%,100%{box-shadow:0 0 0 2px rgba(216,189,130,.13),0 0 9px rgba(216,189,130,.4),0 0 16px rgba(110,23,56,.25)}
+  50%{box-shadow:0 0 0 4px rgba(216,189,130,.24),0 0 18px rgba(216,189,130,.85),0 0 29px rgba(110,23,56,.48)}
+}
+@keyframes deqant-firework-launch{
+  0%,8%{opacity:0;transform:translateX(-50%) scaleY(.1)}
+  16%{opacity:1;transform:translateX(-50%) scaleY(1)}
+  30%,100%{opacity:0;transform:translateX(-50%) scaleY(.25)}
+}
+@keyframes deqant-firework-particle{
+  0%,20%{opacity:0;transform:translate(-50%,0) scale(.25)}
+  29%{opacity:1;transform:translate(-50%,-17px) scale(1.1)}
+  48%{opacity:.95;transform:translate(-50%,-17px) rotate(var(--angle)) translateY(calc(-1 * var(--distance))) scale(1)}
+  76%{opacity:0;transform:translate(-50%,-17px) rotate(var(--angle)) translateY(calc(-1 * var(--distance) - 5px)) scale(.25)}
+  100%{opacity:0;transform:translate(-50%,0) scale(.2)}
+}
+@media(prefers-reduced-motion:reduce){
+  .status-timeline>div.current>span.confirmed-fireworks,
+  .confirmed-firework-burst:before,
+  .confirmed-firework-burst i{animation:none!important}
+  .status-timeline>div.current>span.confirmed-fireworks{box-shadow:0 0 0 3px rgba(216,189,130,.2),0 0 12px rgba(216,189,130,.6)}
+}
+
+
+/* Mobile collection cards inspired by the supplied reference: compact two-column
+   product browsing with visible sizes and a direct add-to-cart action. */
+@media (max-width: 760px) {
+  .shop-layout { padding: 18px 12px 54px; }
+  .shop-results .catalog-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px 10px;
+    align-items: stretch;
+  }
+  .shop-results .product-card-quickbuy {
+    min-width: 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 0 0 10px;
+    border: 1px solid rgba(128, 92, 75, .28);
+    border-radius: 17px;
+    background: var(--brand-night);
+    color: var(--brand-ivory);
+  }
+  .shop-results .product-card-quickbuy .product-image-wrap {
+    flex: none;
+    aspect-ratio: 1 / 1;
+    background: var(--brand-ivory);
+  }
+  .shop-results .product-card-quickbuy .product-image-wrap > img {
+    object-fit: cover;
+  }
+  .shop-results .product-card-quickbuy .product-badges {
+    top: 9px;
+    left: 9px;
+  }
+  .shop-results .product-card-quickbuy .product-badges span {
+    border-radius: 999px;
+    padding: 6px 9px;
+    background: var(--brand-ivory);
+    color: var(--brand-burgundy);
+    font-size: 8px;
+    font-weight: 700;
+  }
+  .shop-results .product-card-quickbuy .product-meta {
+    display: block;
+    min-height: 78px;
+    padding: 12px 10px 7px;
+  }
+  .shop-results .product-card-quickbuy .product-meta p {
+    margin: 0 0 7px;
+    color: rgba(242, 238, 229, .58);
+    font-size: 8px;
+    letter-spacing: .15em;
+  }
+  .shop-results .product-card-quickbuy .product-meta h3 {
+    margin: 0;
+    color: var(--brand-ivory);
+    font-size: clamp(13px, 3.8vw, 17px);
+    line-height: 1.25;
+    overflow-wrap: anywhere;
+  }
+  .collection-size-options {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 5px;
+    padding: 3px 9px 8px;
+  }
+  .collection-size-options button {
+    min-width: 0;
+    min-height: 43px;
+    padding: 5px 2px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    border: 1px solid rgba(206, 201, 189, .3);
+    border-radius: 9px;
+    background: transparent;
+    color: var(--brand-ivory);
+    font: inherit;
+  }
+  .collection-size-options button span {
+    font-size: 9px;
+    line-height: 1.1;
+    white-space: nowrap;
+  }
+  .collection-size-options button strong {
+    color: var(--brand-ivory);
+    font-size: 9px;
+    line-height: 1.1;
+    white-space: nowrap;
+  }
+  .collection-size-options button.active {
+    border-color: var(--brand-ivory);
+    background: var(--brand-ivory);
+    color: var(--brand-burgundy);
+  }
+  .collection-size-options button.active strong { color: var(--brand-burgundy); }
+  .collection-size-options button:disabled { opacity: .35; }
+  .collection-quick-add {
+    width: calc(100% - 18px);
+    min-height: 46px;
+    margin: auto 9px 0;
+    padding: 8px 6px;
+    border: 0;
+    border-radius: 999px;
+    background: var(--brand-ivory);
+    color: var(--brand-burgundy);
+    font: inherit;
+    font-size: 10px;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+  .collection-quick-add:disabled { opacity: .55; }
+}
+@media (max-width: 380px) {
+  .shop-results .catalog-grid { gap: 10px 7px; }
+  .shop-results .product-card-quickbuy .product-meta { padding-right: 8px; padding-left: 8px; }
+  .collection-size-options { padding-right: 7px; padding-left: 7px; gap: 4px; }
+  .collection-size-options button span,
+  .collection-size-options button strong { font-size: 8px; }
+  .collection-quick-add { width: calc(100% - 14px); margin-right: 7px; margin-left: 7px; font-size: 9px; }
+}
+
+
+.collection-size-options {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 7px;
+  padding: 12px 0 10px;
+}
+.collection-size-options button {
+  min-width: 0;
+  min-height: 48px;
+  padding: 7px 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--foreground);
+  font: inherit;
+}
+.collection-size-options button span { font-size: 10px; }
+.collection-size-options button strong { font-size: 11px; }
+.collection-size-options button.active {
+  border-color: var(--brand-burgundy);
+  background: var(--brand-burgundy);
+  color: var(--brand-ivory);
+}
+.collection-quick-add {
+  width: 100%;
+  min-height: 48px;
+  padding: 10px 14px;
+  border: 0;
+  background: var(--brand-burgundy);
+  color: var(--brand-ivory);
+  font: inherit;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .03em;
+}
+.collection-quick-add:disabled { opacity: .55; cursor: not-allowed; }
+
+
+@media (max-width: 760px) {
+  .shop-results .product-card-quickbuy .collection-size-options {
+    gap: 5px;
+    padding: 3px 9px 8px;
+  }
+  .shop-results .product-card-quickbuy .collection-size-options button {
+    min-height: 43px;
+    padding: 5px 2px;
+    gap: 2px;
+    border: 1px solid rgba(206, 201, 189, .3);
+    border-radius: 9px;
+    background: transparent;
+    color: var(--brand-ivory);
+  }
+  .shop-results .product-card-quickbuy .collection-size-options button span,
+  .shop-results .product-card-quickbuy .collection-size-options button strong {
+    font-size: 9px;
+    line-height: 1.1;
+    white-space: nowrap;
+  }
+  .shop-results .product-card-quickbuy .collection-size-options button.active {
+    border-color: var(--brand-ivory);
+    background: var(--brand-ivory);
+    color: var(--brand-burgundy);
+  }
+  .shop-results .product-card-quickbuy .collection-size-options button.active strong { color: var(--brand-burgundy); }
+  .shop-results .product-card-quickbuy .collection-size-options button:disabled { opacity: .35; }
+  .shop-results .product-card-quickbuy .collection-quick-add {
+    width: calc(100% - 18px);
+    min-height: 46px;
+    margin: auto 9px 0;
+    padding: 8px 6px;
+    border-radius: 999px;
+    background: var(--brand-ivory);
+    color: var(--brand-burgundy);
+    font-size: 10px;
+    line-height: 1.2;
+  }
+}
