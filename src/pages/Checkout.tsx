@@ -23,7 +23,6 @@ export default function Checkout() {
   const [senderPhone,setSenderPhone]=useState("");
   const paymentSettings=storeApi.store.settings.useQuery();
   const bkashNumber=String(paymentSettings.data?.bkashNumber??"").trim();
-  const bkashPaymentType=paymentSettings.data?.bkashPaymentType==="merchant"?"merchant":"personal";
   const [couponCode,setCouponCode]=useState("");
   const [couponPercent,setCouponPercent]=useState(0);
   const [couponMessage,setCouponMessage]=useState("");
@@ -47,7 +46,7 @@ export default function Checkout() {
   const submit = (event: FormEvent) => {
     event.preventDefault();
     if (!token || !zone || form.address.trim().length < 8 || !bkashNumber || trxId.trim().length<6 || !senderPhone.trim()) return;
-    checkout.mutate({ ...form, trxId:trxId.trim(), senderPhone:senderPhone.trim(), token, couponCode:couponPercent?couponCode:"", idempotencyKey: idempotencyKey.current });
+    checkout.mutate({ ...form, zoneId, trxId:trxId.trim(), senderPhone:senderPhone.trim(), token, couponCode:couponPercent?couponCode:"", idempotencyKey: idempotencyKey.current });
   };
   return <PageShell>
     <section className="checkout-page"><Link className="text-link" to="/cart"><ArrowLeft /> Back to bag</Link><div className="checkout-heading"><p>SECURE CHECKOUT</p><h1>Where shall we<br /><em>send your scent?</em></h1><span><LockKeyhole /> Pay the bKash advance before placing your order. We manually verify every transaction.</span></div>
@@ -74,10 +73,10 @@ export function OrderSuccess() {
   const order = query.data?.order;
   const paymentStatus = order?.advancePaymentStatus;
   return <PageShell><section className="success-page">
-    <div className="success-hero"><span className="success-check"><Check /></span><p>ORDER RECEIVED</p><h1>Your signature<br /><em>is on its way.</em></h1><span>Order <strong>{orderNumber}</strong></span><p>Your payment details have been received. Our team will manually verify the bKash transaction before confirming your order.</p></div>
+    <div className="success-hero"><span className="success-check"><Check /></span><p>ORDER PENDING</p><h1>Your signature<br /><em>is on its way.</em></h1><span>Order <strong>{orderNumber}</strong></span><p>Your payment details have been received. Our team will manually verify the bKash transaction before confirming your order.</p></div>
     {!verifiedPhone ? <form className="verify-order" onSubmit={(e) => { e.preventDefault(); setVerifiedPhone(phone); }}><label>Confirm your mobile number to view this order<input required value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="01XXXXXXXXX" /></label><button className="button button-burgundy">View order</button></form> : query.isLoading ? <LoadingState label="Retrieving your order…" /> : query.error ? <ErrorState message={query.error.message} /> : query.data ? <>
       <div className="success-details">
-        <div className="success-status"><PackageCheck /><div><p>Current order status</p><h2>{query.data.order.status}</h2></div><strong>{money(query.data.order.total)}</strong></div>
+        <div className="success-status"><PackageCheck /><div><p>Current order status</p><h2>{query.data.order.status==="received"?"Pending":query.data.order.status}</h2></div><strong>{money(query.data.order.total)}</strong></div>
         <div className="success-grid"><div><h3>Delivery to</h3><p>{query.data.order.customerName}<br />{query.data.order.address}<br />{query.data.order.phone}</p></div><div><h3>Your fragrances</h3>{query.data.items.map((item: OrderLine) => <p key={item.id}>{item.productName} · {item.sizeMl}ml × {item.quantity}<strong>{money(item.lineTotal)}</strong></p>)}<p>Delivery <strong>{query.data.order.deliveryFee===0?"FREE":money(query.data.order.deliveryFee)}</strong></p>{query.data.order.discountAmount>0&&<p>Coupon discount <strong>−{money(query.data.order.discountAmount)}</strong></p>}{query.data.order.couponCode&&<p>Coupon code <strong>{query.data.order.couponCode}</strong></p>}</div></div>
         <div className="success-actions"><Link className="button button-burgundy" to="/track" state={{ orderNumber, phone: verifiedPhone }}>Track this order <ArrowRight /></Link><Link className="text-link" to="/shop">Continue exploring <ArrowRight /></Link></div>
       </div>
