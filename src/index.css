@@ -5240,3 +5240,59 @@ main,
     line-height: 1.2;
   }
 }
+
+
+/* Compact DEQANT product labels with a continuously travelling square border.
+   The animation is decorative only and respects reduced-motion preferences. */
+@property --deq-badge-angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+.product-badges span {
+  --deq-badge-angle: 0deg;
+  position: relative !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-height: 19px !important;
+  padding: 3px 6px !important;
+  border: 1px solid transparent !important;
+  border-radius: 0 !important;
+  background:
+    linear-gradient(rgba(37, 5, 16, .94), rgba(37, 5, 16, .94)) padding-box,
+    conic-gradient(from var(--deq-badge-angle), #f5e8c8 0deg, #b7a47f 75deg, #f8f3e8 145deg, #8e3154 220deg, #f5e8c8 360deg) border-box !important;
+  color: #f2eee5 !important;
+  box-shadow: 0 2px 9px rgba(25, 5, 13, .22) !important;
+  font-size: 7px !important;
+  font-weight: 700 !important;
+  line-height: 1 !important;
+  letter-spacing: .09em !important;
+  text-transform: uppercase !important;
+  white-space: nowrap !important;
+  animation: deq-badge-border-travel 3.2s linear infinite !important;
+}
+@keyframes deq-badge-border-travel {
+  to { --deq-badge-angle: 360deg; }
+}
+@media (max-width: 760px) {
+  .shop-results .product-card-quickbuy .product-badges {
+    top: 7px !important;
+    left: 7px !important;
+    right: 7px !important;
+    gap: 4px !important;
+  }
+  .shop-results .product-card-quickbuy .product-badges span {
+    min-height: 16px !important;
+    padding: 2px 4px !important;
+    border-radius: 0 !important;
+    font-size: 6px !important;
+    letter-spacing: .06em !important;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .product-badges span {
+    animation: none !important;
+    --deq-badge-angle: 0deg;
+  }
+}
