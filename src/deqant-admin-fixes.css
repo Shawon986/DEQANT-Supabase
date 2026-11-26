@@ -269,3 +269,9 @@
   .scent-result-panel .scent-result { gap: 10px; }
   .scent-result-image { flex-basis: 39%; height: 220px; }
 }
+
+
+/* Realtime notification counters in the admin workspace navigation. */
+.deq-sidebar nav button { position: relative; }
+.deq-sidebar nav button .deq-nav-count { display: inline-flex; min-width: 19px; height: 19px; align-items: center; justify-content: center; margin-left: auto; padding: 0 5px; border: 1px solid rgba(255,220,204,.2); border-radius: 999px; background: #a83243; color: #fff8f3; font-size: 10px; font-weight: 700; line-height: 1; font-variant-numeric: tabular-nums; box-shadow: 0 2px 9px rgba(168,50,67,.24); }
+.deq-sidebar nav button.active .deq-nav-count { background: #f0d5bc; color: #351b27; border-color: rgba(240,213,188,.65); }
